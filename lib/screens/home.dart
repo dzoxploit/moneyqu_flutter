@@ -1,88 +1,113 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_moneyqularavel/network/api.dart';
-import 'dart:convert';
-import 'login.dart';
 
-class Home extends StatefulWidget{
-  @override
-  _HomeState createState() => _HomeState();
-}
+import 'package:flutter_moneyqularavel/constants/Theme.dart';
 
-class _HomeState extends State<Home>{
-  String name='';
+//widgets
+import 'package:flutter_moneyqularavel/widgets/navbar.dart';
+import 'package:flutter_moneyqularavel/widgets/card-horizontal.dart';
+import 'package:flutter_moneyqularavel/widgets/card-small.dart';
+import 'package:flutter_moneyqularavel/widgets/card-square.dart';
+import 'package:flutter_moneyqularavel/widgets/drawer.dart';
 
-  @override
-  void initState(){
-    super.initState();
-    _loadUserData();
+final Map<String, Map<String, String>> homeCards = {
+  "Ice Cream": {
+    "title": "Ice cream is made with carrageenan …",
+    "image":
+        "https://images.unsplash.com/photo-1516559828984-fb3b99548b21?ixlib=rb-1.2.1&auto=format&fit=crop&w=2100&q=80"
+  },
+  "Makeup": {
+    "title": "Is makeup one of your daily esse …",
+    "image":
+        "https://images.unsplash.com/photo-1519368358672-25b03afee3bf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2004&q=80"
+  },
+  "Coffee": {
+    "title": "Coffee is more than just a drink: It’s …",
+    "image":
+        "https://images.unsplash.com/photo-1500522144261-ea64433bbe27?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2102&q=80"
+  },
+  "Fashion": {
+    "title": "Fashion is a popular style, especially in …",
+    "image":
+        "https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1326&q=80"
+  },
+  "Argon": {
+    "title": "Argon is a great free UI packag …",
+    "image":
+        "https://images.unsplash.com/photo-1482686115713-0fbcaced6e28?fit=crop&w=1947&q=80"
   }
+};
 
-  _loadUserData() async{
-    SharedPreferences localStorage = await SharedPreferences.getInstance();
-    var user = jsonDecode(localStorage.getString('user'));
-
-    if(user != null) {
-      setState(() {
-        name = user['name'];
-      });
-    }
-  }
-
+class Home extends StatelessWidget {
+  // final GlobalKey _scaffoldKey = new GlobalKey();
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff151515),
-      appBar: AppBar(
-        title: Text('Home'),
-        backgroundColor: Color(0xff151515),
-        automaticallyImplyLeading: false,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.power_settings_new),
-            onPressed: (){
-              logout();
-            },
-          )
-        ],
-      ),
-      body: SafeArea(
-        child: Container(
-          padding: EdgeInsets.all(15),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Text('Hello, ',
-                    style: TextStyle(
-                      fontSize: 20,
-                    ),
-                  ),
-                  Text('${name}',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
+        appBar: Navbar(
+          title: "Home",
+          searchBar: true,
+          categoryOne: "Beauty",
+          categoryTwo: "Fashion",
         ),
-      ),
-    );
-  }
-
-  void logout() async{
-    var res = await Network().getData('/logout');
-    var body = json.decode(res.body);
-    if(body['success']){
-      SharedPreferences localStorage = await SharedPreferences.getInstance();
-      localStorage.remove('user');
-      localStorage.remove('token');
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context)=>Login()));
-    }
+        backgroundColor: FlutterMoneyquColors.bgColorScreen,
+        // key: _scaffoldKey,
+        drawer: FlutterMoneyquDrawer(currentPage: "Home"),
+        body: Container(
+          padding: EdgeInsets.only(left: 24.0, right: 24.0),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 16.0),
+                  child: CardHorizontal(
+                      cta: "View article",
+                      title: homeCards["Ice Cream"]['title'],
+                      img: homeCards["Ice Cream"]['image'],
+                      tap: () {
+                        Navigator.pushNamed(context, '/pro');
+                      }),
+                ),
+                SizedBox(height: 8.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CardSmall(
+                        cta: "View article",
+                        title: homeCards["Makeup"]['title'],
+                        img: homeCards["Makeup"]['image'],
+                        tap: () {
+                          Navigator.pushNamed(context, '/pro');
+                        }),
+                    CardSmall(
+                        cta: "View article",
+                        title: homeCards["Coffee"]['title'],
+                        img: homeCards["Coffee"]['image'],
+                        tap: () {
+                          Navigator.pushNamed(context, '/pro');
+                        })
+                  ],
+                ),
+                SizedBox(height: 8.0),
+                CardHorizontal(
+                    cta: "View article",
+                    title: homeCards["Fashion"]['title'],
+                    img: homeCards["Fashion"]['image'],
+                    tap: () {
+                      Navigator.pushNamed(context, '/pro');
+                    }),
+                SizedBox(height: 8.0),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 32.0),
+                  child: CardSquare(
+                      cta: "View article",
+                      title: homeCards["Argon"]['title'],
+                      img: homeCards["Argon"]['image'],
+                      tap: () {
+                        Navigator.pushNamed(context, '/pro');
+                      }),
+                )
+              ],
+            ),
+          ),
+        ));
   }
 }

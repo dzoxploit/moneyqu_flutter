@@ -1,61 +1,32 @@
 import 'package:flutter/material.dart';
-import 'screens/home.dart';
-import 'screens/login.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
-  runApp(MyApp());
-}
+// screens
+import 'package:flutter_moneyqularavel/screens/onboarding.dart';
+import 'package:flutter_moneyqularavel/screens/pro.dart';
+import 'package:flutter_moneyqularavel/screens/home.dart';
+import 'package:flutter_moneyqularavel/screens/profile.dart';
+import 'package:flutter_moneyqularavel/screens/register.dart';
+import 'package:flutter_moneyqularavel/screens/articles.dart';
+import 'package:flutter_moneyqularavel/screens/elements.dart';
+
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Moneyqu',
-      debugShowCheckedModeBanner: false,
-      home: CheckAuth(),
-      darkTheme: ThemeData(brightness: Brightness.dark, accentColor: Colors.blueAccent),
-      themeMode: ThemeMode.dark,
-    );
-  }
-}
-class CheckAuth extends StatefulWidget{
-  @override
-  _CheckAuthState createState() => _CheckAuthState();
-}
-
-class _CheckAuthState extends State<CheckAuth>{
-  bool isAuth = false;
-
-  @override
-  void initState(){
-    super.initState();
-    _checkIfLoggedIn();
-  }
-
-  void _checkIfLoggedIn() async {
-    SharedPreferences localStorage = await SharedPreferences.getInstance();
-    var token = localStorage.getString('token');
-    if(token != null){
-      if(mounted){
-        setState(() {
-          isAuth = true;
+        title: 'Argon PRO Flutter',
+        theme: ThemeData(fontFamily: 'OpenSans'),
+        initialRoute: "/onboarding",
+        debugShowCheckedModeBanner: false,
+        routes: <String, WidgetBuilder>{
+          "/onboarding": (BuildContext context) => new Onboarding(),
+          "/home": (BuildContext context) => new Home(),
+          "/profile": (BuildContext context) => new Profile(),
+          "/articles": (BuildContext context) => new Articles(),
+          "/elements": (BuildContext context) => new Elements(),
+          "/account": (BuildContext context) => new Register(),
+          "/pro": (BuildContext context) => new Pro(),
         });
-      }
-    }
-  }
-
-  @override
-  Widget build(BuildContext context){
-    Widget child;
-    if(isAuth){
-      child = Home();
-    } else{
-      child = Login();
-    }
-
-    return Scaffold(
-      body: child,
-    );
   }
 }

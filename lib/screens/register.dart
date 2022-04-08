@@ -1,223 +1,301 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'login.dart';
-import 'package:flutter_moneyqularavel/network/api.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
-import 'home.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class Register extends StatefulWidget{
+import 'package:flutter_moneyqularavel/constants/Theme.dart';
+
+//widgets
+import 'package:flutter_moneyqularavel/widgets/navbar.dart';
+import 'package:flutter_moneyqularavel/widgets/input.dart';
+
+import 'package:flutter_moneyqularavel/widgets/drawer.dart';
+
+class Register extends StatefulWidget {
   @override
   _RegisterState createState() => _RegisterState();
 }
 
-class _RegisterState extends State<Register>{
-  bool _isLoading = false;
-  final _formKey = GlobalKey<FormState>();
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
-  bool _secureText = true;
-  String name, email, password;
+class _RegisterState extends State<Register> {
+  bool _checkboxValue = false;
 
-  showHide(){
-    setState(() {
-      _secureText = !_secureText;
-    });
-  }
-
-  _showMsg(msg) {
-    final snackBar = SnackBar(
-      content: Text(msg),
-    );
-    _scaffoldKey.currentState.showSnackBar(snackBar);
-  }
+  final double height = window.physicalSize.height;
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
-      backgroundColor: Color(0xff151515),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 28, vertical: 72),
-          child: Column(
-            children: [
-              Card(
-                elevation: 4.0,
-                color: Colors.white10,
-                margin: EdgeInsets.only(top: 86),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(14),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.all(24),
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Register",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(height: 18),
-                        TextFormField(
-                          cursorColor: Colors.blue,
-                          keyboardType: TextInputType.text,
-                          decoration: InputDecoration(
-                            hintText: "Full Name",
-                          ),
-                          validator: (nameValue){
-                            if(nameValue.isEmpty){
-                              return 'Please enter your full name';
-                            }
-                            name = nameValue;
-                            return null;
-                          }
-                        ),
-                        SizedBox(height: 12),
-                        TextFormField(
-                          cursorColor: Colors.blue,
-                          keyboardType: TextInputType.text,
-                          decoration: InputDecoration(
-                            hintText: "Email",
-                          ),
-                          validator: (emailValue){
-                            if(emailValue.isEmpty){
-                              return 'Please enter your email';
-                            }
-                            email = emailValue;
-                            return null;
-                          }
-                        ),
-                        SizedBox(height: 12),
-                        TextFormField(
-                          cursorColor: Colors.blue,
-                          keyboardType: TextInputType.text,
-                          obscureText: _secureText,
-                          decoration: InputDecoration(
-                            hintText: "Password",
-                            suffixIcon: IconButton(
-                              onPressed: showHide,
-                              icon: Icon(_secureText
-                                  ? Icons.visibility_off
-                                  : Icons.visibility),
-                            ),
-                          ),
-                          validator: (passwordValue){
-                            if(passwordValue.isEmpty){
-                              return 'Please enter your password';
-                            }
-                            password = passwordValue;
-                            return null;
-                          }
-                        ),
-                        SizedBox(height: 12),
-                        FlatButton(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 18, vertical: 10),
-                            child: Text(
-                              _isLoading? 'Proccessing..' : 'Register',
-                              textDirection: TextDirection.ltr,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18.0,
-                                decoration: TextDecoration.none,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ),
-                          color: Colors.blueAccent,
-                          disabledColor: Colors.grey,
-                          shape: new RoundedRectangleBorder(
-                              borderRadius:
-                              new BorderRadius.circular(20.0)),
-                          onPressed: () {
-                            if (_formKey.currentState.validate()) {
-                              _register();
-                            }
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 24,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Already have an account? ",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.pop(
-                          context,
-                          new MaterialPageRoute(
-                              builder: (context) => Login()));
-                    },
-                    child: Text(
-                      'Login',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16.0,
-                        decoration: TextDecoration.none,
-                        fontWeight: FontWeight.bold,
+        appBar: Navbar(transparent: true, title: ""),
+        extendBodyBehindAppBar: true,
+        drawer: FlutterMoneyquDrawer(currentPage: "Account"),
+        body: Stack(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage("assets/img/register-bg.png"),
+                      fit: BoxFit.cover)),
+            ),
+            SafeArea(
+              child: ListView(children: [
+                Padding(
+                  padding: const EdgeInsets.only(
+                      top: 16, left: 24.0, right: 24.0, bottom: 32),
+                  child: Card(
+                      elevation: 5,
+                      clipBehavior: Clip.antiAlias,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4.0),
                       ),
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  void _register() async{
-    setState(() {
-      _isLoading = true;
-    });
-    var data = {
-      'name' : name,
-      'email' : email,
-      'password' : password
-    };
-
-    var res = await Network().auth(data, '/register');
-    var body = json.decode(res.body);
-    if(body['success']){
-      SharedPreferences localStorage = await SharedPreferences.getInstance();
-      localStorage.setString('token', json.encode(body['token']));
-      localStorage.setString('user', json.encode(body['user']));
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) => Home()
-          ),
-      );
-    }else{
-      if(body['message']['name'] != null){
-        _showMsg(body['message']['name'][0].toString());
-      }
-      else if(body['message']['email'] != null){
-        _showMsg(body['message']['email'][0].toString());
-      }
-      else if(body['message']['password'] != null){
-        _showMsg(body['message']['password'][0].toString());
-      }
-    }
-
-    setState(() {
-      _isLoading = false;
-    });
+                      child: Column(
+                        children: [
+                          Container(
+                              height: MediaQuery.of(context).size.height * 0.15,
+                              decoration: BoxDecoration(
+                                  color: FlutterMoneyquColors.white,
+                                  border: Border(
+                                      bottom: BorderSide(
+                                          width: 0.5,
+                                          color: FlutterMoneyquColors.muted))),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Center(
+                                      child: Padding(
+                                    padding: const EdgeInsets.only(top: 8.0),
+                                    child: Text("Sign up with",
+                                        style: TextStyle(
+                                            color: FlutterMoneyquColors.text,
+                                            fontSize: 16.0)),
+                                  )),
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 8.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        Container(
+                                          // width: 0,
+                                          height: 36,
+                                          child: RaisedButton(
+                                              textColor: FlutterMoneyquColors.primary,
+                                              color: FlutterMoneyquColors.secondary,
+                                              onPressed: () {},
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(4)),
+                                              child: Padding(
+                                                  padding: EdgeInsets.only(
+                                                      bottom: 10,
+                                                      top: 10,
+                                                      left: 14,
+                                                      right: 14),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceAround,
+                                                    children: [
+                                                      Icon(
+                                                          FontAwesomeIcons
+                                                              .github,
+                                                          size: 13),
+                                                      SizedBox(
+                                                        width: 5,
+                                                      ),
+                                                      Text("GITHUB",
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              fontSize: 13))
+                                                    ],
+                                                  ))),
+                                        ),
+                                        Container(
+                                          // width: 0,
+                                          height: 36,
+                                          child: RaisedButton(
+                                              textColor: FlutterMoneyquColors.primary,
+                                              color: FlutterMoneyquColors.secondary,
+                                              onPressed: () {},
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(4)),
+                                              child: Padding(
+                                                  padding: EdgeInsets.only(
+                                                      bottom: 10,
+                                                      top: 10,
+                                                      left: 8,
+                                                      right: 8),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceAround,
+                                                    children: [
+                                                      Icon(
+                                                          FontAwesomeIcons
+                                                              .facebook,
+                                                          size: 13),
+                                                      SizedBox(
+                                                        width: 5,
+                                                      ),
+                                                      Text("FACEBOOK",
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              fontSize: 13))
+                                                    ],
+                                                  ))),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  // Divider()
+                                ],
+                              )),
+                          Container(
+                              height: MediaQuery.of(context).size.height * 0.63,
+                              color: Color.fromRGBO(244, 245, 247, 1),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Center(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 24.0, bottom: 24.0),
+                                        child: Center(
+                                          child: Text(
+                                              "Or sign up with the classic way",
+                                              style: TextStyle(
+                                                  color: FlutterMoneyquColors.text,
+                                                  fontWeight: FontWeight.w200,
+                                                  fontSize: 16)),
+                                        ),
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Input(
+                                              placeholder: "Name",
+                                              prefixIcon: Icon(Icons.school),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Input(
+                                                placeholder: "Email",
+                                                prefixIcon: Icon(Icons.email)),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Input(
+                                                placeholder: "Password",
+                                                prefixIcon: Icon(Icons.lock)),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 24.0),
+                                            child: RichText(
+                                                text: TextSpan(
+                                                    text: "password strength: ",
+                                                    style: TextStyle(
+                                                        color:
+                                                            FlutterMoneyquColors.muted),
+                                                    children: [
+                                                  TextSpan(
+                                                      text: "strong",
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          color: FlutterMoneyquColors
+                                                              .success))
+                                                ])),
+                                          ),
+                                        ],
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 8.0, top: 0, bottom: 16),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Checkbox(
+                                                activeColor:
+                                                    FlutterMoneyquColors.primary,
+                                                onChanged: (bool newValue) =>
+                                                    setState(() =>
+                                                        _checkboxValue =
+                                                            newValue),
+                                                value: _checkboxValue),
+                                            Text("I agree with the",
+                                                style: TextStyle(
+                                                    color: FlutterMoneyquColors.muted,
+                                                    fontWeight:
+                                                        FontWeight.w200)),
+                                            GestureDetector(
+                                                onTap: () {
+                                                  Navigator.pushNamed(
+                                                      context, '/pro');
+                                                },
+                                                child: Container(
+                                                  margin:
+                                                      EdgeInsets.only(left: 5),
+                                                  child: Text("Privacy Policy",
+                                                      style: TextStyle(
+                                                          color: FlutterMoneyquColors
+                                                              .primary)),
+                                                )),
+                                          ],
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 16),
+                                        child: Center(
+                                          child: FlatButton(
+                                            textColor: FlutterMoneyquColors.white,
+                                            color: FlutterMoneyquColors.primary,
+                                            onPressed: () {
+                                              // Respond to button press
+                                              Navigator.pushNamed(
+                                                  context, '/home');
+                                            },
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(4.0),
+                                            ),
+                                            child: Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: 16.0,
+                                                    right: 16.0,
+                                                    top: 12,
+                                                    bottom: 12),
+                                                child: Text("REGISTER",
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        fontSize: 16.0))),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ))
+                        ],
+                      )),
+                ),
+              ]),
+            )
+          ],
+        ));
   }
 }
