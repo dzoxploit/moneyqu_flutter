@@ -23,6 +23,10 @@ class FlutterMoneyquColors {
 
   static const Color header = Color.fromRGBO(82, 95, 127, 1.0);
 
+  static const Color Tambah = Color.fromRGBO(89, 188, 234, 1.0);
+
+  static const Color Kurang = Color.fromRGBO(246, 95, 118, 1.0);
+
   static const Color bgColorScreen = Color.fromRGBO(248, 249, 254, 1.0);
 
   static const Color border = Color.fromRGBO(202, 209, 215, 1.0);

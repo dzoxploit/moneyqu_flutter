@@ -82,29 +82,10 @@ class _LoginState extends State<Login> {
                                     mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
                                     children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 24.0, bottom: 24.0),
-                                        child: Center(
-                                          child: Text(
-                                              "Or sign up with the classic way",
-                                              style: TextStyle(
-                                                  color: FlutterMoneyquColors.text,
-                                                  fontWeight: FontWeight.w200,
-                                                  fontSize: 16)),
-                                        ),
-                                      ),
                                       Column(
                                         crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                         children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Input(
-                                              placeholder: "Name",
-                                              prefixIcon: Icon(Icons.school),
-                                            ),
-                                          ),
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: Input(
@@ -117,62 +98,7 @@ class _LoginState extends State<Login> {
                                                 placeholder: "Password",
                                                 prefixIcon: Icon(Icons.lock)),
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 24.0),
-                                            child: RichText(
-                                                text: TextSpan(
-                                                    text: "password strength: ",
-                                                    style: TextStyle(
-                                                        color:
-                                                        FlutterMoneyquColors.muted),
-                                                    children: [
-                                                      TextSpan(
-                                                          text: "strong",
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                              FontWeight.w600,
-                                                              color: FlutterMoneyquColors
-                                                                  .success))
-                                                    ])),
-                                          ),
                                         ],
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 8.0, top: 0, bottom: 16),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                          children: [
-                                            Checkbox(
-                                                activeColor:
-                                                FlutterMoneyquColors.primary,
-                                                onChanged: (bool newValue) =>
-                                                    setState(() =>
-                                                    _checkboxValue =
-                                                        newValue),
-                                                value: _checkboxValue),
-                                            Text("I agree with the",
-                                                style: TextStyle(
-                                                    color: FlutterMoneyquColors.muted,
-                                                    fontWeight:
-                                                    FontWeight.w200)),
-                                            GestureDetector(
-                                                onTap: () {
-                                                  Navigator.pushNamed(
-                                                      context, '/pro');
-                                                },
-                                                child: Container(
-                                                  margin:
-                                                  EdgeInsets.only(left: 5),
-                                                  child: Text("Privacy Policy",
-                                                      style: TextStyle(
-                                                          color: FlutterMoneyquColors
-                                                              .primary)),
-                                                )),
-                                          ],
-                                        ),
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(top: 16),
@@ -193,9 +119,9 @@ class _LoginState extends State<Login> {
                                                 padding: EdgeInsets.only(
                                                     left: 16.0,
                                                     right: 16.0,
-                                                    top: 12,
-                                                    bottom: 12),
-                                                child: Text("REGISTER",
+                                                    top: 8,
+                                                    bottom: 8),
+                                                child: Text("Login",
                                                     style: TextStyle(
                                                         fontWeight:
                                                         FontWeight.w600,

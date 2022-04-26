@@ -22,7 +22,7 @@ class Onboarding extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Image.asset("assets/img/argon-logo-onboarding.png", scale: 1),
+                Image.asset("assets/img/favpng_money-logo.png", scale: 1),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -30,7 +30,7 @@ class Onboarding extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(right: 48.0),
                       child: Text.rich(TextSpan(
-                        text: "Design System",
+                        text: "Welcome To MoneyQu",
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 58,
@@ -39,7 +39,7 @@ class Onboarding extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 24.0),
-                      child: Text("Fully coded Flutter widgets and screens.",
+                      child: Text("Financial Apps For teens and Student",
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 18,
@@ -55,7 +55,9 @@ class Onboarding extends StatelessWidget {
                       textColor: FlutterMoneyquColors.text,
                       color: FlutterMoneyquColors.secondary,
                       onPressed: () {
-                        Navigator.pushReplacementNamed(context, '/home');
+                        // Respond to button press
+                        Navigator.pushNamed(
+                            context, '/login');
                       },
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(4.0),
