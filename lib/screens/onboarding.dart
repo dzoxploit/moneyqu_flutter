@@ -22,7 +22,9 @@ class Onboarding extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Image.asset("assets/img/favpng_money-logo.png", scale: 1),
+                Image.asset("assets/img/favpng_money-logo.png", height: 120,
+                    fit:BoxFit.fill
+                ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.end,

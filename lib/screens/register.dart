@@ -5,7 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_moneyqularavel/constants/Theme.dart';
 
 //widgets
-import 'package:flutter_moneyqularavel/widgets/navbar.dart';
+import 'package:flutter_moneyqularavel/widgets/navbar-login-register.dart';
 import 'package:flutter_moneyqularavel/widgets/input.dart';
 
 import 'package:flutter_moneyqularavel/widgets/drawer.dart';
@@ -23,7 +23,7 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: Navbar(transparent: true, title: ""),
+        appBar: NavbarLoginRegister(transparent: true, title: ""),
         extendBodyBehindAppBar: true,
         drawer: FlutterMoneyquDrawer(currentPage: "Account"),
         body: Stack(
@@ -62,99 +62,16 @@ class _RegisterState extends State<Register> {
                                   Center(
                                       child: Padding(
                                     padding: const EdgeInsets.only(top: 8.0),
-                                    child: Text("Sign up with",
+                                    child: Text("Register",
                                         style: TextStyle(
                                             color: FlutterMoneyquColors.text,
                                             fontSize: 16.0)),
                                   )),
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 8.0),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: [
-                                        Container(
-                                          // width: 0,
-                                          height: 36,
-                                          child: RaisedButton(
-                                              textColor: FlutterMoneyquColors.primary,
-                                              color: FlutterMoneyquColors.secondary,
-                                              onPressed: () {},
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(4)),
-                                              child: Padding(
-                                                  padding: EdgeInsets.only(
-                                                      bottom: 10,
-                                                      top: 10,
-                                                      left: 14,
-                                                      right: 14),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceAround,
-                                                    children: [
-                                                      Icon(
-                                                          FontAwesomeIcons
-                                                              .github,
-                                                          size: 13),
-                                                      SizedBox(
-                                                        width: 5,
-                                                      ),
-                                                      Text("GITHUB",
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                              fontSize: 13))
-                                                    ],
-                                                  ))),
-                                        ),
-                                        Container(
-                                          // width: 0,
-                                          height: 36,
-                                          child: RaisedButton(
-                                              textColor: FlutterMoneyquColors.primary,
-                                              color: FlutterMoneyquColors.secondary,
-                                              onPressed: () {},
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(4)),
-                                              child: Padding(
-                                                  padding: EdgeInsets.only(
-                                                      bottom: 10,
-                                                      top: 10,
-                                                      left: 8,
-                                                      right: 8),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceAround,
-                                                    children: [
-                                                      Icon(
-                                                          FontAwesomeIcons
-                                                              .facebook,
-                                                          size: 13),
-                                                      SizedBox(
-                                                        width: 5,
-                                                      ),
-                                                      Text("FACEBOOK",
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                              fontSize: 13))
-                                                    ],
-                                                  ))),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
                                   // Divider()
                                 ],
                               )),
                           Container(
-                              height: MediaQuery.of(context).size.height * 0.63,
+                              height: MediaQuery.of(context).size.height * 0.55,
                               color: Color.fromRGBO(244, 245, 247, 1),
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),

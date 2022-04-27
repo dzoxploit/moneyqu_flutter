@@ -5,10 +5,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_moneyqularavel/constants/Theme.dart';
 
 //widgets
-import 'package:flutter_moneyqularavel/widgets/navbar.dart';
+import 'package:flutter_moneyqularavel/widgets/navbar-login-register.dart';
 import 'package:flutter_moneyqularavel/widgets/input.dart';
 
 import 'package:flutter_moneyqularavel/widgets/drawer.dart';
+import 'package:flutter_moneyqularavel/widgets/drawer-tile.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -16,16 +17,14 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  bool _checkboxValue = false;
+  final String currentPage;
 
-  final double height = window.physicalSize.height;
-
+  _LoginState({this.currentPage});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: Navbar(transparent: true, title: ""),
+        appBar: NavbarLoginRegister(transparent: true, title: ""),
         extendBodyBehindAppBar: true,
-        drawer: FlutterMoneyquDrawer(currentPage: "Account"),
         body: Stack(
           children: [
             Container(
@@ -34,6 +33,7 @@ class _LoginState extends State<Login> {
                       image: AssetImage("assets/img/register-bg.png"),
                       fit: BoxFit.cover)),
             ),
+
             SafeArea(
               child: ListView(children: [
                 Padding(
@@ -71,7 +71,7 @@ class _LoginState extends State<Login> {
                                 ],
                               )),
                           Container(
-                              height: MediaQuery.of(context).size.height * 0.63,
+                              height: MediaQuery.of(context).size.height * 0.40,
                               color: Color.fromRGBO(244, 245, 247, 1),
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -101,7 +101,23 @@ class _LoginState extends State<Login> {
                                         ],
                                       ),
                                       Padding(
-                                        padding: const EdgeInsets.only(top: 16),
+                                        padding:  const EdgeInsets.all(5.0),
+                                        child :  GestureDetector(
+                                            onTap: () {
+                                              Navigator.pushNamed(
+                                                  context, '/account');
+                                            },
+                                            child: Container(
+                                              margin:
+                                              EdgeInsets.only(left: 5),
+                                              child: Text("Dont have account",
+                                                  style: TextStyle(
+                                                      color: FlutterMoneyquColors
+                                                          .primary)),
+                                            ))
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 8),
                                         child: Center(
                                           child: FlatButton(
                                             textColor: FlutterMoneyquColors.white,
@@ -141,4 +157,8 @@ class _LoginState extends State<Login> {
           ],
         ));
   }
+
+  bool _checkboxValue = false;
+
+  final double height = window.physicalSize.height;
 }

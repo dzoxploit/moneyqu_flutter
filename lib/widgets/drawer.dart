@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_moneyqularavel/constants/Theme.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:flutter_moneyqularavel/constants/Theme.dart';
@@ -35,7 +36,7 @@ class FlutterMoneyquDrawer extends StatelessWidget {
                 alignment: Alignment.bottomLeft,
                 child: Padding(
                   padding: const EdgeInsets.only(left: 32),
-                  child: Image.asset("assets/img/argon-logo.png"),
+                  child: Image.asset("assets/img/favpng_money-logo.png"),
                 ),
               ),
             )),
@@ -56,30 +57,40 @@ class FlutterMoneyquDrawer extends StatelessWidget {
               DrawerTile(
                   icon: Icons.pie_chart,
                   onTap: () {
-                    if (currentPage != "Profile")
-                      Navigator.pushReplacementNamed(context, '/profile');
-                  },
-                  iconColor: FlutterMoneyquColors.warning,
-                  title: "Profile",
-                  isSelected: currentPage == "Profile" ? true : false),
-              DrawerTile(
-                  icon: Icons.account_circle,
-                  onTap: () {
-                    if (currentPage != "Account")
-                      Navigator.pushReplacementNamed(context, '/account');
+                    if (currentPage != "Pemasukan")
+                      Navigator.pushReplacementNamed(context, '/pemasukan');
                   },
                   iconColor: FlutterMoneyquColors.info,
-                  title: "Account",
-                  isSelected: currentPage == "Account" ? true : false),
+                  title: "Pemasukan",
+                  isSelected: currentPage == "Profile" ? true : false),
+              DrawerTile(
+                  icon: Icons.account_balance_wallet_outlined,
+                  onTap: () {
+                    if (currentPage != "Pengeluaran")
+                      Navigator.pushReplacementNamed(context, '/pengeluaran');
+                  },
+                  iconColor: FlutterMoneyquColors.info,
+                  title: "Pengeluaran",
+                  isSelected: currentPage == "Pengeluaran" ? true : false),
+              DrawerTile(
+                icon: Icons.account_balance_wallet_sharp,
+                onTap: () {
+                  if (currentPage != "Hutang")
+                    Navigator.pushReplacementNamed(context, '/hutang');
+                },
+                  iconColor: FlutterMoneyquColors.info,
+                  title: "Hutang",
+                  isSelected: currentPage == "Hutang" ? true : false
+              ),
               DrawerTile(
                   icon: Icons.settings_input_component,
                   onTap: () {
-                    if (currentPage != "Elements")
-                      Navigator.pushReplacementNamed(context, '/elements');
+                    if (currentPage != "Piutang")
+                      Navigator.pushReplacementNamed(context, '/piutang');
                   },
-                  iconColor: FlutterMoneyquColors.error,
-                  title: "Elements",
-                  isSelected: currentPage == "Elements" ? true : false),
+                  iconColor: FlutterMoneyquColors.info,
+                  title: "Piutang",
+                  isSelected: currentPage == "Piutang" ? true : false),
               DrawerTile(
                   icon: Icons.apps,
                   onTap: () {

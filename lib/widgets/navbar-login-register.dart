@@ -4,7 +4,7 @@ import 'package:flutter_moneyqularavel/constants/Theme.dart';
 
 import 'package:flutter_moneyqularavel/widgets/input.dart';
 
-class Navbar extends StatefulWidget implements PreferredSizeWidget {
+class NavbarLoginRegister extends StatefulWidget implements PreferredSizeWidget {
   final String title;
   final String categoryOne;
   final String categoryTwo;
@@ -21,33 +21,33 @@ class Navbar extends StatefulWidget implements PreferredSizeWidget {
   final bool noShadow;
   final Color bgColor;
 
-  Navbar(
+  NavbarLoginRegister(
       {this.title = "Home",
-      this.categoryOne = "",
-      this.categoryTwo = "",
-      this.tags,
-      this.transparent = false,
-      this.rightOptions = true,
-      this.getCurrentPage,
-      this.searchController,
-      this.isOnSearch = false,
-      this.searchOnChanged,
-      this.searchAutofocus = false,
-      this.backButton = false,
-      this.noShadow = false,
-      this.bgColor = FlutterMoneyquColors.page,
-      this.searchBar = false});
+        this.categoryOne = "",
+        this.categoryTwo = "",
+        this.tags,
+        this.transparent = false,
+        this.rightOptions = true,
+        this.getCurrentPage,
+        this.searchController,
+        this.isOnSearch = false,
+        this.searchOnChanged,
+        this.searchAutofocus = false,
+        this.backButton = false,
+        this.noShadow = false,
+        this.bgColor = FlutterMoneyquColors.white,
+        this.searchBar = false});
 
   final double _prefferedHeight = 180.0;
 
   @override
-  _NavbarState createState() => _NavbarState();
+  _NavbarLoginRegisterState createState() => _NavbarLoginRegisterState();
 
   @override
   Size get preferredSize => Size.fromHeight(_prefferedHeight);
 }
 
-class _NavbarState extends State<Navbar> {
+class _NavbarLoginRegisterState extends State<NavbarLoginRegister> {
   String activeTag;
 
   ItemScrollController _scrollController = ItemScrollController();
@@ -64,16 +64,16 @@ class _NavbarState extends State<Navbar> {
     final bool categories =
         widget.categoryOne.isNotEmpty && widget.categoryTwo.isNotEmpty;
     final bool tagsExist =
-        widget.tags == null ? false : (widget.tags.length == 0 ? false : true);
+    widget.tags == null ? false : (widget.tags.length == 0 ? false : true);
 
     return Container(
         height: widget.searchBar
             ? (!categories
-                ? (tagsExist ? 211.0 : 178.0)
-                : (tagsExist ? 262.0 : 210.0))
+            ? (tagsExist ? 211.0 : 178.0)
+            : (tagsExist ? 262.0 : 210.0))
             : (!categories
-                ? (tagsExist ? 162.0 : 102.0)
-                : (tagsExist ? 200.0 : 150.0)),
+            ? (tagsExist ? 162.0 : 102.0)
+            : (tagsExist ? 200.0 : 150.0)),
         decoration: BoxDecoration(
             color: !widget.transparent ? widget.bgColor : Colors.transparent,
             boxShadow: [
@@ -93,72 +93,6 @@ class _NavbarState extends State<Navbar> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Row(
-                      children: [
-                        IconButton(
-                            icon: Icon(
-                                !widget.backButton
-                                    ? Icons.menu
-                                    : Icons.arrow_back_ios,
-                                color: !widget.transparent
-                                    ? (widget.bgColor == FlutterMoneyquColors.white
-                                        ? FlutterMoneyquColors.initial
-                                        : FlutterMoneyquColors.white)
-                                    : FlutterMoneyquColors.white,
-                                size: 24.0),
-                            onPressed: () {
-                              if (!widget.backButton)
-                                Scaffold.of(context).openDrawer();
-                              else
-                                Navigator.pop(context);
-                            }),
-                        Text(widget.title,
-                            style: TextStyle(
-                                color: !widget.transparent
-                                    ? (widget.bgColor == FlutterMoneyquColors.white
-                                        ? FlutterMoneyquColors.initial
-                                        : FlutterMoneyquColors.white)
-                                    : FlutterMoneyquColors.white,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 18.0)),
-                      ],
-                    ),
-                    if (widget.rightOptions)
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.pushNamed(context, '/pro');
-                            },
-                            child: IconButton(
-                                icon: Icon(Icons.notifications_active,
-                                    color: !widget.transparent
-                                        ? (widget.bgColor == FlutterMoneyquColors.white
-                                            ? FlutterMoneyquColors.initial
-                                            : FlutterMoneyquColors.white)
-                                        : FlutterMoneyquColors.white,
-                                    size: 22.0),
-                                onPressed: null),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.pushNamed(context, '/pro');
-                            },
-                            child: IconButton(
-                                icon: Icon(Icons.shopping_basket,
-                                    color: !widget.transparent
-                                        ? (widget.bgColor == FlutterMoneyquColors.white
-                                            ? FlutterMoneyquColors.initial
-                                            : FlutterMoneyquColors.white)
-                                        : FlutterMoneyquColors.white,
-                                    size: 22.0),
-                                onPressed: null),
-                          ),
-                        ],
-                      )
-                  ],
                 ),
                 if (widget.searchBar)
                   Padding(
@@ -170,7 +104,7 @@ class _NavbarState extends State<Navbar> {
                         onChanged: widget.searchOnChanged,
                         autofocus: widget.searchAutofocus,
                         suffixIcon:
-                            Icon(Icons.zoom_in, color: FlutterMoneyquColors.muted),
+                        Icon(Icons.zoom_in, color: FlutterMoneyquColors.muted),
                         onTap: () {
                           Navigator.pushNamed(context, '/pro');
                         }),
@@ -238,7 +172,7 @@ class _NavbarState extends State<Navbar> {
                               setState(() => activeTag = widget.tags[index]);
                               _scrollController.scrollTo(
                                   index:
-                                      index == widget.tags.length - 1 ? 1 : 0,
+                                  index == widget.tags.length - 1 ? 1 : 0,
                                   duration: Duration(milliseconds: 420),
                                   curve: Curves.easeIn);
                               if (widget.getCurrentPage != null)
@@ -256,7 +190,7 @@ class _NavbarState extends State<Navbar> {
                                       ? FlutterMoneyquColors.primary
                                       : FlutterMoneyquColors.secondary,
                                   borderRadius:
-                                      BorderRadius.all(Radius.circular(4.0))),
+                                  BorderRadius.all(Radius.circular(4.0))),
                               child: Center(
                                 child: Text(widget.tags[index],
                                     style: TextStyle(
