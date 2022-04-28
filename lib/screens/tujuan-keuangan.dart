@@ -78,7 +78,7 @@ final Map<String, Map<String, dynamic>> articlesCards = {
   }
 };
 
-class Piutang extends StatefulWidget implements PreferredSizeWidget {
+class TujuanKeuangan extends StatefulWidget implements PreferredSizeWidget {
   final bool backButton;
   final bool transparent;
   final bool rightOptions;
@@ -91,7 +91,7 @@ class Piutang extends StatefulWidget implements PreferredSizeWidget {
   final bool noShadow;
   final Color bgColor;
 
-  const Piutang(
+  const TujuanKeuangan(
       {
         this.tags,
         this.transparent = false,
@@ -109,18 +109,18 @@ class Piutang extends StatefulWidget implements PreferredSizeWidget {
   final double _prefferedHeight = 180.0;
 
   @override
-  _PiutangState createState() => _PiutangState();
+  _TujuanKeuanganState createState() => _TujuanKeuanganState();
 
   @override
   // TODO: implement preferredSize
   Size get preferredSize => throw UnimplementedError();
 }
 
-class _PiutangState extends State<Piutang> {
+class _TujuanKeuanganState extends State<TujuanKeuangan> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: FlutterMoneyquDrawer(currentPage: "Piutang"),
+      drawer: FlutterMoneyquDrawer(currentPage: "TujuanKeuangan"),
       body: Stack(
         children: [
           Column(
@@ -160,7 +160,7 @@ class _PiutangState extends State<Piutang> {
                                   })
                           ),
                           Text(
-                            "Hutang",
+                            "Tujuan Keuangan",
                             style: TextStyle(
                               fontSize: 18.0,
                               fontWeight: FontWeight.w600,
@@ -279,55 +279,14 @@ class _PiutangState extends State<Piutang> {
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(top: 16.0),
-                            child: CardHorizontal(
-                                cta: "View article",
-                                title: articlesCards["Ice Cream"]['title'],
-                                img: articlesCards["Ice Cream"]['image'],
-                                tap: () {
-                                  Navigator.pushNamed(context, '/pro');
-                                }),
+                            child: buildTujuanKeuanganCard("Buat Beli Tamiya", 120, 20),
                           ),
                           SizedBox(height: 8.0),
-                          CardHorizontal(
-                              cta: "View article",
-                              title: articlesCards["Fashion"]['title'],
-                              img: articlesCards["Fashion"]['image'],
-                              tap: () {
-                                Navigator.pushNamed(context, '/pro');
-                              }),
+                          buildTujuanKeuanganCard("Buat Beli Tamiya", 120, 20),
                           SizedBox(height: 8.0),
-                          CardHorizontal(
-                              cta: "View article",
-                              title: articlesCards["Fashion"]['title'],
-                              img: articlesCards["Fashion"]['image'],
-                              tap: () {
-                                Navigator.pushNamed(context, '/pro');
-                              }),
+                          buildTujuanKeuanganCard("Buat Beli Tamiya", 120, 20),
                           SizedBox(height: 8.0),
-                          CardHorizontal(
-                              cta: "View article",
-                              title: articlesCards["Fashion"]['title'],
-                              img: articlesCards["Fashion"]['image'],
-                              tap: () {
-                                Navigator.pushNamed(context, '/pro');
-                              }),
-                          SizedBox(height: 8.0),
-                          CardHorizontal(
-                              cta: "View article",
-                              title: articlesCards["Fashion"]['title'],
-                              img: articlesCards["Fashion"]['image'],
-                              tap: () {
-                                Navigator.pushNamed(context, '/pro');
-                              }),
-                          SizedBox(height: 8.0),
-                          CardHorizontal(
-                              cta: "View article",
-                              title: articlesCards["Fashion"]['title'],
-                              img: articlesCards["Fashion"]['image'],
-                              tap: () {
-                                Navigator.pushNamed(context, '/pro');
-                              }),
-
+                          buildTujuanKeuanganCard("Buat Beli Tamiya", 120, 20),
                         ],
                       ),
                     )
@@ -340,8 +299,8 @@ class _PiutangState extends State<Piutang> {
     );
   }
 
-  Container buildCategoryCard(
-      IconData icon, String title, int amount, int percentage) {
+  Container buildTujuanKeuanganCard(
+      String title, int amount, int percentage) {
     return Container(
       padding: EdgeInsets.all(15),
       decoration: BoxDecoration(
@@ -356,13 +315,6 @@ class _PiutangState extends State<Piutang> {
             children: [
               Row(
                 children: [
-                  Icon(
-                    icon,
-                    color: Color(0xFF00B686),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
                   Text(
                     title,
                     style: TextStyle(

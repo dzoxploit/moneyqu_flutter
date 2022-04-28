@@ -62,7 +62,7 @@ class FlutterMoneyquDrawer extends StatelessWidget {
                   },
                   iconColor: FlutterMoneyquColors.info,
                   title: "Pemasukan",
-                  isSelected: currentPage == "Profile" ? true : false),
+                  isSelected: currentPage == "Pemasukan" ? true : false),
               DrawerTile(
                   icon: Icons.account_balance_wallet_outlined,
                   onTap: () {
@@ -92,6 +92,15 @@ class FlutterMoneyquDrawer extends StatelessWidget {
                   title: "Piutang",
                   isSelected: currentPage == "Piutang" ? true : false),
               DrawerTile(
+                  icon: Icons.verified_user,
+                  onTap: () {
+                    if (currentPage != "TujuanKeuangan")
+                      Navigator.pushReplacementNamed(context, '/TujuanKeuangan');
+                  },
+                  iconColor: FlutterMoneyquColors.info,
+                  title: "Tujuan Keuangan",
+                  isSelected: currentPage == "TujuanKeuangan" ? true : false),
+              DrawerTile(
                   icon: Icons.apps,
                   onTap: () {
                     if (currentPage != "Articles")
@@ -100,7 +109,17 @@ class FlutterMoneyquDrawer extends StatelessWidget {
                   iconColor: FlutterMoneyquColors.primary,
                   title: "Articles",
                   isSelected: currentPage == "Articles" ? true : false),
+              DrawerTile(
+                  icon: Icons.account_circle_rounded,
+                  onTap: () {
+                    if (currentPage != "Profile")
+                      Navigator.pushReplacementNamed(context, '/profile');
+                  },
+                  iconColor: FlutterMoneyquColors.primary,
+                  title: "Profile",
+                  isSelected: currentPage == "Profile" ? true : false),
             ],
+
           ),
         ),
         Expanded(

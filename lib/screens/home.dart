@@ -42,19 +42,11 @@ class Home extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _HomeState extends State<Home> {
-  int _selectedItemIndex = 2;
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: Row(
-        children: [
-          buildNavBarItem(Icons.home, 0),
-          buildNavBarItem(Icons.card_giftcard, 1),
-          buildNavBarItem(Icons.camera, 2),
-          buildNavBarItem(Icons.pie_chart, 3),
-          buildNavBarItem(Icons.person, 4),
-        ],
-      ),
       drawer: FlutterMoneyquDrawer(currentPage: "Home"),
       body: Stack(
         children: [
@@ -103,7 +95,7 @@ class _HomeState extends State<Home> {
                             ),
                           ),
                           Icon(
-                            Icons.notifications,
+                            Icons.home,
                             color: Colors.white,
                           ),
                         ],
@@ -185,7 +177,7 @@ class _HomeState extends State<Home> {
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   color: Colors.grey.shade100,
                   child: ListView(
-                    padding: EdgeInsets.only(top: 75),
+                    padding: EdgeInsets.only(top: 30),
                     children: [
                       SizedBox(
                         height: 20,
@@ -194,6 +186,7 @@ class _HomeState extends State<Home> {
                       buildCategoryCard(Icons.auto_delete , "Pengeluaran", 430, 17),
                       buildCategoryCard(Icons.account_balance, "Hutang", 120, 20),
                       buildCategoryCard(Icons.account_balance_wallet, "Piutang", 120, 20),
+                      buildCategoryCard(Icons.account_balance_outlined, "Tujuan Keuangan", 120, 20),
                     ],
                   ),
                 ),
@@ -293,33 +286,6 @@ class _HomeState extends State<Home> {
             ),
           )
         ],
-      ),
-    );
-  }
-
-  GestureDetector buildNavBarItem(IconData icon, int index) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          _selectedItemIndex = index;
-        });
-      },
-      child: Container(
-        width: MediaQuery.of(context).size.width / 5,
-        height: 60,
-        decoration: index == _selectedItemIndex
-            ? BoxDecoration(
-            border:
-            Border(bottom: BorderSide(width: 4, color: Colors.green)),
-            gradient: LinearGradient(colors: [
-              Colors.green.withOpacity(0.3),
-              Colors.green.withOpacity(0.016),
-            ], begin: Alignment.bottomCenter, end: Alignment.topCenter))
-            : BoxDecoration(),
-        child: Icon(
-          icon,
-          color: index == _selectedItemIndex ? Color(0XFF00B868) : Colors.grey,
-        ),
       ),
     );
   }
