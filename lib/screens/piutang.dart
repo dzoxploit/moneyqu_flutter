@@ -134,7 +134,7 @@ class _PiutangState extends State<Piutang> {
                 ),
                 child: Padding(
                   padding:
-                  const EdgeInsets.only(left: 20, right: 20.0, top: 30),
+                  const EdgeInsets.only(left: 20, right: 10.0, top: 30),
                   child: Column(
                     children: [
                       Row(
@@ -148,7 +148,7 @@ class _PiutangState extends State<Piutang> {
                                           : Icons.arrow_back_ios,
                                       color: !widget.transparent
                                           ? (widget.bgColor == FlutterMoneyquColors.white
-                                          ? FlutterMoneyquColors.initial
+                                          ? FlutterMoneyquColors.white
                                           : FlutterMoneyquColors.white)
                                           : FlutterMoneyquColors.white,
                                       size: 24.0),
@@ -205,7 +205,7 @@ class _PiutangState extends State<Piutang> {
                                           Row(
                                             children: [
                                               Text(
-                                                "Piutang Dibayar",
+                                                "Sudah Dibayar",
                                                 style: TextStyle(
                                                     color: Colors.grey,
                                                     fontWeight: FontWeight.bold),
@@ -235,7 +235,7 @@ class _PiutangState extends State<Piutang> {
                                           Row(
                                             children: [
                                               Text(
-                                                "Piutang Belum Dibayar",
+                                                "Belum Dibayar",
                                                 style: TextStyle(
                                                     color: Colors.grey,
                                                     fontWeight: FontWeight.bold),

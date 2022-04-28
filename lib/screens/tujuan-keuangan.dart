@@ -134,7 +134,7 @@ class _TujuanKeuanganState extends State<TujuanKeuangan> {
                 ),
                 child: Padding(
                   padding:
-                  const EdgeInsets.only(left: 20, right: 20.0, top: 30),
+                  const EdgeInsets.only(left: 20, right: 10.0, top: 30),
                   child: Column(
                     children: [
                       Row(
@@ -148,7 +148,7 @@ class _TujuanKeuanganState extends State<TujuanKeuangan> {
                                           : Icons.arrow_back_ios,
                                       color: !widget.transparent
                                           ? (widget.bgColor == FlutterMoneyquColors.white
-                                          ? FlutterMoneyquColors.initial
+                                          ? FlutterMoneyquColors.white
                                           : FlutterMoneyquColors.white)
                                           : FlutterMoneyquColors.white,
                                       size: 24.0),
@@ -281,6 +281,18 @@ class _TujuanKeuanganState extends State<TujuanKeuangan> {
                             padding: const EdgeInsets.only(top: 16.0),
                             child: buildTujuanKeuanganCard("Buat Beli Tamiya", 120, 20),
                           ),
+                          SizedBox(height: 8.0),
+                          buildTujuanKeuanganCard("Buat Beli Tamiya", 120, 20),
+                          SizedBox(height: 8.0),
+                          buildTujuanKeuanganCard("Buat Beli Tamiya", 120, 20),
+                          SizedBox(height: 8.0),
+                          buildTujuanKeuanganCard("Buat Beli Tamiya", 120, 20),
+                          SizedBox(height: 8.0),
+                          buildTujuanKeuanganCard("Buat Beli Tamiya", 120, 20),
+                          SizedBox(height: 8.0),
+                          buildTujuanKeuanganCard("Buat Beli Tamiya", 120, 20),
+                          SizedBox(height: 8.0),
+                          buildTujuanKeuanganCard("Buat Beli Tamiya", 120, 20),
                           SizedBox(height: 8.0),
                           buildTujuanKeuanganCard("Buat Beli Tamiya", 120, 20),
                           SizedBox(height: 8.0),

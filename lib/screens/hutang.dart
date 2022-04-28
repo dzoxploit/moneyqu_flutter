@@ -134,7 +134,7 @@ class _HutangState extends State<Hutang> {
                 ),
                 child: Padding(
                   padding:
-                  const EdgeInsets.only(left: 20, right: 20.0, top: 30),
+                  const EdgeInsets.only(left: 20, right: 10.0, top: 30),
                   child: Column(
                     children: [
                       Row(
@@ -148,7 +148,7 @@ class _HutangState extends State<Hutang> {
                                           : Icons.arrow_back_ios,
                                       color: !widget.transparent
                                           ? (widget.bgColor == FlutterMoneyquColors.white
-                                          ? FlutterMoneyquColors.initial
+                                          ? FlutterMoneyquColors.white
                                           : FlutterMoneyquColors.white)
                                           : FlutterMoneyquColors.white,
                                       size: 24.0),
@@ -182,7 +182,7 @@ class _HutangState extends State<Hutang> {
                             top: 170,
                             right: 0,
                             child: Container(
-                              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                               width: MediaQuery.of(context).size.width * 0.90,
                               height: 90,
                               decoration: BoxDecoration(
@@ -205,7 +205,7 @@ class _HutangState extends State<Hutang> {
                                           Row(
                                             children: [
                                               Text(
-                                                "Hutang Dibayar",
+                                                "Sudah Dibayar",
                                                 style: TextStyle(
                                                     color: Colors.grey,
                                                     fontWeight: FontWeight.bold),
@@ -235,7 +235,7 @@ class _HutangState extends State<Hutang> {
                                           Row(
                                             children: [
                                               Text(
-                                                "Hutang Belum Dibayar",
+                                                "Belum Dibayar",
                                                 style: TextStyle(
                                                     color: Colors.grey,
                                                     fontWeight: FontWeight.bold),

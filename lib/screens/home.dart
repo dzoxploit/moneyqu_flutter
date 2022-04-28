@@ -75,7 +75,7 @@ class _HomeState extends State<Home> {
                                       : Icons.arrow_back_ios,
                                   color: !widget.transparent
                                       ? (widget.bgColor == FlutterMoneyquColors.white
-                                      ? FlutterMoneyquColors.initial
+                                      ? FlutterMoneyquColors.white
                                       : FlutterMoneyquColors.white)
                                       : FlutterMoneyquColors.white,
                                   size: 24.0),
