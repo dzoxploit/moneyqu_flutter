@@ -10,7 +10,6 @@ import 'package:flutter_moneyqularavel/screens/profile.dart';
 import 'package:flutter_moneyqularavel/screens/login.dart';
 import 'package:flutter_moneyqularavel/screens/register.dart';
 import 'package:flutter_moneyqularavel/screens/articles.dart';
-import 'package:flutter_moneyqularavel/screens/elements.dart';
 import 'package:flutter_moneyqularavel/screens/pemasukan.dart';
 import 'package:flutter_moneyqularavel/screens/pengeluaran.dart';
 import 'package:flutter_moneyqularavel/screens/tujuan-keuangan.dart';

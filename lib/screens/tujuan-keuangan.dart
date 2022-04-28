@@ -205,7 +205,7 @@ class _TujuanKeuanganState extends State<TujuanKeuangan> {
                                           Row(
                                             children: [
                                               Text(
-                                                "Hutang Total",
+                                                "Tercapai",
                                                 style: TextStyle(
                                                     color: Colors.grey,
                                                     fontWeight: FontWeight.bold),
@@ -220,7 +220,7 @@ class _TujuanKeuanganState extends State<TujuanKeuangan> {
                                             ],
                                           ),
                                           Text(
-                                            "\Rp. 0",
+                                            "\0",
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 18.0,
@@ -235,7 +235,7 @@ class _TujuanKeuanganState extends State<TujuanKeuangan> {
                                           Row(
                                             children: [
                                               Text(
-                                                "Hutang Hari Ini",
+                                                "Belum Tercapai",
                                                 style: TextStyle(
                                                     color: Colors.grey,
                                                     fontWeight: FontWeight.bold),
@@ -250,7 +250,7 @@ class _TujuanKeuanganState extends State<TujuanKeuangan> {
                                             ],
                                           ),
                                           Text(
-                                            "\Rp. 100.000",
+                                            "\0",
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 18.0,

@@ -160,7 +160,7 @@ class _PiutangState extends State<Piutang> {
                                   })
                           ),
                           Text(
-                            "Hutang",
+                            "Piutang",
                             style: TextStyle(
                               fontSize: 18.0,
                               fontWeight: FontWeight.w600,
@@ -205,7 +205,7 @@ class _PiutangState extends State<Piutang> {
                                           Row(
                                             children: [
                                               Text(
-                                                "Hutang Total",
+                                                "Piutang Dibayar",
                                                 style: TextStyle(
                                                     color: Colors.grey,
                                                     fontWeight: FontWeight.bold),
@@ -235,7 +235,7 @@ class _PiutangState extends State<Piutang> {
                                           Row(
                                             children: [
                                               Text(
-                                                "Hutang Hari Ini",
+                                                "Piutang Belum Dibayar",
                                                 style: TextStyle(
                                                     color: Colors.grey,
                                                     fontWeight: FontWeight.bold),

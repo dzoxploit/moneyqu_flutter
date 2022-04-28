@@ -15,7 +15,7 @@ class FlutterMoneyquColors {
 
   static const Color info = Color.fromRGBO(17, 205, 239, 1.0);
 
-  static const Color page = Color.fromRGBO(64, 87, 248, 1.0);
+  static const Color page = Color.fromRGBO(73, 140, 239, 1.0);
 
   static const Color error = Color.fromRGBO(245, 54, 92, 1.0);
 

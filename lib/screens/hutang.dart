@@ -205,7 +205,7 @@ class _HutangState extends State<Hutang> {
                                           Row(
                                             children: [
                                               Text(
-                                                "Hutang Total",
+                                                "Hutang Dibayar",
                                                 style: TextStyle(
                                                     color: Colors.grey,
                                                     fontWeight: FontWeight.bold),
@@ -235,7 +235,7 @@ class _HutangState extends State<Hutang> {
                                           Row(
                                             children: [
                                               Text(
-                                                "Hutang Hari Ini",
+                                                "Hutang Belum Dibayar",
                                                 style: TextStyle(
                                                     color: Colors.grey,
                                                     fontWeight: FontWeight.bold),
