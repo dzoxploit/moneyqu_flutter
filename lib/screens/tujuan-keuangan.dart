@@ -168,7 +168,7 @@ class _TujuanKeuanganState extends State<TujuanKeuangan> {
                             ),
                           ),
                           Icon(
-                            Icons.home,
+                            Icons.search,
                             color: Colors.white,
                           ),
                         ],

@@ -168,7 +168,7 @@ class _PengeluaranState extends State<Pengeluaran> {
                             ),
                           ),
                           Icon(
-                            Icons.home,
+                            Icons.search,
                             color: Colors.white,
                           ),
                         ],

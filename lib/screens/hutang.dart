@@ -168,7 +168,7 @@ class _HutangState extends State<Hutang> {
                             ),
                           ),
                           Icon(
-                            Icons.home,
+                            Icons.search,
                             color: Colors.white,
                           ),
                         ],

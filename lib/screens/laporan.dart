@@ -7,7 +7,9 @@ import 'package:flutter_moneyqularavel/widgets/card-small.dart';
 import 'package:flutter_moneyqularavel/widgets/card-square.dart';
 import 'package:flutter_moneyqularavel/widgets/card-category.dart';
 import 'package:flutter_moneyqularavel/widgets/slider-product.dart';
-final Map<String, Map<String, dynamic>> articlesCards = {
+import 'package:charts_flutter/flutter.dart' as charts;
+
+final Map<String, Map<String, dynamic>> laporanCards = {
   "Ice Cream": {
     "title": "Ice cream is made with carrageenan …",
     "image":
@@ -78,7 +80,84 @@ final Map<String, Map<String, dynamic>> articlesCards = {
   }
 };
 
-class Piutang extends StatefulWidget implements PreferredSizeWidget {
+class GroupedBarChart extends StatelessWidget {
+  final List<charts.Series> seriesList;
+  final bool animate;
+
+  GroupedBarChart(this.seriesList, {this.animate});
+
+  factory GroupedBarChart.withSampleData() {
+    return new GroupedBarChart(
+      _createSampleData(),
+      // Disable animations for image tests.
+      animate: false,
+    );
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    return new charts.BarChart(
+      seriesList,
+      animate: animate,
+      barGroupingType: charts.BarGroupingType.grouped,
+    );
+  }
+
+  /// Create series list with multiple series
+  static List<charts.Series<OrdinalSales, String>> _createSampleData() {
+    final desktopSalesData = [
+      new OrdinalSales('2014', 5),
+      new OrdinalSales('2015', 25),
+      new OrdinalSales('2016', 100),
+      new OrdinalSales('2017', 75),
+    ];
+
+    final tableSalesData = [
+      new OrdinalSales('2014', 25),
+      new OrdinalSales('2015', 50),
+      new OrdinalSales('2016', 10),
+      new OrdinalSales('2017', 20),
+    ];
+
+    final mobileSalesData = [
+      new OrdinalSales('2014', 10),
+      new OrdinalSales('2015', 15),
+      new OrdinalSales('2016', 50),
+      new OrdinalSales('2017', 45),
+    ];
+
+    return [
+      new charts.Series<OrdinalSales, String>(
+        id: 'Desktop',
+        domainFn: (OrdinalSales sales, _) => sales.year,
+        measureFn: (OrdinalSales sales, _) => sales.sales,
+        data: desktopSalesData,
+      ),
+      new charts.Series<OrdinalSales, String>(
+        id: 'Tablet',
+        domainFn: (OrdinalSales sales, _) => sales.year,
+        measureFn: (OrdinalSales sales, _) => sales.sales,
+        data: tableSalesData,
+      ),
+      new charts.Series<OrdinalSales, String>(
+        id: 'Mobile',
+        domainFn: (OrdinalSales sales, _) => sales.year,
+        measureFn: (OrdinalSales sales, _) => sales.sales,
+        data: mobileSalesData,
+      ),
+    ];
+  }
+}
+/// Sample ordinal data type.
+class OrdinalSales {
+  final String year;
+  final int sales;
+
+  OrdinalSales(this.year, this.sales);
+}
+
+class Laporan extends StatefulWidget implements PreferredSizeWidget {
   final bool backButton;
   final bool transparent;
   final bool rightOptions;
@@ -91,7 +170,7 @@ class Piutang extends StatefulWidget implements PreferredSizeWidget {
   final bool noShadow;
   final Color bgColor;
 
-  const Piutang(
+  const Laporan(
       {
         this.tags,
         this.transparent = false,
@@ -109,24 +188,24 @@ class Piutang extends StatefulWidget implements PreferredSizeWidget {
   final double _prefferedHeight = 180.0;
 
   @override
-  _PiutangState createState() => _PiutangState();
+  _LaporanState createState() => _LaporanState();
 
   @override
   // TODO: implement preferredSize
   Size get preferredSize => throw UnimplementedError();
 }
 
-class _PiutangState extends State<Piutang> {
+class _LaporanState extends State<Laporan> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: FlutterMoneyquDrawer(currentPage: "Piutang"),
+      drawer: FlutterMoneyquDrawer(currentPage: "Laporan"),
       body: Stack(
         children: [
           Column(
             children: [
               Container(
-                height: 200,
+                height: 100,
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         image: AssetImage("assets/img/onboard-background.png"),
@@ -160,7 +239,7 @@ class _PiutangState extends State<Piutang> {
                                   })
                           ),
                           Text(
-                            "Piutang",
+                            "Laporan Keuangan",
                             style: TextStyle(
                               fontSize: 18.0,
                               fontWeight: FontWeight.w600,
@@ -176,100 +255,19 @@ class _PiutangState extends State<Piutang> {
                       SizedBox(
                         height: 20,
                       ),
-                      Row(
-                        children: [
-                          Positioned(
-                            top: 170,
-                            right: 0,
-                            child: Container(
-                              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                              width: MediaQuery.of(context).size.width * 0.90,
-                              height: 90,
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(10),
-                                      bottomLeft: Radius.circular(10),
-                                      topRight: Radius.circular(10),
-                                      bottomRight: Radius.circular(10)
-                                  )),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Text(
-                                                "Sudah Dibayar",
-                                                style: TextStyle(
-                                                    color: Colors.grey,
-                                                    fontWeight: FontWeight.bold),
-                                              ),
-                                              SizedBox(
-                                                width: 10,
-                                              ),
-                                              Icon(
-                                                Icons.arrow_upward,
-                                                color: Color(0XFF00838F),
-                                              )
-                                            ],
-                                          ),
-                                          Text(
-                                            "\Rp. 0",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 18.0,
-                                                color: Colors.black87),
-                                          )
-                                        ],
-                                      ),
-                                      Container(width: 1, height: 50, color: Colors.grey),
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Text(
-                                                "Belum Dibayar",
-                                                style: TextStyle(
-                                                    color: Colors.grey,
-                                                    fontWeight: FontWeight.bold),
-                                              ),
-                                              SizedBox(
-                                                width: 10,
-                                              ),
-                                              Icon(
-                                                Icons.arrow_downward,
-                                                color: Color(0XFF00838F),
-                                              )
-                                            ],
-                                          ),
-                                          Text(
-                                            "\Rp. 100.000",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 18.0,
-                                                color: Colors.black87),
-                                          )
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          )
-                        ],
-                      )
                     ],
                   ),
                 ),
               ),
+              Expanded(child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  color: Colors.grey.shade100,
+                  child: Column(
+                    children:  <Widget>[
+                      Expanded(flex: 4, child: GroupedBarChart.withSampleData()),
+                    ],
+                  ),
+              )),
               Expanded(
                 child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 20),
@@ -281,8 +279,8 @@ class _PiutangState extends State<Piutang> {
                             padding: const EdgeInsets.only(top: 16.0),
                             child: CardHorizontal(
                                 cta: "View article",
-                                title: articlesCards["Ice Cream"]['title'],
-                                img: articlesCards["Ice Cream"]['image'],
+                                title: laporanCards["Ice Cream"]['title'],
+                                img: laporanCards["Ice Cream"]['image'],
                                 tap: () {
                                   Navigator.pushNamed(context, '/pro');
                                 }),
@@ -290,40 +288,40 @@ class _PiutangState extends State<Piutang> {
                           SizedBox(height: 8.0),
                           CardHorizontal(
                               cta: "View article",
-                              title: articlesCards["Fashion"]['title'],
-                              img: articlesCards["Fashion"]['image'],
+                              title: laporanCards["Fashion"]['title'],
+                              img: laporanCards["Fashion"]['image'],
                               tap: () {
                                 Navigator.pushNamed(context, '/pro');
                               }),
                           SizedBox(height: 8.0),
                           CardHorizontal(
                               cta: "View article",
-                              title: articlesCards["Fashion"]['title'],
-                              img: articlesCards["Fashion"]['image'],
+                              title: laporanCards["Fashion"]['title'],
+                              img: laporanCards["Fashion"]['image'],
                               tap: () {
                                 Navigator.pushNamed(context, '/pro');
                               }),
                           SizedBox(height: 8.0),
                           CardHorizontal(
                               cta: "View article",
-                              title: articlesCards["Fashion"]['title'],
-                              img: articlesCards["Fashion"]['image'],
+                              title: laporanCards["Fashion"]['title'],
+                              img: laporanCards["Fashion"]['image'],
                               tap: () {
                                 Navigator.pushNamed(context, '/pro');
                               }),
                           SizedBox(height: 8.0),
                           CardHorizontal(
                               cta: "View article",
-                              title: articlesCards["Fashion"]['title'],
-                              img: articlesCards["Fashion"]['image'],
+                              title: laporanCards["Fashion"]['title'],
+                              img: laporanCards["Fashion"]['image'],
                               tap: () {
                                 Navigator.pushNamed(context, '/pro');
                               }),
                           SizedBox(height: 8.0),
                           CardHorizontal(
                               cta: "View article",
-                              title: articlesCards["Fashion"]['title'],
-                              img: articlesCards["Fashion"]['image'],
+                              title: laporanCards["Fashion"]['title'],
+                              img: laporanCards["Fashion"]['image'],
                               tap: () {
                                 Navigator.pushNamed(context, '/pro');
                               }),

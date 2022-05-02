@@ -168,7 +168,7 @@ class _PemasukanState extends State<Pemasukan> {
                             ),
                           ),
                           Icon(
-                            Icons.home,
+                            Icons.search,
                             color: Colors.white,
                           ),
                         ],
