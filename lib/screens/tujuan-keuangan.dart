@@ -308,6 +308,13 @@ class _TujuanKeuanganState extends State<TujuanKeuangan> {
           ),
         ],
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: new FloatingActionButton(
+
+        onPressed:(){ Navigator.pushReplacementNamed(context, '/tambah-tujuan-keuangan'); },
+        tooltip: 'Increment',
+        child: new Icon(Icons.add),
+      ),
     );
   }
 

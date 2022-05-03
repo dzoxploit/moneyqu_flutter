@@ -14,6 +14,12 @@ import 'package:flutter_moneyqularavel/screens/pemasukan.dart';
 import 'package:flutter_moneyqularavel/screens/pengeluaran.dart';
 import 'package:flutter_moneyqularavel/screens/tujuan-keuangan.dart';
 import 'package:flutter_moneyqularavel/screens/laporan.dart';
+import 'package:flutter_moneyqularavel/screens/crud/pemasukan/tambahpemasukan.dart';
+import 'package:flutter_moneyqularavel/screens/crud/pengeluaran/tambahpengeluaran.dart';
+import 'package:flutter_moneyqularavel/screens/crud/hutang/tambahhutang.dart';
+import 'package:flutter_moneyqularavel/screens/crud/piutang/tambahpiutang.dart';
+import 'package:flutter_moneyqularavel/screens/crud/tujuankeuangan/tambahtujuankeuangan.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -31,11 +37,30 @@ class MyApp extends StatelessWidget {
           "/profile": (BuildContext context) => new Profile(),
           "/articles": (BuildContext context) => new Articles(),
           "/account": (BuildContext context) => new Register(),
+
+          //route pemasukan
           "/pemasukan": (BuildContext context) => new Pemasukan(),
+          "/tambah-pemasukan": (BuildContext context) => new Tambahpemasukan(),
+          //end pemasukan
+
+          //route pemasukan
           "/pengeluaran": (BuildContext context) => new Pengeluaran(),
+          "/tambah-pengeluaran": (BuildContext context) => new Tambahpengeluaran(),
+          //end pemasukan
+
+          //route tujuan keuangan
           "/TujuanKeuangan": (BuildContext context) => new TujuanKeuangan(),
+          "/tambah-tujuan-keuangan": (BuildContext context) => new Tambahtujuankeuangan(),
+          //end tujuan keuangan
+
+          //route tambah hutang
           "/hutang": (BuildContext context) => new Hutang(),
+          "/tambah-hutang": (BuildContext context) => new Tambahhutang(),
+
+          //route tambah piutang
           "/piutang": (BuildContext context) => new Piutang(),
+          "/tambah-piutang": (BuildContext context) => new Tambahpiutang(),
+
           "/laporan": (BuildContext context) => new Laporan(),
           "/pro": (BuildContext context) => new Pro(),
         });

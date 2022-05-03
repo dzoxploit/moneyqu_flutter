@@ -205,7 +205,6 @@ class _LaporanState extends State<Laporan> {
           Column(
             children: [
               Container(
-                height: 100,
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         image: AssetImage("assets/img/onboard-background.png"),
@@ -260,13 +259,12 @@ class _LaporanState extends State<Laporan> {
                 ),
               ),
               Expanded(child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  color: Colors.grey.shade100,
-                  child: Column(
-                    children:  <Widget>[
-                      Expanded(flex: 4, child: GroupedBarChart.withSampleData()),
-                    ],
-                  ),
+                color: Colors.grey.shade100,
+                child: Column(
+                  children:  <Widget>[
+                    Expanded(flex: 4, child: GroupedBarChart.withSampleData()),
+                  ],
+                ),
               )),
               Expanded(
                 child: Container(
@@ -334,6 +332,13 @@ class _LaporanState extends State<Laporan> {
             ],
           ),
         ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: new FloatingActionButton(
+
+        onPressed:(){ Navigator.pushReplacementNamed(context, '/home'); },
+        tooltip: 'Increment',
+        child: new Icon(Icons.add),
       ),
     );
   }
