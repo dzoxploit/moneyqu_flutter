@@ -9,7 +9,7 @@ import 'package:flutter_moneyqularavel/widgets/card-category.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
-class Tambahhutang extends StatefulWidget implements PreferredSizeWidget {
+class Ubahpiutang extends StatefulWidget implements PreferredSizeWidget {
   final bool backButton;
   final bool transparent;
   final bool rightOptions;
@@ -22,7 +22,7 @@ class Tambahhutang extends StatefulWidget implements PreferredSizeWidget {
   final bool noShadow;
   final Color bgColor;
 
-  const Tambahhutang(
+  const Ubahpiutang(
       {
         this.tags,
         this.transparent = false,
@@ -40,22 +40,19 @@ class Tambahhutang extends StatefulWidget implements PreferredSizeWidget {
   final double _prefferedHeight = 180.0;
 
   @override
-  _TambahhutangState createState() => _TambahhutangState();
+  _UbahpiutangState createState() => _UbahpiutangState();
 
   @override
   // TODO: implement preferredSize
   Size get preferredSize => throw UnimplementedError();
 }
 
-class _TambahhutangState extends State<Tambahhutang> {
+class _UbahpiutangState extends State<Ubahpiutang> {
   final _dateController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    Color hexToColor(String code) {
-      return new Color(int.parse(code.substring(1, 7), radix: 16) + 0xFF000000);
-    }
     return Scaffold(
-      drawer: FlutterMoneyquDrawer(currentPage: "Tambah-hutang"),
+      drawer: FlutterMoneyquDrawer(currentPage: "Tambah-piutang"),
       body: Stack(
         children: [
           Column(
@@ -95,7 +92,7 @@ class _TambahhutangState extends State<Tambahhutang> {
                                   })
                           ),
                           Text(
-                            "Create Hutang",
+                            "Create Piutang",
                             style: TextStyle(
                               fontSize: 18.0,
                               fontWeight: FontWeight.w600,
@@ -125,7 +122,7 @@ class _TambahhutangState extends State<Tambahhutang> {
                           new Padding(padding: EdgeInsets.only(top: 50.0)),
                           new TextFormField(
                             decoration: new InputDecoration(
-                              labelText: "Nama Hutang",
+                              labelText: "Nama Piutang",
                               fillColor: Colors.white,
                               border: new OutlineInputBorder(
                                 borderRadius: new BorderRadius.circular(25.0),
@@ -136,12 +133,36 @@ class _TambahhutangState extends State<Tambahhutang> {
                             ),
                             validator: (val) {
                               if(val.length==0) {
-                                return "Nama Hutang cannot be empty";
+                                return "Nama Piutang cannot be empty";
                               }else{
                                 return null;
                               }
                             },
                             keyboardType: TextInputType.text,
+                            style: new TextStyle(
+                              fontFamily: "Poppins",
+                            ),
+                          ),
+                          new Padding(padding: EdgeInsets.only(top: 20.0)),
+                          new TextFormField(
+                            decoration: new InputDecoration(
+                              labelText: "No Telepon",
+                              fillColor: Colors.white,
+                              border: new OutlineInputBorder(
+                                borderRadius: new BorderRadius.circular(25.0),
+                                borderSide: new BorderSide(
+                                ),
+                              ),
+                              //fillColor: Colors.green
+                            ),
+                            validator: (val) {
+                              if(val.length==0) {
+                                return "No Telepon cannot be empty";
+                              }else{
+                                return null;
+                              }
+                            },
+                            keyboardType: TextInputType.phone,
                             style: new TextStyle(
                               fontFamily: "Poppins",
                             ),
@@ -248,7 +269,7 @@ class _TambahhutangState extends State<Tambahhutang> {
                                         right: 16.0,
                                         top: 8,
                                         bottom: 8),
-                                    child: Text("Login",
+                                    child: Text("Create Piutang",
                                         style: TextStyle(
                                             fontWeight:
                                             FontWeight.w600,

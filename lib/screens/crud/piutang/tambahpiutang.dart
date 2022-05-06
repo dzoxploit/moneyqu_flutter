@@ -6,6 +6,8 @@ import 'package:flutter_moneyqularavel/widgets/card-horizontal.dart';
 import 'package:flutter_moneyqularavel/widgets/card-small.dart';
 import 'package:flutter_moneyqularavel/widgets/card-square.dart';
 import 'package:flutter_moneyqularavel/widgets/card-category.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 class Tambahpiutang extends StatefulWidget implements PreferredSizeWidget {
   final bool backButton;
@@ -46,6 +48,7 @@ class Tambahpiutang extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _TambahpiutangState extends State<Tambahpiutang> {
+  final _dateController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,7 +92,7 @@ class _TambahpiutangState extends State<Tambahpiutang> {
                                   })
                           ),
                           Text(
-                            "Create Pemasukan",
+                            "Create Piutang",
                             style: TextStyle(
                               fontSize: 18.0,
                               fontWeight: FontWeight.w600,
@@ -116,36 +119,164 @@ class _TambahpiutangState extends State<Tambahpiutang> {
                     child: SingleChildScrollView(
                       child: Column(
                         children: <Widget>[
+                          new Padding(padding: EdgeInsets.only(top: 50.0)),
+                          new TextFormField(
+                            decoration: new InputDecoration(
+                              labelText: "Nama Piutang",
+                              fillColor: Colors.white,
+                              border: new OutlineInputBorder(
+                                borderRadius: new BorderRadius.circular(25.0),
+                                borderSide: new BorderSide(
+                                ),
+                              ),
+                              //fillColor: Colors.green
+                            ),
+                            validator: (val) {
+                              if(val.length==0) {
+                                return "Nama Piutang cannot be empty";
+                              }else{
+                                return null;
+                              }
+                            },
+                            keyboardType: TextInputType.text,
+                            style: new TextStyle(
+                              fontFamily: "Poppins",
+                            ),
+                          ),
+                          new Padding(padding: EdgeInsets.only(top: 20.0)),
+                          new TextFormField(
+                            decoration: new InputDecoration(
+                              labelText: "No Telepon",
+                              fillColor: Colors.white,
+                              border: new OutlineInputBorder(
+                                borderRadius: new BorderRadius.circular(25.0),
+                                borderSide: new BorderSide(
+                                ),
+                              ),
+                              //fillColor: Colors.green
+                            ),
+                            validator: (val) {
+                              if(val.length==0) {
+                                return "No Telepon cannot be empty";
+                              }else{
+                                return null;
+                              }
+                            },
+                            keyboardType: TextInputType.phone,
+                            style: new TextStyle(
+                              fontFamily: "Poppins",
+                            ),
+                          ),
+                          new Padding(padding: EdgeInsets.only(top: 20.0)),
+                          new TextFormField(
+                            maxLines: 3,
+                            decoration: new InputDecoration(
+                              labelText: "Deskripsi",
+                              fillColor: Colors.white,
+                              border: new OutlineInputBorder(
+                                borderRadius: new BorderRadius.circular(25.0),
+                                borderSide: new BorderSide(
+                                ),
+                              ),
+                              //fillColor: Colors.green
+                            ),
+                            validator: (val) {
+                              if(val.length==0) {
+                                return "Deskripsi cannot be empty";
+                              }else{
+                                return null;
+                              }
+                            },
+                            keyboardType: TextInputType.text,
+                            style: new TextStyle(
+                              fontFamily: "Poppins",
+                            ),
+                          ),
+                          new Padding(padding: EdgeInsets.only(top: 20.0)),
+                          new TextFormField(
+                            decoration: new InputDecoration(
+                              labelText: "Jumlah Hutang (Rp)",
+                              fillColor: Colors.white,
+                              border: new OutlineInputBorder(
+                                borderRadius: new BorderRadius.circular(25.0),
+                                borderSide: new BorderSide(
+                                ),
+                              ),
+                              //fillColor: Colors.green
+                            ),
+                            validator: (val) {
+                              if(val.length==0) {
+                                return "Jumlah Hutang cannot be empty";
+                              }else{
+                                return null;
+                              }
+                            },
+                            keyboardType: TextInputType.number,
+                            style: new TextStyle(
+                              fontFamily: "Poppins",
+                            ),
+                          ),
+                          new Padding(padding: EdgeInsets.only(top: 20.0)),
+                          new TextFormField(
+                            readOnly: true,
+                            controller: _dateController,
+                            decoration: InputDecoration(
+                              labelText: 'Date',
+                              border: new OutlineInputBorder(
+                                borderRadius: new BorderRadius.circular(25.0),
+                                borderSide: new BorderSide(
+                                ),
+                              ),
+                            ),
+                            onTap: () async {
+                              await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(2015),
+                                lastDate: DateTime(2025),
+                              ).then((selectedDate) {
+                                if (selectedDate != null) {
+                                  _dateController.text =
+                                      DateFormat('yyyy-MM-dd').format(selectedDate);
+                                }
+                              });
+                            },
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter date.';
+                              }
+                              return null;
+                            },
+                          ),
                           Padding(
-                            padding: const EdgeInsets.only(top: 50.0),
-                          ),
-                          TextFormField(
-                            decoration: const InputDecoration(
-                              icon: const Icon(Icons.person),
-                              hintText: 'Enter your name',
-                              labelText: 'Name',
+                            padding: const EdgeInsets.only(top: 100),
+                            child: Center(
+                              child: FlatButton(
+                                textColor: FlutterMoneyquColors.white,
+                                color: FlutterMoneyquColors.primary,
+                                onPressed: () {
+                                  // Respond to button press
+                                  Navigator.pushNamed(
+                                      context, '/home');
+                                },
+                                shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                  BorderRadius.circular(4.0),
+                                ),
+                                child: Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 16.0,
+                                        right: 16.0,
+                                        top: 8,
+                                        bottom: 8),
+                                    child: Text("Create Piutang",
+                                        style: TextStyle(
+                                            fontWeight:
+                                            FontWeight.w600,
+                                            fontSize: 16.0))),
+                              ),
                             ),
                           ),
-                          TextFormField(
-                            decoration: const InputDecoration(
-                              icon: const Icon(Icons.phone),
-                              hintText: 'Enter a phone number',
-                              labelText: 'Phone',
-                            ),
-                          ),
-                          TextFormField(
-                            decoration: const InputDecoration(
-                              icon: const Icon(Icons.calendar_today),
-                              hintText: 'Enter your date of birth',
-                              labelText: 'Dob',
-                            ),
-                          ),
-                          new Container(
-                              padding: const EdgeInsets.only(left: 150.0, top: 40.0),
-                              child: new RaisedButton(
-                                child: const Text('Submit'),
-                                onPressed: null,
-                              )),
                         ],
                       ),
                     )

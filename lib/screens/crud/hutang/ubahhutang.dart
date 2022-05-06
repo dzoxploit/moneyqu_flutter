@@ -9,7 +9,7 @@ import 'package:flutter_moneyqularavel/widgets/card-category.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
-class Tambahhutang extends StatefulWidget implements PreferredSizeWidget {
+class Ubahhutang extends StatefulWidget implements PreferredSizeWidget {
   final bool backButton;
   final bool transparent;
   final bool rightOptions;
@@ -22,7 +22,7 @@ class Tambahhutang extends StatefulWidget implements PreferredSizeWidget {
   final bool noShadow;
   final Color bgColor;
 
-  const Tambahhutang(
+  const Ubahhutang(
       {
         this.tags,
         this.transparent = false,
@@ -40,14 +40,14 @@ class Tambahhutang extends StatefulWidget implements PreferredSizeWidget {
   final double _prefferedHeight = 180.0;
 
   @override
-  _TambahhutangState createState() => _TambahhutangState();
+  _UbahhutangState createState() => _UbahhutangState();
 
   @override
   // TODO: implement preferredSize
   Size get preferredSize => throw UnimplementedError();
 }
 
-class _TambahhutangState extends State<Tambahhutang> {
+class _UbahhutangState extends State<Ubahhutang> {
   final _dateController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -95,7 +95,7 @@ class _TambahhutangState extends State<Tambahhutang> {
                                   })
                           ),
                           Text(
-                            "Create Hutang",
+                            "Ubah Hutang",
                             style: TextStyle(
                               fontSize: 18.0,
                               fontWeight: FontWeight.w600,

@@ -9,7 +9,7 @@ import 'package:flutter_moneyqularavel/widgets/card-category.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
-class Tambahhutang extends StatefulWidget implements PreferredSizeWidget {
+class Ubahpemasukan extends StatefulWidget implements PreferredSizeWidget {
   final bool backButton;
   final bool transparent;
   final bool rightOptions;
@@ -22,7 +22,7 @@ class Tambahhutang extends StatefulWidget implements PreferredSizeWidget {
   final bool noShadow;
   final Color bgColor;
 
-  const Tambahhutang(
+  const Ubahpemasukan(
       {
         this.tags,
         this.transparent = false,
@@ -40,22 +40,19 @@ class Tambahhutang extends StatefulWidget implements PreferredSizeWidget {
   final double _prefferedHeight = 180.0;
 
   @override
-  _TambahhutangState createState() => _TambahhutangState();
+  _UbahpemasukanState createState() => _UbahpemasukanState();
 
   @override
   // TODO: implement preferredSize
   Size get preferredSize => throw UnimplementedError();
 }
 
-class _TambahhutangState extends State<Tambahhutang> {
+class _UbahpemasukanState extends State<Ubahpemasukan> {
   final _dateController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    Color hexToColor(String code) {
-      return new Color(int.parse(code.substring(1, 7), radix: 16) + 0xFF000000);
-    }
     return Scaffold(
-      drawer: FlutterMoneyquDrawer(currentPage: "Tambah-hutang"),
+      drawer: FlutterMoneyquDrawer(currentPage: "Tambah-pemasukan"),
       body: Stack(
         children: [
           Column(
@@ -95,7 +92,7 @@ class _TambahhutangState extends State<Tambahhutang> {
                                   })
                           ),
                           Text(
-                            "Create Hutang",
+                            "Ubah Pemasukan",
                             style: TextStyle(
                               fontSize: 18.0,
                               fontWeight: FontWeight.w600,
@@ -125,7 +122,7 @@ class _TambahhutangState extends State<Tambahhutang> {
                           new Padding(padding: EdgeInsets.only(top: 50.0)),
                           new TextFormField(
                             decoration: new InputDecoration(
-                              labelText: "Nama Hutang",
+                              labelText: "Nama Pemasukan",
                               fillColor: Colors.white,
                               border: new OutlineInputBorder(
                                 borderRadius: new BorderRadius.circular(25.0),
@@ -136,32 +133,7 @@ class _TambahhutangState extends State<Tambahhutang> {
                             ),
                             validator: (val) {
                               if(val.length==0) {
-                                return "Nama Hutang cannot be empty";
-                              }else{
-                                return null;
-                              }
-                            },
-                            keyboardType: TextInputType.text,
-                            style: new TextStyle(
-                              fontFamily: "Poppins",
-                            ),
-                          ),
-                          new Padding(padding: EdgeInsets.only(top: 20.0)),
-                          new TextFormField(
-                            maxLines: 3,
-                            decoration: new InputDecoration(
-                              labelText: "Deskripsi",
-                              fillColor: Colors.white,
-                              border: new OutlineInputBorder(
-                                borderRadius: new BorderRadius.circular(25.0),
-                                borderSide: new BorderSide(
-                                ),
-                              ),
-                              //fillColor: Colors.green
-                            ),
-                            validator: (val) {
-                              if(val.length==0) {
-                                return "Deskripsi cannot be empty";
+                                return "Nama Pemasukan cannot be empty";
                               }else{
                                 return null;
                               }
@@ -174,7 +146,7 @@ class _TambahhutangState extends State<Tambahhutang> {
                           new Padding(padding: EdgeInsets.only(top: 20.0)),
                           new TextFormField(
                             decoration: new InputDecoration(
-                              labelText: "Jumlah Hutang (Rp)",
+                              labelText: "Kategori Pemasukan",
                               fillColor: Colors.white,
                               border: new OutlineInputBorder(
                                 borderRadius: new BorderRadius.circular(25.0),
@@ -185,7 +157,31 @@ class _TambahhutangState extends State<Tambahhutang> {
                             ),
                             validator: (val) {
                               if(val.length==0) {
-                                return "Jumlah Hutang cannot be empty";
+                                return "Kategori Pemasukan cannot be empty";
+                              }else{
+                                return null;
+                              }
+                            },
+                            keyboardType: TextInputType.number,
+                            style: new TextStyle(
+                              fontFamily: "Poppins",
+                            ),
+                          ),
+                          new Padding(padding: EdgeInsets.only(top: 20.0)),
+                          new TextFormField(
+                            decoration: new InputDecoration(
+                              labelText: "Jumlah Pemasukan (Rp)",
+                              fillColor: Colors.white,
+                              border: new OutlineInputBorder(
+                                borderRadius: new BorderRadius.circular(25.0),
+                                borderSide: new BorderSide(
+                                ),
+                              ),
+                              //fillColor: Colors.green
+                            ),
+                            validator: (val) {
+                              if(val.length==0) {
+                                return "Jumlah Pemasukan cannot be empty";
                               }else{
                                 return null;
                               }
@@ -200,7 +196,7 @@ class _TambahhutangState extends State<Tambahhutang> {
                             readOnly: true,
                             controller: _dateController,
                             decoration: InputDecoration(
-                              labelText: 'Date',
+                              labelText: 'Tanggal Pemasukan',
                               border: new OutlineInputBorder(
                                 borderRadius: new BorderRadius.circular(25.0),
                                 borderSide: new BorderSide(
