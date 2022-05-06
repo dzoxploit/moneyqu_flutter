@@ -9,7 +9,7 @@ import 'package:flutter_moneyqularavel/widgets/card-category.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
-class Tambahpengeluaran extends StatefulWidget implements PreferredSizeWidget {
+class Ubahpengeluaran extends StatefulWidget implements PreferredSizeWidget {
   final bool backButton;
   final bool transparent;
   final bool rightOptions;
@@ -22,7 +22,7 @@ class Tambahpengeluaran extends StatefulWidget implements PreferredSizeWidget {
   final bool noShadow;
   final Color bgColor;
 
-  const Tambahpengeluaran(
+  const Ubahpengeluaran(
       {
         this.tags,
         this.transparent = false,
@@ -40,14 +40,14 @@ class Tambahpengeluaran extends StatefulWidget implements PreferredSizeWidget {
   final double _prefferedHeight = 180.0;
 
   @override
-  _TambahpengeluaranState createState() => _TambahpengeluaranState();
+  _UbahpengeluaranState createState() => _UbahpengeluaranState();
 
   @override
   // TODO: implement preferredSize
   Size get preferredSize => throw UnimplementedError();
 }
 
-class _TambahpengeluaranState extends State<Tambahpengeluaran> {
+class _UbahpengeluaranState extends State<Ubahpengeluaran> {
   final _dateController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -92,7 +92,7 @@ class _TambahpengeluaranState extends State<Tambahpengeluaran> {
                                   })
                           ),
                           Text(
-                            "Create Pengeluaran",
+                            "Ubah Pengeluaran",
                             style: TextStyle(
                               fontSize: 18.0,
                               fontWeight: FontWeight.w600,

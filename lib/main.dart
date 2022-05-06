@@ -13,6 +13,7 @@ import 'package:flutter_moneyqularavel/screens/articles.dart';
 import 'package:flutter_moneyqularavel/screens/pemasukan.dart';
 import 'package:flutter_moneyqularavel/screens/pengeluaran.dart';
 import 'package:flutter_moneyqularavel/screens/tujuan-keuangan.dart';
+import 'package:flutter_moneyqularavel/screens/simpanan.dart';
 import 'package:flutter_moneyqularavel/screens/laporan.dart';
 import 'package:flutter_moneyqularavel/screens/crud/pemasukan/tambahpemasukan.dart';
 import 'package:flutter_moneyqularavel/screens/crud/pengeluaran/tambahpengeluaran.dart';
@@ -62,6 +63,10 @@ class MyApp extends StatelessWidget {
           "/tambah-piutang": (BuildContext context) => new Tambahpiutang(),
 
           "/laporan": (BuildContext context) => new Laporan(),
+
+          "/simpanan": (BuildContext context) => new Simpanan(),
+          "/tambah-simpanan": (BuildContext context) => new Tambahsimpanan()
+
           "/pro": (BuildContext context) => new Pro(),
         });
   }

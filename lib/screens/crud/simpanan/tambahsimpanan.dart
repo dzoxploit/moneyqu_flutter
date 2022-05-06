@@ -9,7 +9,7 @@ import 'package:flutter_moneyqularavel/widgets/card-category.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
-class Tambahpengeluaran extends StatefulWidget implements PreferredSizeWidget {
+class Tambahsimpanan extends StatefulWidget implements PreferredSizeWidget {
   final bool backButton;
   final bool transparent;
   final bool rightOptions;
@@ -22,7 +22,7 @@ class Tambahpengeluaran extends StatefulWidget implements PreferredSizeWidget {
   final bool noShadow;
   final Color bgColor;
 
-  const Tambahpengeluaran(
+  const Tambahsimpanan(
       {
         this.tags,
         this.transparent = false,
@@ -40,19 +40,19 @@ class Tambahpengeluaran extends StatefulWidget implements PreferredSizeWidget {
   final double _prefferedHeight = 180.0;
 
   @override
-  _TambahpengeluaranState createState() => _TambahpengeluaranState();
+  _TambahsimpananState createState() => _TambahsimpananState();
 
   @override
   // TODO: implement preferredSize
   Size get preferredSize => throw UnimplementedError();
 }
 
-class _TambahpengeluaranState extends State<Tambahpengeluaran> {
+class _TambahsimpananState extends State<Tambahsimpanan> {
   final _dateController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: FlutterMoneyquDrawer(currentPage: "Tambah-pengeluaran"),
+      drawer: FlutterMoneyquDrawer(currentPage: "Tambah-simpanan"),
       body: Stack(
         children: [
           Column(
@@ -92,7 +92,7 @@ class _TambahpengeluaranState extends State<Tambahpengeluaran> {
                                   })
                           ),
                           Text(
-                            "Create Pengeluaran",
+                            "Create Piutang",
                             style: TextStyle(
                               fontSize: 18.0,
                               fontWeight: FontWeight.w600,
@@ -122,7 +122,7 @@ class _TambahpengeluaranState extends State<Tambahpengeluaran> {
                           new Padding(padding: EdgeInsets.only(top: 50.0)),
                           new TextFormField(
                             decoration: new InputDecoration(
-                              labelText: "Nama Pengeluaran",
+                              labelText: "Nama Piutang",
                               fillColor: Colors.white,
                               border: new OutlineInputBorder(
                                 borderRadius: new BorderRadius.circular(25.0),
@@ -133,7 +133,7 @@ class _TambahpengeluaranState extends State<Tambahpengeluaran> {
                             ),
                             validator: (val) {
                               if(val.length==0) {
-                                return "Nama Pengeluaran cannot be empty";
+                                return "Nama Piutang cannot be empty";
                               }else{
                                 return null;
                               }
@@ -146,7 +146,7 @@ class _TambahpengeluaranState extends State<Tambahpengeluaran> {
                           new Padding(padding: EdgeInsets.only(top: 20.0)),
                           new TextFormField(
                             decoration: new InputDecoration(
-                              labelText: "Kategori Pengeluaran",
+                              labelText: "No Telepon",
                               fillColor: Colors.white,
                               border: new OutlineInputBorder(
                                 borderRadius: new BorderRadius.circular(25.0),
@@ -157,12 +157,37 @@ class _TambahpengeluaranState extends State<Tambahpengeluaran> {
                             ),
                             validator: (val) {
                               if(val.length==0) {
-                                return "Kategori Pengeluaran cannot be empty";
+                                return "No Telepon cannot be empty";
                               }else{
                                 return null;
                               }
                             },
-                            keyboardType: TextInputType.number,
+                            keyboardType: TextInputType.phone,
+                            style: new TextStyle(
+                              fontFamily: "Poppins",
+                            ),
+                          ),
+                          new Padding(padding: EdgeInsets.only(top: 20.0)),
+                          new TextFormField(
+                            maxLines: 3,
+                            decoration: new InputDecoration(
+                              labelText: "Deskripsi",
+                              fillColor: Colors.white,
+                              border: new OutlineInputBorder(
+                                borderRadius: new BorderRadius.circular(25.0),
+                                borderSide: new BorderSide(
+                                ),
+                              ),
+                              //fillColor: Colors.green
+                            ),
+                            validator: (val) {
+                              if(val.length==0) {
+                                return "Deskripsi cannot be empty";
+                              }else{
+                                return null;
+                              }
+                            },
+                            keyboardType: TextInputType.text,
                             style: new TextStyle(
                               fontFamily: "Poppins",
                             ),
@@ -170,7 +195,7 @@ class _TambahpengeluaranState extends State<Tambahpengeluaran> {
                           new Padding(padding: EdgeInsets.only(top: 20.0)),
                           new TextFormField(
                             decoration: new InputDecoration(
-                              labelText: "Jumlah Pengeluaran (Rp)",
+                              labelText: "Jumlah Hutang (Rp)",
                               fillColor: Colors.white,
                               border: new OutlineInputBorder(
                                 borderRadius: new BorderRadius.circular(25.0),
@@ -181,7 +206,7 @@ class _TambahpengeluaranState extends State<Tambahpengeluaran> {
                             ),
                             validator: (val) {
                               if(val.length==0) {
-                                return "Jumlah Pengeluaran cannot be empty";
+                                return "Jumlah Hutang cannot be empty";
                               }else{
                                 return null;
                               }
@@ -196,7 +221,7 @@ class _TambahpengeluaranState extends State<Tambahpengeluaran> {
                             readOnly: true,
                             controller: _dateController,
                             decoration: InputDecoration(
-                              labelText: 'Tanggal Pengeluaran',
+                              labelText: 'Date',
                               border: new OutlineInputBorder(
                                 borderRadius: new BorderRadius.circular(25.0),
                                 borderSide: new BorderSide(
@@ -244,7 +269,7 @@ class _TambahpengeluaranState extends State<Tambahpengeluaran> {
                                         right: 16.0,
                                         top: 8,
                                         bottom: 8),
-                                    child: Text("Login",
+                                    child: Text("Create Piutang",
                                         style: TextStyle(
                                             fontWeight:
                                             FontWeight.w600,
