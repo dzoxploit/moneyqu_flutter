@@ -340,7 +340,7 @@ class _SimpananState extends State<Simpanan> {
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: new FloatingActionButton(
 
-        onPressed:(){ Navigator.pushReplacementNamed(context, '/tambah-pemasukan'); },
+        onPressed:(){ Navigator.pushReplacementNamed(context, '/tambah-simpanan'); },
         tooltip: 'Increment',
         child: new Icon(Icons.add),
       ),

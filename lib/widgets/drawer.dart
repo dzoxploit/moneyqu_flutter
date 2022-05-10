@@ -139,34 +139,6 @@ class FlutterMoneyquDrawer extends StatelessWidget {
               ]
           ),
         ),
-        Expanded(
-          flex: 1,
-          child: Container(
-              padding: EdgeInsets.only(left: 8, right: 16),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Divider(height: 4, thickness: 0, color: FlutterMoneyquColors.muted),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(top: 16.0, left: 16, bottom: 8),
-                    child: Text("DOCUMENTATION",
-                        style: TextStyle(
-                          color: Color.fromRGBO(0, 0, 0, 0.5),
-                          fontSize: 15,
-                        )),
-                  ),
-                  DrawerTile(
-                      icon: Icons.airplanemode_active,
-                      onTap: _launchURL,
-                      iconColor: FlutterMoneyquColors.muted,
-                      title: "Getting Started",
-                      isSelected:
-                          currentPage == "Getting started" ? true : false),
-                ],
-              )),
-        ),
       ]),
     ));
   }

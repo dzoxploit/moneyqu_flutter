@@ -92,7 +92,7 @@ class _TambahsimpananState extends State<Tambahsimpanan> {
                                   })
                           ),
                           Text(
-                            "Create Piutang",
+                            "Create Simpanan",
                             style: TextStyle(
                               fontSize: 18.0,
                               fontWeight: FontWeight.w600,
