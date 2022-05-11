@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'MoneyQU',
         theme: ThemeData(fontFamily: 'OpenSans'),
-        initialRoute: "/onboarding",
+        home: CheckAuth(),
         debugShowCheckedModeBanner: false,
         routes: <String, WidgetBuilder>{
           "/onboarding": (BuildContext context) => new Onboarding(),
@@ -106,7 +106,7 @@ class _CheckAuthState extends State<CheckAuth>{
     if(isAuth){
       child = Home();
     } else{
-      child = Login();
+      child = Onboarding();
     }
 
     return Scaffold(
