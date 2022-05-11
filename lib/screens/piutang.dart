@@ -167,10 +167,6 @@ class _PiutangState extends State<Piutang> {
                               color: Colors.white,
                             ),
                           ),
-                          Icon(
-                            Icons.search,
-                            color: Colors.white,
-                          ),
                         ],
                       ),
                       SizedBox(

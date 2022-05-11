@@ -167,10 +167,6 @@ class _HutangState extends State<Hutang> {
                               color: Colors.white,
                             ),
                           ),
-                          Icon(
-                            Icons.search,
-                            color: Colors.white,
-                          ),
                         ],
                       ),
                       SizedBox(

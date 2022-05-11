@@ -245,10 +245,6 @@ class _LaporanState extends State<Laporan> {
                               color: Colors.white,
                             ),
                           ),
-                          Icon(
-                            Icons.search,
-                            color: Colors.white,
-                          ),
                         ],
                       ),
                       SizedBox(

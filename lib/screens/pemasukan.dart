@@ -167,10 +167,6 @@ class _PemasukanState extends State<Pemasukan> {
                               color: Colors.white,
                             ),
                           ),
-                          Icon(
-                            Icons.search,
-                            color: Colors.white,
-                          ),
                         ],
                       ),
                       SizedBox(

@@ -167,10 +167,6 @@ class _PengeluaranState extends State<Pengeluaran> {
                               color: Colors.white,
                             ),
                           ),
-                          Icon(
-                            Icons.search,
-                            color: Colors.white,
-                          ),
                         ],
                       ),
                       SizedBox(
