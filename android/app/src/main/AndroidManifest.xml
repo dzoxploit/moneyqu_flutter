@@ -1,8 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.flutter_moneyqularavel">
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- This Line -->
+
    <application
-        android:label="flutter_moneyqularavel"
-        android:icon="@mipmap/ic_launcher">
+       android:label="flutter_moneyqularavel"
+       android:usesCleartextTraffic="true"
+       android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

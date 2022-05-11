@@ -245,6 +245,14 @@ class _LaporanState extends State<Laporan> {
                               color: Colors.white,
                             ),
                           ),
+                          Text(
+                            " ",
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white,
+                            ),
+                          ),
                         ],
                       ),
                       SizedBox(

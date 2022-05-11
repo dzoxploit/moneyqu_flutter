@@ -167,6 +167,14 @@ class _PemasukanState extends State<Pemasukan> {
                               color: Colors.white,
                             ),
                           ),
+                          Text(
+                            " ",
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white,
+                            ),
+                          ),
                         ],
                       ),
                       SizedBox(

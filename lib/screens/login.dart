@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -10,6 +11,8 @@ import 'package:flutter_moneyqularavel/widgets/input.dart';
 
 import 'package:flutter_moneyqularavel/widgets/drawer.dart';
 import 'package:flutter_moneyqularavel/widgets/drawer-tile.dart';
+import 'package:flutter_moneyqularavel/network/api.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -18,7 +21,23 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   final String currentPage;
-
+  bool _isLoading = false;
+  final _formKey = GlobalKey<FormState>();
+  var email;
+  var password;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  _showMsg(msg) {
+    final snackBar = SnackBar(
+      content: Text(msg),
+      action: SnackBarAction(
+        label: 'Close',
+        onPressed: () {
+          // Some code to undo the change!
+        },
+      ),
+    );
+    _scaffoldKey.currentState.showSnackBar(snackBar);
+  }
   _LoginState({this.currentPage});
   @override
   Widget build(BuildContext context) {
@@ -75,7 +94,8 @@ class _LoginState extends State<Login> {
                               color: Color.fromRGBO(244, 245, 247, 1),
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Center(
+                                child: Form(
+                                  key: _formKey,
                                   child: Column(
                                     crossAxisAlignment:
                                     CrossAxisAlignment.start,
@@ -88,15 +108,56 @@ class _LoginState extends State<Login> {
                                         children: [
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
-                                            child: Input(
-                                                placeholder: "Email",
-                                                prefixIcon: Icon(Icons.email)),
+                                            child: TextFormField(
+                                              style: TextStyle(color: Color(0xFF000000)),
+                                              cursorColor: Color(0xFF9b9b9b),
+                                              keyboardType: TextInputType.text,
+                                              decoration: InputDecoration(
+                                                prefixIcon: Icon(
+                                                  Icons.email,
+                                                  color: Colors.grey,
+                                                ),
+                                                hintText: "Email",
+                                                hintStyle: TextStyle(
+                                                    color: Color(0xFF9b9b9b),
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.normal),
+                                              ),
+                                              validator: (emailValue) {
+                                                if (emailValue.isEmpty) {
+                                                  return 'Please enter email';
+                                                }
+                                                email = emailValue;
+                                                return null;
+                                              },
+                                            ),
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
-                                            child: Input(
-                                                placeholder: "Password",
-                                                prefixIcon: Icon(Icons.lock)),
+                                            child:  TextFormField(
+                                              style: TextStyle(color: Color(0xFF000000)),
+                                              cursorColor: Color(0xFF9b9b9b),
+                                              keyboardType: TextInputType.text,
+                                              obscureText: true,
+                                              decoration: InputDecoration(
+                                                prefixIcon: Icon(
+                                                  Icons.vpn_key,
+                                                  color: Colors.grey,
+                                                ),
+                                                hintText: "Password",
+                                                hintStyle: TextStyle(
+                                                    color: Color(0xFF9b9b9b),
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.normal),
+                                              ),
+                                              validator: (passwordValue) {
+                                                if (passwordValue.isEmpty) {
+                                                  return 'Please enter some text';
+                                                }
+                                                password = passwordValue;
+                                                return null;
+                                              },
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -123,9 +184,9 @@ class _LoginState extends State<Login> {
                                             textColor: FlutterMoneyquColors.white,
                                             color: FlutterMoneyquColors.primary,
                                             onPressed: () {
-                                              // Respond to button press
-                                              Navigator.pushNamed(
-                                                  context, '/home');
+                                              if (_formKey.currentState.validate()) {
+                                                _login();
+                                              }
                                             },
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
@@ -161,4 +222,34 @@ class _LoginState extends State<Login> {
   bool _checkboxValue = false;
 
   final double height = window.physicalSize.height;
+
+  void _login() async{
+    setState(() {
+      _isLoading = true;
+    });
+    var data = {
+      'email' : email,
+      'password' : password
+    };
+
+    var res = await Network().auth(data, '/login');
+    var body = json.decode(res.body);
+    if(body['success']){
+      SharedPreferences localStorage = await SharedPreferences.getInstance();
+      localStorage.setString('token', json.encode(body['token']));
+      localStorage.setString('user', json.encode(body['user']));
+      Navigator.pushNamed(
+        context,
+        "/home",
+      );
+    }else{
+      _showMsg(body['message']);
+    }
+
+    setState(() {
+      _isLoading = false;
+    });
+
+  }
 }
+

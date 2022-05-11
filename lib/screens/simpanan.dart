@@ -160,10 +160,18 @@ class _SimpananState extends State<Simpanan> {
                                   })
                           ),
                           Text(
-                            "Pemasukan",
+                            "Simpanan",
                             style: TextStyle(
                               fontSize: 18.0,
                               fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                            ),
+                          ),
+                          Text(
+                            " ",
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.w700,
                               color: Colors.white,
                             ),
                           ),

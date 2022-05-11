@@ -167,6 +167,14 @@ class _PengeluaranState extends State<Pengeluaran> {
                               color: Colors.white,
                             ),
                           ),
+                          Text(
+                            " ",
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white,
+                            ),
+                          ),
                         ],
                       ),
                       SizedBox(
