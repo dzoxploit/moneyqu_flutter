@@ -238,10 +238,7 @@ class _LoginState extends State<Login> {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
       localStorage.setString('token', json.encode(body['token']));
       localStorage.setString('user', json.encode(body['user']));
-      Navigator.pushNamed(
-        context,
-        "/home",
-      );
+      Navigator.pushReplacementNamed(context, '/home');
     }else{
       _showMsg(body['message']);
     }

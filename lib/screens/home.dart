@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_moneyqularavel/widgets/drawer.dart';
 import 'package:flutter_moneyqularavel/constants/Theme.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import 'package:double_back_to_close_app/double_back_to_close_app.dart';
+
 
 class Home extends StatefulWidget implements PreferredSizeWidget {
   final bool backButton;
@@ -48,7 +50,11 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: FlutterMoneyquDrawer(currentPage: "Home"),
-      body: Stack(
+      body: DoubleBackToCloseApp(
+      snackBar: const SnackBar(
+      content: Text('Tap back again to leave'),
+      ),
+      child: Stack(
         children: [
           Column(
             children: [
@@ -287,6 +293,7 @@ class _HomeState extends State<Home> {
           )
         ],
       ),
+    )
     );
   }
 
@@ -367,9 +374,10 @@ class _HomeState extends State<Home> {
           )
         ],
       ),
+
+
     );
   }
-
   GestureDetector buildActivityButton(
       IconData icon, String title, Color backgroundColor, Color iconColor) {
     return GestureDetector(

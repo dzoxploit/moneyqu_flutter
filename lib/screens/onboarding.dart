@@ -58,8 +58,7 @@ class Onboarding extends StatelessWidget {
                       color: FlutterMoneyquColors.secondary,
                       onPressed: () {
                         // Respond to button press
-                        Navigator.pushNamed(
-                            context, '/login');
+                        Navigator.pushReplacementNamed(context, '/login');
                       },
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(4.0),
