@@ -344,7 +344,7 @@ class _PemasukanState extends State<Pemasukan> {
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: new FloatingActionButton(
 
-        onPressed:(){ Navigator.pushReplacementNamed(context, '/tambah-pemasukan'); },
+        onPressed:(){ Navigator.pushNamed(context, '/tambah-pemasukan'); },
         tooltip: 'Increment',
         child: new Icon(Icons.add),
       ),

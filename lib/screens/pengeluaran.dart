@@ -344,7 +344,7 @@ class _PengeluaranState extends State<Pengeluaran> {
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: new FloatingActionButton(
 
-        onPressed:(){ Navigator.pushReplacementNamed(context, '/tambah-pengeluaran'); },
+        onPressed:(){ Navigator.pushNamed(context, '/tambah-pengeluaran'); },
         tooltip: 'Increment',
         child: new Icon(Icons.add),
       ),

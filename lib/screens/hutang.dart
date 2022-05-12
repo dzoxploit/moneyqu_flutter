@@ -344,7 +344,7 @@ class _HutangState extends State<Hutang> {
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: new FloatingActionButton(
 
-        onPressed:(){ Navigator.pushReplacementNamed(context, '/tambah-hutang'); },
+        onPressed:(){ Navigator.pushNamed(context, '/tambah-hutang'); },
         tooltip: 'Increment',
         child: new Icon(Icons.add),
       ),

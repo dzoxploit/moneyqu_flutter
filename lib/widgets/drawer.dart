@@ -49,7 +49,7 @@ class FlutterMoneyquDrawer extends StatelessWidget {
                   icon: Icons.home,
                   onTap: () {
                     if (currentPage != "Home")
-                      Navigator.pushReplacementNamed(context, '/home');
+                      Navigator.pushNamed(context, '/home');
                   },
                   iconColor: FlutterMoneyquColors.primary,
                   title: "Home",
@@ -58,7 +58,7 @@ class FlutterMoneyquDrawer extends StatelessWidget {
                   icon: Icons.pie_chart,
                   onTap: () {
                     if (currentPage != "Pemasukan")
-                      Navigator.pushReplacementNamed(context, '/pemasukan');
+                      Navigator.pushNamed(context, '/pemasukan');
                   },
                   iconColor: FlutterMoneyquColors.info,
                   title: "Pemasukan",
@@ -67,7 +67,7 @@ class FlutterMoneyquDrawer extends StatelessWidget {
                   icon: Icons.account_balance_wallet_outlined,
                   onTap: () {
                     if (currentPage != "Pengeluaran")
-                      Navigator.pushReplacementNamed(context, '/pengeluaran');
+                      Navigator.pushNamed(context, '/pengeluaran');
                   },
                   iconColor: FlutterMoneyquColors.info,
                   title: "Pengeluaran",
@@ -76,7 +76,7 @@ class FlutterMoneyquDrawer extends StatelessWidget {
                 icon: Icons.account_balance_wallet_sharp,
                 onTap: () {
                   if (currentPage != "Hutang")
-                    Navigator.pushReplacementNamed(context, '/hutang');
+                    Navigator.pushNamed(context, '/hutang');
                 },
                   iconColor: FlutterMoneyquColors.info,
                   title: "Hutang",
@@ -86,7 +86,7 @@ class FlutterMoneyquDrawer extends StatelessWidget {
                   icon: Icons.settings_input_component,
                   onTap: () {
                     if (currentPage != "Piutang")
-                      Navigator.pushReplacementNamed(context, '/piutang');
+                      Navigator.pushNamed(context, '/piutang');
                   },
                   iconColor: FlutterMoneyquColors.info,
                   title: "Piutang",
@@ -95,7 +95,7 @@ class FlutterMoneyquDrawer extends StatelessWidget {
                   icon: Icons.verified_user,
                   onTap: () {
                     if (currentPage != "TujuanKeuangan")
-                      Navigator.pushReplacementNamed(context, '/TujuanKeuangan');
+                      Navigator.pushNamed(context, '/TujuanKeuangan');
                   },
                   iconColor: FlutterMoneyquColors.info,
                   title: "Tujuan Keuangan",
@@ -104,7 +104,7 @@ class FlutterMoneyquDrawer extends StatelessWidget {
                   icon: Icons.apps,
                   onTap: () {
                     if (currentPage != "Articles")
-                      Navigator.pushReplacementNamed(context, '/articles');
+                      Navigator.pushNamed(context, '/articles');
                   },
                   iconColor: FlutterMoneyquColors.primary,
                   title: "Articles",
@@ -113,7 +113,7 @@ class FlutterMoneyquDrawer extends StatelessWidget {
                   icon: Icons.account_circle_rounded,
                   onTap: () {
                     if (currentPage != "Profile")
-                      Navigator.pushReplacementNamed(context, '/profile');
+                      Navigator.pushNamed(context, '/profile');
                   },
                   iconColor: FlutterMoneyquColors.primary,
                   title: "Profile",
@@ -122,7 +122,7 @@ class FlutterMoneyquDrawer extends StatelessWidget {
                   icon: Icons.book,
                   onTap: () {
                     if (currentPage != "Laporan")
-                      Navigator.pushReplacementNamed(context, '/laporan');
+                      Navigator.pushNamed(context, '/laporan');
                   },
                   iconColor: FlutterMoneyquColors.primary,
                   title: "Laporan",
@@ -131,7 +131,7 @@ class FlutterMoneyquDrawer extends StatelessWidget {
                   icon: Icons.add_business,
                   onTap: () {
                     if (currentPage != "Simpanan")
-                      Navigator.pushReplacementNamed(context, '/simpanan');
+                      Navigator.pushNamed(context, '/simpanan');
                   },
                   iconColor: FlutterMoneyquColors.primary,
                   title: "Simpanan",

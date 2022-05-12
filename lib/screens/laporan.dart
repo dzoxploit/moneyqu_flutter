@@ -340,7 +340,7 @@ class _LaporanState extends State<Laporan> {
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: new FloatingActionButton(
 
-        onPressed:(){ Navigator.pushReplacementNamed(context, '/home'); },
+        onPressed:(){ Navigator.pushNamed(context, '/home'); },
         tooltip: 'Increment',
         child: new Icon(Icons.add),
       ),

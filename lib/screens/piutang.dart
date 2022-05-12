@@ -344,7 +344,7 @@ class _PiutangState extends State<Piutang> {
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: new FloatingActionButton(
 
-        onPressed:(){ Navigator.pushReplacementNamed(context, '/tambah-piutang'); },
+        onPressed:(){ Navigator.pushNamed(context, '/tambah-piutang'); },
         tooltip: 'Increment',
         child: new Icon(Icons.add),
       ),
