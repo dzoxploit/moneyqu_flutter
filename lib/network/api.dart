@@ -21,6 +21,8 @@ class Network{
     );
   }
 
+  
+
   getData(apiURL) async{
     var fullUrl = _url + apiURL;
     await _getToken();

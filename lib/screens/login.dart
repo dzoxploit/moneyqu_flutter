@@ -166,7 +166,7 @@ class _LoginState extends State<Login> {
                                         child :  GestureDetector(
                                             onTap: () {
                                               Navigator.pushNamed(
-                                                  context, '/account');
+                                                  context, '/register');
                                             },
                                             child: Container(
                                               margin:

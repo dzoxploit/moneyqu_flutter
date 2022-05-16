@@ -1,8 +1,12 @@
+import 'dart:convert';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_moneyqularavel/widgets/drawer.dart';
 import 'package:flutter_moneyqularavel/constants/Theme.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_moneyqularavel/network/api.dart';
 
 
 class Home extends StatefulWidget implements PreferredSizeWidget {
@@ -100,9 +104,12 @@ class _HomeState extends State<Home> {
                               color: Colors.white,
                             ),
                           ),
-                          Icon(
-                            Icons.home,
-                            color: Colors.white,
+                          IconButton(
+                            icon: const Icon(Icons.logout, color: Colors.white),
+                            tooltip: 'Increase volume by 10',
+                              onPressed: () {
+                                logout();
+                              }
                           ),
                         ],
                       ),
@@ -409,5 +416,15 @@ class _HomeState extends State<Home> {
         ),
       ),
     );
+  }
+  void logout() async{
+    var res = await Network().getData('/logout');
+    var body = json.decode(res.body);
+    if(body['success']){
+      SharedPreferences localStorage = await SharedPreferences.getInstance();
+      localStorage.remove('user');
+      localStorage.remove('token');
+      Navigator.pushNamed(context, '/login');
+    }
   }
 }

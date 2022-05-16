@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -6,9 +7,13 @@ import 'package:flutter_moneyqularavel/constants/Theme.dart';
 
 //widgets
 import 'package:flutter_moneyqularavel/widgets/navbar-login-register.dart';
-import 'package:flutter_moneyqularavel/widgets/input.dart';
 
 import 'package:flutter_moneyqularavel/widgets/drawer.dart';
+import 'package:flutter_moneyqularavel/network/api.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_moneyqularavel/screens/home.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_moneyqularavel/screens/login.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -19,6 +24,11 @@ class _RegisterState extends State<Register> {
   bool _checkboxValue = false;
 
   final double height = window.physicalSize.height;
+  bool _isLoading = false;
+  final _formKey = GlobalKey<FormState>();
+  var email;
+  var password;
+  var name;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +58,10 @@ class _RegisterState extends State<Register> {
                       child: Column(
                         children: [
                           Container(
-                              height: MediaQuery.of(context).size.height * 0.15,
+                              height: MediaQuery
+                                  .of(context)
+                                  .size
+                                  .height * 0.15,
                               decoration: BoxDecoration(
                                   color: FlutterMoneyquColors.white,
                                   border: Border(
@@ -57,137 +70,145 @@ class _RegisterState extends State<Register> {
                                           color: FlutterMoneyquColors.muted))),
                               child: Column(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
+                                MainAxisAlignment.spaceAround,
                                 children: [
                                   Center(
                                       child: Padding(
-                                    padding: const EdgeInsets.only(top: 8.0),
-                                    child: Text("Register",
-                                        style: TextStyle(
-                                            color: FlutterMoneyquColors.text,
-                                            fontSize: 16.0)),
-                                  )),
+                                        padding: const EdgeInsets.only(
+                                            top: 8.0),
+                                        child: Text("Register",
+                                            style: TextStyle(
+                                                color: FlutterMoneyquColors
+                                                    .text,
+                                                fontSize: 16.0)),
+                                      )),
                                   // Divider()
                                 ],
                               )),
                           Container(
-                              height: MediaQuery.of(context).size.height * 0.55,
+                              height: MediaQuery
+                                  .of(context)
+                                  .size
+                                  .height * 0.55,
                               color: Color.fromRGBO(244, 245, 247, 1),
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Center(
+                                child: Form(
+                                  key: _formKey,
                                   child: Column(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    CrossAxisAlignment.start,
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
+                                    MainAxisAlignment.spaceAround,
                                     children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 24.0, bottom: 24.0),
-                                        child: Center(
-                                          child: Text(
-                                              "Or sign up with the classic way",
-                                              style: TextStyle(
-                                                  color: FlutterMoneyquColors.text,
-                                                  fontWeight: FontWeight.w200,
-                                                  fontSize: 16)),
-                                        ),
-                                      ),
                                       Column(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                         children: [
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
-                                            child: Input(
-                                              placeholder: "Name",
-                                              prefixIcon: Icon(Icons.school),
+                                            child: TextFormField(
+                                              style: TextStyle(
+                                                  color: Color(0xFF000000)),
+                                              cursorColor: Color(0xFF9b9b9b),
+                                              keyboardType: TextInputType.text,
+                                              decoration: InputDecoration(
+                                                prefixIcon: Icon(
+                                                  Icons.email,
+                                                  color: Colors.grey,
+                                                ),
+                                                hintText: "Email",
+                                                hintStyle: TextStyle(
+                                                    color: Color(0xFF9b9b9b),
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight
+                                                        .normal),
+                                              ),
+                                              validator: (emailValue) {
+                                                if (emailValue.isEmpty) {
+                                                  return 'Please enter email';
+                                                }
+                                                email = emailValue;
+                                                return null;
+                                              },
                                             ),
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
-                                            child: Input(
-                                                placeholder: "Email",
-                                                prefixIcon: Icon(Icons.email)),
+                                            child: TextFormField(
+                                              style: TextStyle(
+                                                  color: Color(0xFF000000)),
+                                              cursorColor: Color(0xFF9b9b9b),
+                                              keyboardType: TextInputType.text,
+                                              decoration: InputDecoration(
+                                                prefixIcon: Icon(
+                                                  Icons.insert_emoticon,
+                                                  color: Colors.grey,
+                                                ),
+                                                hintText: "Name",
+                                                hintStyle: TextStyle(
+                                                    color: Color(0xFF9b9b9b),
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight
+                                                        .normal),
+                                              ),
+                                              validator: (name1) {
+                                                if (name1.isEmpty) {
+                                                  return 'Please enter your first name';
+                                                }
+                                                name = name1;
+                                                return null;
+                                              },
+                                            ),
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
-                                            child: Input(
-                                                placeholder: "Password",
-                                                prefixIcon: Icon(Icons.lock)),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 24.0),
-                                            child: RichText(
-                                                text: TextSpan(
-                                                    text: "password strength: ",
-                                                    style: TextStyle(
-                                                        color:
-                                                            FlutterMoneyquColors.muted),
-                                                    children: [
-                                                  TextSpan(
-                                                      text: "strong",
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          color: FlutterMoneyquColors
-                                                              .success))
-                                                ])),
+                                            child: TextFormField(
+                                              style: TextStyle(
+                                                  color: Color(0xFF000000)),
+                                              cursorColor: Color(0xFF9b9b9b),
+                                              keyboardType: TextInputType.text,
+                                              obscureText: true,
+                                              decoration: InputDecoration(
+                                                prefixIcon: Icon(
+                                                  Icons.vpn_key,
+                                                  color: Colors.grey,
+                                                ),
+                                                hintText: "Password",
+                                                hintStyle: TextStyle(
+                                                    color: Color(0xFF9b9b9b),
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight
+                                                        .normal),
+                                              ),
+                                              validator: (passwordValue) {
+                                                if (passwordValue.isEmpty) {
+                                                  return 'Please enter some text';
+                                                }
+                                                password = passwordValue;
+                                                return null;
+                                              },
+                                            ),
                                           ),
                                         ],
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 8.0, top: 0, bottom: 16),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Checkbox(
-                                                activeColor:
-                                                    FlutterMoneyquColors.primary,
-                                                onChanged: (bool newValue) =>
-                                                    setState(() =>
-                                                        _checkboxValue =
-                                                            newValue),
-                                                value: _checkboxValue),
-                                            Text("I agree with the",
-                                                style: TextStyle(
-                                                    color: FlutterMoneyquColors.muted,
-                                                    fontWeight:
-                                                        FontWeight.w200)),
-                                            GestureDetector(
-                                                onTap: () {
-                                                  Navigator.pushNamed(
-                                                      context, '/pro');
-                                                },
-                                                child: Container(
-                                                  margin:
-                                                      EdgeInsets.only(left: 5),
-                                                  child: Text("Privacy Policy",
-                                                      style: TextStyle(
-                                                          color: FlutterMoneyquColors
-                                                              .primary)),
-                                                )),
-                                          ],
-                                        ),
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(top: 16),
                                         child: Center(
                                           child: FlatButton(
-                                            textColor: FlutterMoneyquColors.white,
+                                            textColor: FlutterMoneyquColors
+                                                .white,
                                             color: FlutterMoneyquColors.primary,
                                             onPressed: () {
                                               // Respond to button press
-                                              Navigator.pushNamed(
-                                                  context, '/home');
+                                              if (_formKey.currentState
+                                                  .validate()) {
+                                                _register();
+                                              }
                                             },
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
-                                                  BorderRadius.circular(4.0),
+                                              BorderRadius.circular(4.0),
                                             ),
                                             child: Padding(
                                                 padding: EdgeInsets.only(
@@ -198,7 +219,7 @@ class _RegisterState extends State<Register> {
                                                 child: Text("REGISTER",
                                                     style: TextStyle(
                                                         fontWeight:
-                                                            FontWeight.w600,
+                                                        FontWeight.w600,
                                                         fontSize: 16.0))),
                                           ),
                                         ),
@@ -214,5 +235,28 @@ class _RegisterState extends State<Register> {
             )
           ],
         ));
+  }
+  void _register()async{
+    setState(() {
+      _isLoading = true;
+    });
+    var data = {
+      'name': name,
+      'email' : email,
+      'password': password,
+    };
+
+    var res = await Network().auth(data, '/register');
+    var body = json.decode(res.body);
+    if(body['success']){
+      SharedPreferences localStorage = await SharedPreferences.getInstance();
+      localStorage.setString('token', json.encode(body['token']));
+      localStorage.setString('user', json.encode(body['user']));
+      Navigator.pushReplacementNamed(context, '/home');
+    }
+
+    setState(() {
+      _isLoading = false;
+    });
   }
 }

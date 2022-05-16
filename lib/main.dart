@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
           "/login": (BuildContext context) => new Login(),
           "/profile": (BuildContext context) => new Profile(),
           "/articles": (BuildContext context) => new Articles(),
-          "/account": (BuildContext context) => new Register(),
+          "/register": (BuildContext context) => new Register(),
 
           //route pemasukan
           "/pemasukan": (BuildContext context) => new Pemasukan(),
