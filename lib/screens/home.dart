@@ -14,6 +14,7 @@ import 'package:flutter_moneyqularavel/widgets/slider-product.dart';
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_moneyqularavel/network/api.dart';
+import 'package:flutter_moneyqularavel/screens/login.dart';
 import 'package:http/http.dart' as http;
 import 'dart:developer';
 
@@ -717,7 +718,9 @@ class _HomeState extends State<Home> {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
       localStorage.remove('user');
       localStorage.remove('token');
-      Navigator.pushReplacementNamed(context, '/login');
+      Navigator.pushReplacementNamed(
+          context,
+          '/login');
+    }
     }
   }
-}
