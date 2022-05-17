@@ -3,10 +3,13 @@ import 'package:flutter_moneyqularavel/widgets/drawer.dart';
 import 'package:flutter_moneyqularavel/constants/Theme.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:flutter_moneyqularavel/widgets/card-horizontal.dart';
-import 'package:flutter_moneyqularavel/widgets/card-small.dart';
-import 'package:flutter_moneyqularavel/widgets/card-square.dart';
-import 'package:flutter_moneyqularavel/widgets/card-category.dart';
-import 'package:flutter_moneyqularavel/widgets/slider-product.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_moneyqularavel/network/api.dart';
+import 'package:flutter_moneyqularavel/model/Pemasukan.dart';
+import 'package:flutter_moneyqularavel/network/PemasukanService.dart';
+import 'dart:convert';
+import 'dart:developer';
+
 final Map<String, Map<String, dynamic>> articlesCards = {
   "Ice Cream": {
     "title": "Ice cream is made with carrageenan …",
@@ -118,6 +121,44 @@ class Pemasukan extends StatefulWidget implements PreferredSizeWidget {
 
 class _PemasukanState extends State<Pemasukan> {
   @override
+  String name='';
+  var pemasukan_total;
+  var pemasukan_hari_ini;
+  var pemasukandata;
+  var indexdata;
+
+  @override
+  void initState(){
+    super.initState();
+    _loadUserData();
+    _getPemasukan2();
+  }
+
+
+  _loadUserData() async{
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var user = jsonDecode(localStorage.getString('user'));
+
+    if(user != null) {
+      setState(() {
+        name = user['name'];
+      });
+    }
+  }
+
+  static String baseUrl = "/pemasukan";
+
+  Future<void> _getPemasukan2() async {
+    final response = await Network().getData(baseUrl);
+    indexdata = json.decode(response.body)['data'];
+    setState(() {
+      pemasukan_total = indexdata['pemasukan'];
+      pemasukan_hari_ini = indexdata['pemasukan_hari_ini'];
+      pemasukandata = indexdata['data_pemasukan'];
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: FlutterMoneyquDrawer(currentPage: "Pemasukan"),
@@ -224,7 +265,7 @@ class _PemasukanState extends State<Pemasukan> {
                                             ],
                                           ),
                                           Text(
-                                            "\Rp. 3.000.000",
+                                            '${pemasukan_total}',
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 18.0,
@@ -254,7 +295,7 @@ class _PemasukanState extends State<Pemasukan> {
                                             ],
                                           ),
                                           Text(
-                                            "\Rp. 100.000",
+                                            '${pemasukan_hari_ini}',
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 18.0,
