@@ -390,7 +390,7 @@ class _HomeState extends State<Home> {
               Row(
                 children: [
                   Text(
-                    "\$$amount",
+                    "\Rp.$amount",
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -399,13 +399,6 @@ class _HomeState extends State<Home> {
                   SizedBox(
                     width: 10,
                   ),
-                  Text(
-                    "($percentage%)",
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey),
-                  )
                 ],
               )
             ],
@@ -664,7 +657,7 @@ class _HomeState extends State<Home> {
                           ],
                         ),
                         Text(
-                          "\Rp. 3.000.000",
+                            "Rp. "'${pemasukan_total}',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 18.0,
@@ -694,7 +687,7 @@ class _HomeState extends State<Home> {
                           ],
                         ),
                         Text(
-                          "\Rp. 100.000",
+                            "Rp. "'${pengeluaran_total}',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 18.0,
@@ -718,6 +711,7 @@ class _HomeState extends State<Home> {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
       localStorage.remove('user');
       localStorage.remove('token');
+      localStorage.remove('settings');
       Navigator.pushReplacementNamed(
           context,
           '/login');

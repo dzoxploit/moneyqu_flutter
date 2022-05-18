@@ -43,13 +43,16 @@ class CardHorizontal extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      RichText(,
-                        overflow: TextOverflow.ellipsis,
-                        strutStyle: StrutStyle(fontSize: 12.0),
-                        text: TextSpan(
-                            style: TextStyle(color: Colors.black, ),
-                            text: title),
-                      ),
+                      SizedBox(
+                        width: 220,
+                        child: RichText(
+                          overflow: TextOverflow.ellipsis,
+                          strutStyle: StrutStyle(fontSize: 12.0),
+                          text: TextSpan(
+                              style: TextStyle(color: Colors.black),
+                              text: title),
+                        ),
+                      )
                     ],
                   ),
                   Row(

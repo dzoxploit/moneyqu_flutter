@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_moneyqularavel/widgets/drawer.dart';
 import 'package:flutter_moneyqularavel/constants/Theme.dart';
@@ -8,6 +9,9 @@ import 'package:flutter_moneyqularavel/widgets/card-square.dart';
 import 'package:flutter_moneyqularavel/widgets/card-category.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:flutter_moneyqularavel/widgets/formpemasukan.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_moneyqularavel/network/api.dart';
 
 class Tambahpemasukan extends StatefulWidget implements PreferredSizeWidget {
   final bool backButton;
@@ -48,7 +52,43 @@ class Tambahpemasukan extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _TambahpemasukanState extends State<Tambahpemasukan> {
+  String currency='';
   final _dateController = TextEditingController();
+  TextEditingController namaController = new TextEditingController();
+  TextEditingController kategoripemasukanController = new TextEditingController();
+  TextEditingController jumlahpemasukanController = new TextEditingController();
+  TextEditingController tanggalpemasukanController = new TextEditingController();
+  TextEditingController keteranganController = new TextEditingController();
+
+  _loadUserData() async{
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var settingsdata = jsonDecode(localStorage.getString('settings'));
+
+    if(settingsdata != null) {
+      setState(() {
+        currency = settingsdata['currency_id'];
+      });
+    }
+  }
+  // Http post request to create new data
+  Future _createStudent() async {
+    var data = {
+      'nama_pemasukan': namaController,
+      'kategori_pemasukan_id' : kategoripemasukanController,
+      'jumlah_pemasukan': jumlahpemasukanController,
+    };
+    return await Network().auth(data, '/pemasukan/create');
+  }
+
+  void _onConfirm(context) async {
+    await _createStudent();
+
+    // Remove all existing routes until the Home.dart, then rebuild Home.
+    Navigator.of(context)
+        .pushNamedAndRemoveUntil('/pemasukan', (Route<dynamic> route) => false);
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
