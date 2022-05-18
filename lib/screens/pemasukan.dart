@@ -5,8 +5,7 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:flutter_moneyqularavel/widgets/card-horizontal.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_moneyqularavel/network/api.dart';
-import 'package:flutter_moneyqularavel/model/Pemasukan.dart';
-import 'package:flutter_moneyqularavel/network/PemasukanService.dart';
+import 'package:flutter_moneyqularavel/model/Pemasukans.dart';
 import 'dart:convert';
 import 'dart:developer';
 
@@ -121,6 +120,9 @@ class Pemasukan extends StatefulWidget implements PreferredSizeWidget {
 
 class _PemasukanState extends State<Pemasukan> {
   @override
+  Future<List<Pemasukans>> pemasukans;
+  final pemasukanListKey = GlobalKey<_PemasukanState>();
+
   String name='';
   var pemasukan_total;
   var pemasukan_hari_ini;
@@ -132,6 +134,7 @@ class _PemasukanState extends State<Pemasukan> {
     super.initState();
     _loadUserData();
     _getPemasukan2();
+    _getPemasukan();
   }
 
 
@@ -158,229 +161,175 @@ class _PemasukanState extends State<Pemasukan> {
     });
   }
 
+
+    Future<List<Pemasukans>> _getPemasukan() async {
+      final response = await Network().getData(baseUrl);
+      final items = json.decode(response.body)['data']['data_pemasukan'].cast<Map<String, dynamic>>();
+      List<Pemasukans> pemasukans = items.map<Pemasukans>((json) {
+        return Pemasukans.fromJson(json);
+      }).toList();
+
+      return pemasukans;
+    }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: FlutterMoneyquDrawer(currentPage: "Pemasukan"),
-      body: Stack(
-        children: [
-          Column(
-            children: [
-              Container(
-                height: 200,
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage("assets/img/onboard-background.png"),
-                        fit: BoxFit.cover)
-                ),
-                child: Padding(
-                  padding:
-                  const EdgeInsets.only(left: 20, right: 10.0, top: 30),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Builder (
-                              builder: (context) => IconButton(
-                                  icon: Icon(
-                                      !widget.backButton
-                                          ? Icons.menu
-                                          : Icons.arrow_back_ios,
-                                      color: !widget.transparent
-                                          ? (widget.bgColor == FlutterMoneyquColors.white
-                                          ? FlutterMoneyquColors.white
-                                          : FlutterMoneyquColors.white)
-                                          : FlutterMoneyquColors.white,
-                                      size: 24.0),
-                                  onPressed: () {
-                                    if (!widget.backButton)
-                                      Scaffold.of(context).openDrawer();
-                                    else
-                                      Navigator.pop(context);
-                                  })
-                          ),
-                          Text(
-                            "Pemasukan",
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
-                            ),
-                          ),
-                          Text(
-                            " ",
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        children: [
-                          Positioned(
-                            top: 170,
-                            right: 0,
-                            child: Container(
-                              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                              width: MediaQuery.of(context).size.width * 0.90,
-                              height: 90,
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.only(
+      appBar: PreferredSize(
+          preferredSize: Size.fromHeight(75.0),
+          child: AppBar(
+            centerTitle: true,
+            title: Text('Pemasukan'),
+            actions: <Widget>[
+            ],
+          )),
+      body: Center(
+        child:Column(
+          children: <Widget>[
+            Container(
+              height: 150,
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage("assets/img/onboard-background.png"),
+                      fit: BoxFit.cover)
+              ),
+              child: Padding(
+                padding:
+                const EdgeInsets.only(left: 20, right: 10.0, top: 10),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      children: [
+                        Positioned(
+                          top: 170,
+                          right: 0,
+                          child: Container(
+                            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                            width: MediaQuery.of(context).size.width * 0.90,
+                            height: 90,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(10),
                                     bottomLeft: Radius.circular(10),
                                     topRight: Radius.circular(10),
                                     bottomRight: Radius.circular(10)
-                                  )),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Text(
-                                                "Pemasukan",
-                                                style: TextStyle(
-                                                    color: Colors.grey,
-                                                    fontWeight: FontWeight.bold),
-                                              ),
-                                              SizedBox(
-                                                width: 10,
-                                              ),
-                                              Icon(
-                                                Icons.arrow_upward,
-                                                color: Color(0XFF00838F),
-                                              )
-                                            ],
-                                          ),
-                                          Text(
-                                            '${pemasukan_total}',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 18.0,
-                                                color: Colors.black87),
-                                          )
-                                        ],
-                                      ),
-                                      Container(width: 1, height: 50, color: Colors.grey),
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Text(
-                                                "Pemasukan Hari Ini",
-                                                style: TextStyle(
-                                                    color: Colors.grey,
-                                                    fontWeight: FontWeight.bold),
-                                              ),
-                                              SizedBox(
-                                                width: 10,
-                                              ),
-                                              Icon(
-                                                Icons.arrow_downward,
-                                                color: Color(0XFF00838F),
-                                              )
-                                            ],
-                                          ),
-                                          Text(
-                                            '${pemasukan_hari_ini}',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 18.0,
-                                                color: Colors.black87),
-                                          )
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
+                                )),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Text(
+                                              "Pemasukan",
+                                              style: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Icon(
+                                              Icons.arrow_upward,
+                                              color: Color(0XFF00838F),
+                                            )
+                                          ],
+                                        ),
+                                        Text(
+                                          '${pemasukan_total}',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18.0,
+                                              color: Colors.black87),
+                                        )
+                                      ],
+                                    ),
+                                    Container(width: 1, height: 50, color: Colors.grey),
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Text(
+                                              "Pemasukan Hari Ini",
+                                              style: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Icon(
+                                              Icons.arrow_downward,
+                                              color: Color(0XFF00838F),
+                                            )
+                                          ],
+                                        ),
+                                        Text(
+                                          '${pemasukan_hari_ini}',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18.0,
+                                              color: Colors.black87),
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
+                          ),
+                        )
+                      ],
+                    )
+                  ],
                 ),
               ),
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  color: Colors.grey.shade100,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 16.0),
-                          child: CardHorizontal(
-                              cta: "View article",
-                              title: articlesCards["Ice Cream"]['title'],
-                              img: articlesCards["Ice Cream"]['image'],
-                              tap: () {
-                                Navigator.pushNamed(context, '/pro');
-                              }),
-                        ),
-                        SizedBox(height: 8.0),
-                        CardHorizontal(
-                            cta: "View article",
-                            title: articlesCards["Fashion"]['title'],
-                            img: articlesCards["Fashion"]['image'],
-                            tap: () {
-                              Navigator.pushNamed(context, '/pro');
-                            }),
-                        SizedBox(height: 8.0),
-                        CardHorizontal(
-                            cta: "View article",
-                            title: articlesCards["Fashion"]['title'],
-                            img: articlesCards["Fashion"]['image'],
-                            tap: () {
-                              Navigator.pushNamed(context, '/pro');
-                            }),
-                        SizedBox(height: 8.0),
-                        CardHorizontal(
-                            cta: "View article",
-                            title: articlesCards["Fashion"]['title'],
-                            img: articlesCards["Fashion"]['image'],
-                            tap: () {
-                              Navigator.pushNamed(context, '/pro');
-                            }),
-                        SizedBox(height: 8.0),
-                        CardHorizontal(
-                            cta: "View article",
-                            title: articlesCards["Fashion"]['title'],
-                            img: articlesCards["Fashion"]['image'],
-                            tap: () {
-                              Navigator.pushNamed(context, '/pro');
-                            }),
-                        SizedBox(height: 8.0),
-                        CardHorizontal(
-                            cta: "View article",
-                            title: articlesCards["Fashion"]['title'],
-                            img: articlesCards["Fashion"]['image'],
-                            tap: () {
-                              Navigator.pushNamed(context, '/pro');
-                            }),
-
-                      ],
-                    ),
-                  )
-                ),
-              )
-            ],
-          ),
-        ],
+            ),
+            Expanded(
+              child: FutureBuilder<List<Pemasukans>>(
+                future: _getPemasukan(),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  // By default, show a loading spinner.
+                  if (!snapshot.hasData) return CircularProgressIndicator();
+                  // Render student lists
+                  return ListView.builder(
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      var data = snapshot.data[index];
+                      return Column(
+                        children: [
+                          SizedBox(
+                            height: 10,
+                          ),
+                          CardHorizontal(
+                          cta: "View data",
+                          title: data.nama,
+                          harga: "Rp."+ data.jumlah_pemasukan.toString(),
+                          tap: () {
+                            Navigator.pushNamed(context, '/pro');
+                          }
+                      ),
+                        ],
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: new FloatingActionButton(

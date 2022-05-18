@@ -23,45 +23,71 @@ class CardHorizontal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        height: 130,
-        child: GestureDetector(
-          onTap: tap,
-          child: Card(
-            elevation: 0.6,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(6.0))),
-            child: Row(
-              children: [
-                Flexible(
-                    flex: 1,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(category,
-                              style: TextStyle(
-                                  color: FlutterMoneyquColors.header, fontSize: 13
-                              )),
-                          Text(title,
-                              style: TextStyle(
-                                  color: FlutterMoneyquColors.header, fontSize: 16)),
-                          Text(harga,
-                              style: TextStyle(
-                                  color: FlutterMoneyquColors.Tambah, fontSize: 13)),
-                        Text(cta,
-                              style: TextStyle(
-                                  color: FlutterMoneyquColors.primary,
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w600))
-                        ],
-                      ),
-                    ))
-              ],
-            ),
+    return
+      InkWell(
+        splashColor: Colors.grey, // Splash color
+        onTap: () => Navigator.pushNamed(
+            context, '/tambah-pemasukan'
+        ), // Handle your onTap here.
+        child:  Container(
+          padding: EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Colors.white70,
           ),
-        ));
+          height: 85,
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      RichText(,
+                        overflow: TextOverflow.ellipsis,
+                        strutStyle: StrutStyle(fontSize: 12.0),
+                        text: TextSpan(
+                            style: TextStyle(color: Colors.black, ),
+                            text: title),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        harga,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Stack(
+                children: [
+                  Container(
+                    height: 5,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(2),
+                        color: Colors.grey.shade300),
+                  ),
+                  Container(
+                    height: 5,
+                    width: 80,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(2),
+                        color: Color(0XFF00B686)),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+      );
   }
 }
