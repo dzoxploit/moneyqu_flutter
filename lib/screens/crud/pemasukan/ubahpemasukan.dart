@@ -25,6 +25,7 @@ class Ubahpemasukan extends StatefulWidget implements PreferredSizeWidget {
   final bool searchAutofocus;
   final bool noShadow;
   final Color bgColor;
+  final int id;
 
   const Ubahpemasukan(
       {
@@ -39,6 +40,7 @@ class Ubahpemasukan extends StatefulWidget implements PreferredSizeWidget {
         this.backButton = false,
         this.noShadow = false,
         this.bgColor = FlutterMoneyquColors.white,
+        this.id = 0
       });
 
   final double _prefferedHeight = 180.0;
@@ -52,14 +54,35 @@ class Ubahpemasukan extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _UbahpemasukanState extends State<Ubahpemasukan> {
-  String currency='';
   final _dateController = TextEditingController();
   final formKey = GlobalKey<FormState>();
-  TextEditingController namapemasukanController = new TextEditingController();
-  TextEditingController kategoripemasukanController = new TextEditingController();
-  TextEditingController jumlahpemasukanController = new TextEditingController();
-  TextEditingController tanggalpemasukanController = new TextEditingController();
-  TextEditingController keteranganController = new TextEditingController();
+  TextEditingController namapemasukanController;
+  TextEditingController kategoripemasukanController;
+  TextEditingController jumlahpemasukanController;
+  TextEditingController tanggalpemasukanController;
+  TextEditingController keteranganController;
+
+  var indexdata;
+  var id_pemasukan_data;
+  var nama_pemasukan;
+  var kategori_pemasukan;
+  var jumlah_pemasukan;
+  var tanggal_pemasukan;
+  var keterangan;
+
+  var nama_pemasukan_edit;
+  var kategori_pemasukan_edit;
+  var jumlah_pemasukan_edit;
+  var tanggal_pemasukan_edit;
+  var keterangan_edit;
+
+  String currency='';
+
+  void initState(){
+    super.initState();
+    _loadUserData();
+    _getPemasukanById();
+  }
 
   _loadUserData() async{
     SharedPreferences localStorage = await SharedPreferences.getInstance();
@@ -67,12 +90,25 @@ class _UbahpemasukanState extends State<Ubahpemasukan> {
 
     if(settingsdata != null) {
       setState(() {
-        currency = settingsdata['currency_id'];
+        currency = settingsdata['currency_id'].toString();
       });
     }
   }
+
+  Future<void> _getPemasukanById() async {
+    final response = await Network().getData('/pemasukan/update/'+widget.id.toString());
+    indexdata = json.decode(response.body)['data'];
+    setState(() {
+      namapemasukanController = TextEditingController(text: indexdata['nama_pemasukan']);
+      kategoripemasukanController = TextEditingController(text: indexdata['kategori_pemasukan_id'].toString());
+      jumlahpemasukanController = TextEditingController(text: indexdata['jumlah_pemasukan'].toString());
+      tanggalpemasukanController = TextEditingController(text: indexdata['tanggal_pemasukan'].toString());
+      keteranganController = TextEditingController(text: indexdata['keterangan']);
+    });
+  }
+
   // Http post request to create new data
-  void _createPemasukan() async {
+  void _updatePemasukan() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var settingsdata = jsonDecode(localStorage.getString('settings'));
 
@@ -82,14 +118,14 @@ class _UbahpemasukanState extends State<Ubahpemasukan> {
       'currency_id': settingsdata['currency_id'],
       'jumlah_pemasukan': jumlahpemasukanController.text,
       'tanggal_pemasukan': tanggalpemasukanController.text,
-      'keterangan': keteranganController.text,
+      'keterangan': keterangan,
     };
 
-    var res = await Network().postData(data, '/pemasukan/create');
+    var res = await Network().postData(data, '/pemasukan/update/'+widget.id.toString());
     print(res.body);
     var body = json.decode(res.body);
     if(body['status'] == 201){
-      Navigator.pop(context);
+      Navigator.pushNamed(context, '/pemasukan');
     }else{
       Navigator.of(context).pushReplacementNamed('/home');
     }
@@ -98,7 +134,7 @@ class _UbahpemasukanState extends State<Ubahpemasukan> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: FlutterMoneyquDrawer(currentPage: "Tambah-pemasukan"),
+      drawer: FlutterMoneyquDrawer(currentPage: "update-pemasukan"),
       bottomNavigationBar: BottomAppBar(
         child: RaisedButton(
           child: Text("Create"),
@@ -106,7 +142,7 @@ class _UbahpemasukanState extends State<Ubahpemasukan> {
           textColor: Colors.white,
           onPressed: () {
             if (formKey.currentState.validate()) {
-              _createPemasukan();
+              _updatePemasukan();
             }
           },
         ),
@@ -150,7 +186,7 @@ class _UbahpemasukanState extends State<Ubahpemasukan> {
                                   })
                           ),
                           Text(
-                            "Create Pemasukan",
+                            "Update Pemasukan",
                             style: TextStyle(
                               fontSize: 18.0,
                               fontWeight: FontWeight.w600,
@@ -175,14 +211,14 @@ class _UbahpemasukanState extends State<Ubahpemasukan> {
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   color: Colors.grey.shade100,
                   child: SingleChildScrollView(
-                      child: AppFormpemasukan(
+                      child:AppFormpemasukan(
                           formKey: formKey,
                           namapemasukanController: namapemasukanController,
                           kategoripemasukanController : kategoripemasukanController,
                           jumlahpemasukanController : jumlahpemasukanController,
                           tanggalpemasukanController : tanggalpemasukanController,
                           keteranganController : keteranganController
-                      )
+                      ),
                   ),
                 ),
               )

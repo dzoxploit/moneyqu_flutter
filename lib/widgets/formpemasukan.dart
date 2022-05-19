@@ -134,7 +134,6 @@ class _AppFormpemasukanState extends State<AppFormpemasukan> {
                 }
               });
             },
-            validator: _validateTanggalPemasukan
           ),
           new Padding(padding: EdgeInsets.only(top: 50.0)),
           new TextFormField(

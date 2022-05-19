@@ -316,6 +316,7 @@ class _PemasukanState extends State<Pemasukan> {
                           CardHorizontal(
                           cta: "View data",
                           title: data.nama,
+                          id_pemasukan: data.id,
                           harga: "Rp."+ data.jumlah_pemasukan.toString(),
                           tap: () {
                             Navigator.pushNamed(context, '/pro');
