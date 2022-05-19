@@ -20,16 +20,28 @@ class AppFormpemasukan extends StatefulWidget {
 }
 
 class _AppFormpemasukanState extends State<AppFormpemasukan> {
-  final _dateController = TextEditingController();
-  String _validateName(String value) {
-    if (value.length < 3) return 'Name must be more than 2 charater';
+  String _validateNamaPemasukan(String value) {
+    if (value.length == 0) return 'Nama Pemasukan cannot be empty';
+    return null;
+  }
+  String _validateKategoriPemasukan(String value) {
+    if (value.length == 0) return 'Kategori Pemasukan cannot be empty';
+    return null;
+  }
+  String _validateKeterangan(String value) {
+    if (value == null || value.isEmpty) return 'Keterangan cannot be empty';
+    return null;
+  }
+
+  String _validateTanggalPemasukan(String value) {
+    if (value == null || value.isEmpty) return 'Tanggal Pemasukan cannot be empty';
     return null;
   }
 
   String _validateJumlahpemasukan(String value) {
     Pattern pattern = r'(?<=\s|^)\d+(?=\s|$)';
     RegExp regex = new RegExp(pattern);
-    if (!regex.hasMatch(value)) return 'Age must be a number';
+    if (!regex.hasMatch(value)) return 'Jumlah Pemasukan must be a number';
     return null;
   }
 
@@ -52,13 +64,8 @@ class _AppFormpemasukanState extends State<AppFormpemasukan> {
               ),
               //fillColor: Colors.green
             ),
-            validator: (val) {
-              if(val.length==0) {
-                return "Nama Pemasukan cannot be empty";
-              }else{
-                return null;
-              }
-            },
+            controller: widget.namapemasukanController,
+            validator: _validateNamaPemasukan,
             keyboardType: TextInputType.text,
             style: new TextStyle(
               fontFamily: "Poppins",
@@ -76,13 +83,8 @@ class _AppFormpemasukanState extends State<AppFormpemasukan> {
               ),
               //fillColor: Colors.green
             ),
-            validator: (val) {
-              if(val.length==0) {
-                return "Kategori Pemasukan cannot be empty";
-              }else{
-                return null;
-              }
-            },
+            controller: widget.kategoripemasukanController,
+            validator: _validateKategoriPemasukan,
             keyboardType: TextInputType.number,
             style: new TextStyle(
               fontFamily: "Poppins",
@@ -100,13 +102,8 @@ class _AppFormpemasukanState extends State<AppFormpemasukan> {
               ),
               //fillColor: Colors.green
             ),
-            validator: (val) {
-              if(val.length==0) {
-                return "Jumlah Pemasukan cannot be empty";
-              }else{
-                return null;
-              }
-            },
+            controller: widget.jumlahpemasukanController,
+            validator: _validateJumlahpemasukan,
             keyboardType: TextInputType.number,
             style: new TextStyle(
               fontFamily: "Poppins",
@@ -115,7 +112,7 @@ class _AppFormpemasukanState extends State<AppFormpemasukan> {
           new Padding(padding: EdgeInsets.only(top: 20.0)),
           new TextFormField(
             readOnly: true,
-            controller: _dateController,
+            controller: widget.tanggalpemasukanController,
             decoration: InputDecoration(
               labelText: 'Tanggal Pemasukan',
               border: new OutlineInputBorder(
@@ -132,45 +129,29 @@ class _AppFormpemasukanState extends State<AppFormpemasukan> {
                 lastDate: DateTime(2025),
               ).then((selectedDate) {
                 if (selectedDate != null) {
-                  _dateController.text =
+                  widget.tanggalpemasukanController.text =
                       DateFormat('yyyy-MM-dd').format(selectedDate);
                 }
               });
             },
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter date.';
-              }
-              return null;
-            },
+            validator: _validateTanggalPemasukan
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 100),
-            child: Center(
-              child: FlatButton(
-                textColor: FlutterMoneyquColors.white,
-                color: FlutterMoneyquColors.primary,
-                onPressed: () {
-                  // Respond to button press
-                  Navigator.pushNamed(
-                      context, '/home');
-                },
-                shape: RoundedRectangleBorder(
-                  borderRadius:
-                  BorderRadius.circular(4.0),
+          new Padding(padding: EdgeInsets.only(top: 50.0)),
+          new TextFormField(
+            decoration: new InputDecoration(
+              labelText: "Keterangan",
+              fillColor: Colors.white,
+              border: new OutlineInputBorder(
+                borderRadius: new BorderRadius.circular(25.0),
+                borderSide: new BorderSide(
                 ),
-                child: Padding(
-                    padding: EdgeInsets.only(
-                        left: 16.0,
-                        right: 16.0,
-                        top: 8,
-                        bottom: 8),
-                    child: Text("Login",
-                        style: TextStyle(
-                            fontWeight:
-                            FontWeight.w600,
-                            fontSize: 16.0))),
               ),
+              //fillColor: Colors.green
+            ),
+            controller: widget.keteranganController,
+            keyboardType: TextInputType.text,
+            style: new TextStyle(
+              fontFamily: "Poppins",
             ),
           ),
         ],

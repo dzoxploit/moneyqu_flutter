@@ -20,9 +20,15 @@ class Network{
       headers: _setHeaders()
     );
   }
-
-  
-
+  postData(data, apiURL) async{
+    var fullUrl = _url + apiURL;
+    await _getToken();
+    return await http.post(
+        Uri.parse(fullUrl),
+        body: jsonEncode(data),
+        headers: _setHeaders()
+    );
+  }
   getData(apiURL) async{
     var fullUrl = _url + apiURL;
     await _getToken();
