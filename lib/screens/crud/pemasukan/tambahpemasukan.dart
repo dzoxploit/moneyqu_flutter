@@ -9,7 +9,7 @@ import 'package:flutter_moneyqularavel/widgets/card-square.dart';
 import 'package:flutter_moneyqularavel/widgets/card-category.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:flutter_moneyqularavel/widgets/formpemasukan.dart';
+import 'package:flutter_moneyqularavel/widgets/form/formpemasukan.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_moneyqularavel/network/api.dart';
 
@@ -89,7 +89,7 @@ class _TambahpemasukanState extends State<Tambahpemasukan> {
     print(res.body);
     var body = json.decode(res.body);
     if(body['status'] == 201){
-      Navigator.pop(context);
+      Navigator.pushReplacementNamed(context, '/pemasukan');
     }else{
       Navigator.of(context).pushReplacementNamed('/home');
     }

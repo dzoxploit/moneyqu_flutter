@@ -9,7 +9,7 @@ import 'package:flutter_moneyqularavel/widgets/card-square.dart';
 import 'package:flutter_moneyqularavel/widgets/card-category.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:flutter_moneyqularavel/widgets/formpemasukan.dart';
+import 'package:flutter_moneyqularavel/widgets/form/formpemasukan.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_moneyqularavel/network/api.dart';
 
@@ -118,14 +118,14 @@ class _UbahpemasukanState extends State<Ubahpemasukan> {
       'currency_id': settingsdata['currency_id'],
       'jumlah_pemasukan': jumlahpemasukanController.text,
       'tanggal_pemasukan': tanggalpemasukanController.text,
-      'keterangan': keterangan,
+      'keterangan': keteranganController.text,
     };
 
     var res = await Network().postData(data, '/pemasukan/update/'+widget.id.toString());
     print(res.body);
     var body = json.decode(res.body);
     if(body['status'] == 201){
-      Navigator.pushNamed(context, '/pemasukan');
+      Navigator.pushReplacementNamed(context, '/pemasukan');
     }else{
       Navigator.of(context).pushReplacementNamed('/home');
     }
@@ -137,11 +137,12 @@ class _UbahpemasukanState extends State<Ubahpemasukan> {
       drawer: FlutterMoneyquDrawer(currentPage: "update-pemasukan"),
       bottomNavigationBar: BottomAppBar(
         child: RaisedButton(
-          child: Text("Create"),
+          child: Text("Update"),
           color: Colors.blue,
           textColor: Colors.white,
           onPressed: () {
             if (formKey.currentState.validate()) {
+              formKey.currentState.save();
               _updatePemasukan();
             }
           },
@@ -193,10 +194,15 @@ class _UbahpemasukanState extends State<Ubahpemasukan> {
                               color: Colors.white,
                             ),
                           ),
-                          Icon(
-                            Icons.search,
-                            color: Colors.white,
-                          ),
+                          Text(
+                            " ",
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white,
+                            ),
+                          )
+
                         ],
                       ),
                       SizedBox(
