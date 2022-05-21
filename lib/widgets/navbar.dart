@@ -124,40 +124,6 @@ class _NavbarState extends State<Navbar> {
                                 fontSize: 18.0)),
                       ],
                     ),
-                    if (widget.rightOptions)
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.pushNamed(context, '/pro');
-                            },
-                            child: IconButton(
-                                icon: Icon(Icons.notifications_active,
-                                    color: !widget.transparent
-                                        ? (widget.bgColor == FlutterMoneyquColors.white
-                                            ? FlutterMoneyquColors.initial
-                                            : FlutterMoneyquColors.white)
-                                        : FlutterMoneyquColors.white,
-                                    size: 22.0),
-                                onPressed: null),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.pushNamed(context, '/pro');
-                            },
-                            child: IconButton(
-                                icon: Icon(Icons.shopping_basket,
-                                    color: !widget.transparent
-                                        ? (widget.bgColor == FlutterMoneyquColors.white
-                                            ? FlutterMoneyquColors.initial
-                                            : FlutterMoneyquColors.white)
-                                        : FlutterMoneyquColors.white,
-                                    size: 22.0),
-                                onPressed: null),
-                          ),
-                        ],
-                      )
                   ],
                 ),
                 if (widget.searchBar)

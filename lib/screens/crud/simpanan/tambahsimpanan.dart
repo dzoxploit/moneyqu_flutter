@@ -1,13 +1,18 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_moneyqularavel/widgets/drawer.dart';
 import 'package:flutter_moneyqularavel/constants/Theme.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-import 'package:flutter_moneyqularavel/widgets/card-horizontal.dart';
+import 'file:///C:/Users/didin/Documents/flutter_moneyqularavel/lib/widgets/card-horizontal/card-horizontal.dart';
 import 'package:flutter_moneyqularavel/widgets/card-small.dart';
 import 'package:flutter_moneyqularavel/widgets/card-square.dart';
 import 'package:flutter_moneyqularavel/widgets/card-category.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:flutter_moneyqularavel/widgets/form/formsimpanan.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_moneyqularavel/network/api.dart';
+import 'package:flutter_moneyqularavel/model/Simpanans.dart';
 
 class Tambahsimpanan extends StatefulWidget implements PreferredSizeWidget {
   final bool backButton;
@@ -48,11 +53,62 @@ class Tambahsimpanan extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _TambahsimpananState extends State<Tambahsimpanan> {
-  final _dateController = TextEditingController();
+  String currency='';
+  final formKey = GlobalKey<FormState>();
+  TextEditingController deskripsiController = new TextEditingController();
+  TextEditingController jumlahsimpananController = new TextEditingController();
+  TextEditingController jenissimpananController = new TextEditingController();
+  TextEditingController tujuansimpananController = new TextEditingController();
+
+  _loadUserData() async{
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var settingsdata = jsonDecode(localStorage.getString('settings'));
+
+    if(settingsdata != null) {
+      setState(() {
+        currency = settingsdata['currency_id'];
+      });
+    }
+  }
+  // Http post request to create new data
+  void _createPemasukan() async {
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var settingsdata = jsonDecode(localStorage.getString('settings'));
+
+    var data = {
+      'deskripsi': deskripsiController.text,
+      'jumlah_simpanan' : jumlahsimpananController.text,
+      'currency_id': settingsdata['currency_id'],
+      'tujuan_simpanan_id': tujuansimpananController.text,
+      'jenis_simpanan_id': jenissimpananController.text,
+    };
+
+    var res = await Network().postData(data, '/simpanan/create');
+    print(res.body);
+    var body = json.decode(res.body);
+    if(body['status'] == 201){
+      Navigator.pushReplacementNamed(context, '/simpanan');
+    }else{
+      Navigator.of(context).pushReplacementNamed('/home');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: FlutterMoneyquDrawer(currentPage: "Tambah-simpanan"),
+      drawer: FlutterMoneyquDrawer(currentPage: "Tambah-pemasukan"),
+      bottomNavigationBar: BottomAppBar(
+        child: RaisedButton(
+          child: Text("Create"),
+          color: Colors.blue,
+          textColor: Colors.white,
+          onPressed: () {
+            if (formKey.currentState.validate()) {
+              _createPemasukan();
+            }
+          },
+        ),
+      ),
       body: Stack(
         children: [
           Column(
@@ -114,172 +170,17 @@ class _TambahsimpananState extends State<Tambahsimpanan> {
               ),
               Expanded(
                 child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    color: Colors.grey.shade100,
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: <Widget>[
-                          new Padding(padding: EdgeInsets.only(top: 50.0)),
-                          new TextFormField(
-                            decoration: new InputDecoration(
-                              labelText: "Nama Piutang",
-                              fillColor: Colors.white,
-                              border: new OutlineInputBorder(
-                                borderRadius: new BorderRadius.circular(25.0),
-                                borderSide: new BorderSide(
-                                ),
-                              ),
-                              //fillColor: Colors.green
-                            ),
-                            validator: (val) {
-                              if(val.length==0) {
-                                return "Nama Piutang cannot be empty";
-                              }else{
-                                return null;
-                              }
-                            },
-                            keyboardType: TextInputType.text,
-                            style: new TextStyle(
-                              fontFamily: "Poppins",
-                            ),
-                          ),
-                          new Padding(padding: EdgeInsets.only(top: 20.0)),
-                          new TextFormField(
-                            decoration: new InputDecoration(
-                              labelText: "No Telepon",
-                              fillColor: Colors.white,
-                              border: new OutlineInputBorder(
-                                borderRadius: new BorderRadius.circular(25.0),
-                                borderSide: new BorderSide(
-                                ),
-                              ),
-                              //fillColor: Colors.green
-                            ),
-                            validator: (val) {
-                              if(val.length==0) {
-                                return "No Telepon cannot be empty";
-                              }else{
-                                return null;
-                              }
-                            },
-                            keyboardType: TextInputType.phone,
-                            style: new TextStyle(
-                              fontFamily: "Poppins",
-                            ),
-                          ),
-                          new Padding(padding: EdgeInsets.only(top: 20.0)),
-                          new TextFormField(
-                            maxLines: 3,
-                            decoration: new InputDecoration(
-                              labelText: "Deskripsi",
-                              fillColor: Colors.white,
-                              border: new OutlineInputBorder(
-                                borderRadius: new BorderRadius.circular(25.0),
-                                borderSide: new BorderSide(
-                                ),
-                              ),
-                              //fillColor: Colors.green
-                            ),
-                            validator: (val) {
-                              if(val.length==0) {
-                                return "Deskripsi cannot be empty";
-                              }else{
-                                return null;
-                              }
-                            },
-                            keyboardType: TextInputType.text,
-                            style: new TextStyle(
-                              fontFamily: "Poppins",
-                            ),
-                          ),
-                          new Padding(padding: EdgeInsets.only(top: 20.0)),
-                          new TextFormField(
-                            decoration: new InputDecoration(
-                              labelText: "Jumlah Hutang (Rp)",
-                              fillColor: Colors.white,
-                              border: new OutlineInputBorder(
-                                borderRadius: new BorderRadius.circular(25.0),
-                                borderSide: new BorderSide(
-                                ),
-                              ),
-                              //fillColor: Colors.green
-                            ),
-                            validator: (val) {
-                              if(val.length==0) {
-                                return "Jumlah Hutang cannot be empty";
-                              }else{
-                                return null;
-                              }
-                            },
-                            keyboardType: TextInputType.number,
-                            style: new TextStyle(
-                              fontFamily: "Poppins",
-                            ),
-                          ),
-                          new Padding(padding: EdgeInsets.only(top: 20.0)),
-                          new TextFormField(
-                            readOnly: true,
-                            controller: _dateController,
-                            decoration: InputDecoration(
-                              labelText: 'Date',
-                              border: new OutlineInputBorder(
-                                borderRadius: new BorderRadius.circular(25.0),
-                                borderSide: new BorderSide(
-                                ),
-                              ),
-                            ),
-                            onTap: () async {
-                              await showDatePicker(
-                                context: context,
-                                initialDate: DateTime.now(),
-                                firstDate: DateTime(2015),
-                                lastDate: DateTime(2025),
-                              ).then((selectedDate) {
-                                if (selectedDate != null) {
-                                  _dateController.text =
-                                      DateFormat('yyyy-MM-dd').format(selectedDate);
-                                }
-                              });
-                            },
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter date.';
-                              }
-                              return null;
-                            },
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 100),
-                            child: Center(
-                              child: FlatButton(
-                                textColor: FlutterMoneyquColors.white,
-                                color: FlutterMoneyquColors.primary,
-                                onPressed: () {
-                                  // Respond to button press
-                                  Navigator.pushNamed(
-                                      context, '/home');
-                                },
-                                shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                  BorderRadius.circular(4.0),
-                                ),
-                                child: Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 16.0,
-                                        right: 16.0,
-                                        top: 8,
-                                        bottom: 8),
-                                    child: Text("Create Piutang",
-                                        style: TextStyle(
-                                            fontWeight:
-                                            FontWeight.w600,
-                                            fontSize: 16.0))),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  color: Colors.grey.shade100,
+                  child: SingleChildScrollView(
+                      child: AppFormsimpanan(
+                          formKey: formKey,
+                          deskripsiController: deskripsiController,
+                          jumlahsimpananController : jumlahsimpananController,
+                          tujuansimpananController : tujuansimpananController,
+                          jenissimpananController : jenissimpananController,
+                      )
+                  ),
                 ),
               )
             ],

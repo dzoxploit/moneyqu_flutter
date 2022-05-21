@@ -5,9 +5,97 @@ import 'package:flutter_moneyqularavel/constants/Theme.dart';
 //widgets
 import 'package:flutter_moneyqularavel/widgets/navbar.dart';
 import 'package:flutter_moneyqularavel/widgets/drawer.dart';
+import 'package:flutter_moneyqularavel/network/api.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
+import 'dart:developer';
 
-class Profile extends StatelessWidget {
+class Profile extends StatefulWidget implements PreferredSizeWidget {
+  final bool backButton;
+  final bool transparent;
+  final bool rightOptions;
+  final List<String> tags;
+  final Function getCurrentPage;
+  final bool isOnSearch;
+  final TextEditingController searchController;
+  final Function searchOnChanged;
+  final bool searchAutofocus;
+  final bool noShadow;
+  final Color bgColor;
+
+  const Profile(
+      {
+        this.tags,
+        this.transparent = false,
+        this.rightOptions = true,
+        this.getCurrentPage,
+        this.searchController,
+        this.isOnSearch = false,
+        this.searchOnChanged,
+        this.searchAutofocus = false,
+        this.backButton = false,
+        this.noShadow = false,
+        this.bgColor = FlutterMoneyquColors.white,
+      });
+
+  final double _prefferedHeight = 180.0;
+
   @override
+  _ProfileState createState() => _ProfileState();
+
+  @override
+  // TODO: implement preferredSize
+  Size get preferredSize => throw UnimplementedError();
+}
+class _ProfileState extends State<Profile> {
+  String name='';
+  String email = '';
+  var indexdata;
+  var calculation;
+  var pemasukan_total;
+  var pengeluaran_total;
+  var pemasukan;
+  var pengeluaran;
+  var hutang;
+  var piutang;
+  var simpanan;
+  var tujuankeuangan;
+  @override
+
+  void initState(){
+    super.initState();
+    _loadUserData();
+    _getIndex1();
+  }
+
+  _loadUserData() async{
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var user = jsonDecode(localStorage.getString('user'));
+    print(user['email']);
+    if(user != null) {
+      setState(() {
+        name = user['name'];
+        email = user['email'];
+      });
+    }
+  }
+  static String baseUrl = "/index";
+
+  Future<void> _getIndex1() async {
+    final response = await Network().getData(baseUrl);
+    indexdata = json.decode(response.body)['data'];
+    setState(() {
+      calculation = indexdata['calculation'];
+      pemasukan_total = indexdata['pemasukan_total'];
+      pengeluaran_total = indexdata['pengeluaran_total'];
+      pemasukan = indexdata['pemasukan'];
+      pengeluaran = indexdata['pengeluaran'];
+      hutang = indexdata['hutang'];
+      piutang = indexdata['piutang'];
+      simpanan = indexdata['simpanan'];
+      tujuankeuangan = indexdata['tujuankeuangan'];
+    });
+  }
   Widget build(BuildContext context) {
     return Scaffold(
         extendBodyBehindAppBar: true,
@@ -28,7 +116,7 @@ class Profile extends StatelessWidget {
             child: ListView(children: [
               Padding(
                 padding:
-                    const EdgeInsets.only(left: 16.0, right: 16.0, top: 74.0),
+                const EdgeInsets.only(left: 16.0, right: 16.0, top: 74.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -41,7 +129,7 @@ class Profile extends StatelessWidget {
                               spreadRadius: 1,
                               blurRadius: 7,
                               offset:
-                                  Offset(0, 3), // changes position of shadow
+                              Offset(0, 3), // changes position of shadow
                             ),
                           ],
                         ),
@@ -51,7 +139,7 @@ class Profile extends StatelessWidget {
                             elevation: .0,
                             shape: RoundedRectangleBorder(
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(5.0))),
+                                BorderRadius.all(Radius.circular(5.0))),
                             child: Padding(
                               padding: const EdgeInsets.only(
                                   top: 85.0, bottom: 20.0),
@@ -60,86 +148,22 @@ class Profile extends StatelessWidget {
                                   Expanded(
                                     child: Column(
                                       children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Container(
-                                              decoration: BoxDecoration(
-                                                color: FlutterMoneyquColors.info,
-                                                borderRadius:
-                                                    BorderRadius.circular(3.0),
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    color: Colors.grey
-                                                        .withOpacity(0.3),
-                                                    spreadRadius: 1,
-                                                    blurRadius: 7,
-                                                    offset: Offset(0,
-                                                        3), // changes position of shadow
-                                                  ),
-                                                ],
-                                              ),
-                                              child: Text(
-                                                "CONNECT",
-                                                style: TextStyle(
-                                                    color: FlutterMoneyquColors.white,
-                                                    fontSize: 12.0,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 8.0,
-                                                  vertical: 8.0),
-                                            ),
-                                            SizedBox(
-                                              width: 30.0,
-                                            ),
-                                            Container(
-                                              decoration: BoxDecoration(
-                                                color: FlutterMoneyquColors.initial,
-                                                borderRadius:
-                                                    BorderRadius.circular(3.0),
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    color: Colors.grey
-                                                        .withOpacity(0.3),
-                                                    spreadRadius: 1,
-                                                    blurRadius: 7,
-                                                    offset: Offset(0,
-                                                        3), // changes position of shadow
-                                                  ),
-                                                ],
-                                              ),
-                                              child: Text(
-                                                "MESSAGE",
-                                                style: TextStyle(
-                                                    color: FlutterMoneyquColors.white,
-                                                    fontSize: 12.0,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 8.0,
-                                                  vertical: 8.0),
-                                            )
-                                          ],
-                                        ),
+
                                         SizedBox(height: 40.0),
                                         Row(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
+                                          MainAxisAlignment.spaceAround,
                                           children: [
                                             Column(
                                               children: [
-                                                Text("2K",
+                                                Text(pemasukan_total.toString(),
                                                     style: TextStyle(
                                                         color: Color.fromRGBO(
                                                             82, 95, 127, 1),
                                                         fontSize: 20.0,
                                                         fontWeight:
-                                                            FontWeight.bold)),
-                                                Text("Orders",
+                                                        FontWeight.bold)),
+                                                Text("Pemasukan Total",
                                                     style: TextStyle(
                                                         color: Color.fromRGBO(
                                                             50, 50, 93, 1),
@@ -148,14 +172,14 @@ class Profile extends StatelessWidget {
                                             ),
                                             Column(
                                               children: [
-                                                Text("10",
+                                                Text(pengeluaran_total.toString(),
                                                     style: TextStyle(
                                                         color: Color.fromRGBO(
                                                             82, 95, 127, 1),
                                                         fontSize: 20.0,
                                                         fontWeight:
-                                                            FontWeight.bold)),
-                                                Text("Photos",
+                                                        FontWeight.bold)),
+                                                Text("Pengeluaran Total",
                                                     style: TextStyle(
                                                         color: Color.fromRGBO(
                                                             50, 50, 93, 1),
@@ -164,14 +188,14 @@ class Profile extends StatelessWidget {
                                             ),
                                             Column(
                                               children: [
-                                                Text("89",
+                                                Text(calculation.toString(),
                                                     style: TextStyle(
                                                         color: Color.fromRGBO(
                                                             82, 95, 127, 1),
                                                         fontSize: 20.0,
                                                         fontWeight:
-                                                            FontWeight.bold)),
-                                                Text("Comments",
+                                                        FontWeight.bold)),
+                                                Text("Saldo",
                                                     style: TextStyle(
                                                         color: Color.fromRGBO(
                                                             50, 50, 93, 1),
@@ -182,7 +206,7 @@ class Profile extends StatelessWidget {
                                         ),
                                         SizedBox(height: 40.0),
                                         Align(
-                                          child: Text("Jessica Jones, 27",
+                                          child: Text(name,
                                               style: TextStyle(
                                                   color: Color.fromRGBO(
                                                       50, 50, 93, 1),
@@ -190,7 +214,7 @@ class Profile extends StatelessWidget {
                                         ),
                                         SizedBox(height: 10.0),
                                         Align(
-                                          child: Text("San Francisco, USA",
+                                          child: Text(email,
                                               style: TextStyle(
                                                   color: Color.fromRGBO(
                                                       50, 50, 93, 1),
@@ -215,117 +239,10 @@ class Profile extends StatelessWidget {
                                                         82, 95, 127, 1),
                                                     fontSize: 17.0,
                                                     fontWeight:
-                                                        FontWeight.w200)),
+                                                    FontWeight.w200)),
                                           ),
                                         ),
-                                        SizedBox(height: 15.0),
-                                        Align(
-                                            child: Text("Show more",
-                                                style: TextStyle(
-                                                    color: FlutterMoneyquColors.primary,
-                                                    fontWeight: FontWeight.w400,
-                                                    fontSize: 16.0))),
                                         SizedBox(height: 25.0),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              right: 25.0, left: 25.0),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                "Album",
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 16.0,
-                                                    color: FlutterMoneyquColors.text),
-                                              ),
-                                              Text(
-                                                "View All",
-                                                style: TextStyle(
-                                                    color: FlutterMoneyquColors.primary,
-                                                    fontSize: 13.0,
-                                                    fontWeight:
-                                                        FontWeight.w600),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 250,
-                                          child: GridView.count(
-                                              primary: false,
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 24.0,
-                                                  vertical: 15.0),
-                                              crossAxisSpacing: 10,
-                                              mainAxisSpacing: 10,
-                                              crossAxisCount: 3,
-                                              children: <Widget>[
-                                                Container(
-                                                    height: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  6.0)),
-                                                      image: DecorationImage(
-                                                          image: NetworkImage(
-                                                              "https://images.unsplash.com/photo-1501601983405-7c7cabaa1581?fit=crop&w=240&q=80"),
-                                                          fit: BoxFit.cover),
-                                                    )),
-                                                Container(
-                                                    decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(6.0)),
-                                                  image: DecorationImage(
-                                                      image: NetworkImage(
-                                                          "https://images.unsplash.com/photo-1543747579-795b9c2c3ada?fit=crop&w=240&q=80hoto-1501601983405-7c7cabaa1581?fit=crop&w=240&q=80"),
-                                                      fit: BoxFit.cover),
-                                                )),
-                                                Container(
-                                                    decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(6.0)),
-                                                  image: DecorationImage(
-                                                      image: NetworkImage(
-                                                          "https://images.unsplash.com/photo-1551798507-629020c81463?fit=crop&w=240&q=80"),
-                                                      fit: BoxFit.cover),
-                                                )),
-                                                Container(
-                                                    decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(6.0)),
-                                                  image: DecorationImage(
-                                                      image: NetworkImage(
-                                                          "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?fit=crop&w=240&q=80"),
-                                                      fit: BoxFit.cover),
-                                                )),
-                                                Container(
-                                                    decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(6.0)),
-                                                  image: DecorationImage(
-                                                      image: NetworkImage(
-                                                          "https://images.unsplash.com/photo-1503642551022-c011aafb3c88?fit=crop&w=240&q=80"),
-                                                      fit: BoxFit.cover),
-                                                )),
-                                                Container(
-                                                    decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(6.0)),
-                                                  image: DecorationImage(
-                                                      image: NetworkImage(
-                                                          "https://images.unsplash.com/photo-1482686115713-0fbcaced6e28?fit=crop&w=240&q=80"),
-                                                      fit: BoxFit.cover),
-                                                )),
-                                              ]),
-                                        )
                                       ],
                                     ),
                                   ),

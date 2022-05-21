@@ -8,6 +8,7 @@ class Pemasukans{
     return Pemasukans(
       id: json['id'],
       nama: json['nama'],
+      kategori: json['kategori'],
       jumlah_pemasukan: json['jumlah_pemasukan'],
       tanggal_pemasukan: json['tanggal_pemasukan'],
       keterangan: json['keterangan'],

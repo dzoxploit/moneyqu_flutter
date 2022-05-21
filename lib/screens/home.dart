@@ -6,7 +6,7 @@ import 'package:flutter_moneyqularavel/constants/Theme.dart';
 import 'package:flutter_moneyqularavel/widgets/drawer.dart';
 import 'package:flutter_moneyqularavel/constants/Theme.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-import 'package:flutter_moneyqularavel/widgets/card-horizontal.dart';
+import 'file:///C:/Users/didin/Documents/flutter_moneyqularavel/lib/widgets/card-horizontal/card-horizontal.dart';
 import 'package:flutter_moneyqularavel/widgets/card-small.dart';
 import 'package:flutter_moneyqularavel/widgets/card-square.dart';
 import 'package:flutter_moneyqularavel/widgets/card-category.dart';
