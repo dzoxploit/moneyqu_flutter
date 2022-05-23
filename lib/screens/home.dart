@@ -67,6 +67,7 @@ class _HomeState extends State<Home> {
   var hutang;
   var piutang;
   var simpanan;
+  var tagihan;
   var tujuankeuangan;
   @override
 
@@ -100,6 +101,7 @@ class _HomeState extends State<Home> {
         hutang = indexdata['hutang'];
         piutang = indexdata['piutang'];
         simpanan = indexdata['simpanan'];
+        tagihan = indexdata['tagihan'];
         tujuankeuangan = indexdata['tujuankeuangan'];
     });
   }
@@ -241,7 +243,7 @@ class _HomeState extends State<Home> {
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   color: Colors.grey.shade100,
                   child: ListView(
-                    padding: EdgeInsets.only(top: 30),
+                    padding: EdgeInsets.only(top: 20),
                     children: [
                       SizedBox(
                         height: 20,
@@ -250,6 +252,8 @@ class _HomeState extends State<Home> {
                       buildCategoryCard(Icons.auto_delete , "Pengeluaran", pengeluaran, 0),
                       buildCategoryCard(Icons.account_balance, "Hutang", hutang, 0),
                       buildCategoryCard(Icons.account_balance_wallet, "Piutang", piutang, 0),
+                      buildCategoryCard(Icons.save, "Simpanan", simpanan, 0),
+                      buildCategoryCard(Icons.money, "Tagihan", tagihan, 0),
                       buildCategoryCard(Icons.account_balance_outlined, "Tujuan Keuangan", tujuankeuangan, 0),
                     ],
                   ),
