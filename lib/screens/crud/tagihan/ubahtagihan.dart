@@ -9,11 +9,11 @@ import 'package:flutter_moneyqularavel/widgets/card-square.dart';
 import 'package:flutter_moneyqularavel/widgets/card-category.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:flutter_moneyqularavel/widgets/form/formsimpanan.dart';
+import 'package:flutter_moneyqularavel/widgets/form/formtagihan.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_moneyqularavel/network/api.dart';
 
-class Ubahsimpanan extends StatefulWidget implements PreferredSizeWidget {
+class Ubahtagihan extends StatefulWidget implements PreferredSizeWidget {
   final bool backButton;
   final bool transparent;
   final bool rightOptions;
@@ -27,7 +27,7 @@ class Ubahsimpanan extends StatefulWidget implements PreferredSizeWidget {
   final Color bgColor;
   final int id;
 
-  const Ubahsimpanan(
+  const Ubahtagihan(
       {
         this.tags,
         this.transparent = false,
@@ -46,40 +46,45 @@ class Ubahsimpanan extends StatefulWidget implements PreferredSizeWidget {
   final double _prefferedHeight = 180.0;
 
   @override
-  _UbahsimpananState createState() => _UbahsimpananState();
+  _UbahtagihanState createState() => _UbahtagihanState();
 
   @override
   // TODO: implement preferredSize
   Size get preferredSize => throw UnimplementedError();
 }
 
-class _UbahsimpananState extends State<Ubahsimpanan> {
+class _UbahtagihanState extends State<Ubahtagihan> {
   final _dateController = TextEditingController();
   final formKey = GlobalKey<FormState>();
+  TextEditingController namatagihanController;
   TextEditingController deskripsiController;
-  TextEditingController jumlahsimpananController;
-  TextEditingController jenissimpananController;
-  TextEditingController tujuansimpananController;
+  TextEditingController jumlahtagihanController;
+  TextEditingController kategoritagihanController;
+  TextEditingController tanggaltagihanController;
+  TextEditingController notagihanController;
+  TextEditingController norekeningController;
+  TextEditingController kodebankController;
+  TextEditingController statustagihanController;
 
   var indexdata;
-  var id_pemasukan_data;
-  var nama_pemasukan;
-  var kategori_pemasukan;
-  var jumlah_pemasukan;
-  var tanggal_pemasukan;
-  var keterangan;
+  var id_tagihan_data;
+  var nama_tagihan;
+  var deskripsi;
+  var jumlah_tagihan;
+  var kategori_tagihan;
+  var tanggal_tagihan;
+  var no_tagihan;
+  var no_rekening;
+  var kode_bank;
+  var status_tagihan;
 
-  var deskripsi_edit;
-  var jumlah_simpanan_edit;
-  var tujuan_simpanan_edit;
-  var jenis_simpanan_edit;
 
   String currency='';
 
   void initState(){
     super.initState();
     _loadUserData();
-    _getSimpananById();
+    _getTagihanById();
   }
 
   _loadUserData() async{
@@ -93,14 +98,23 @@ class _UbahsimpananState extends State<Ubahsimpanan> {
     }
   }
 
-  Future<void> _getSimpananById() async {
+  Future<void> _getTagihanById() async {
     final response = await Network().getData('/simpanan/update/'+widget.id.toString());
     indexdata = json.decode(response.body)['data'];
     setState(() {
-      deskripsiController = TextEditingController(text: indexdata['deskripsi']);
-      jumlahsimpananController = TextEditingController(text: indexdata['jumlah_simpanan'].toString());
-      jenissimpananController = TextEditingController(text: indexdata['jenis_simpanan_id'].toString());
-      tujuansimpananController = TextEditingController(text: indexdata['tujuan_simpanan_id'].toString());
+      namatagihanController = new TextEditingController(text:indexdata['nama_tagihan']);
+      deskripsiController = new TextEditingController(text:indexdata['deksripsi']);
+      jumlahtagihanController = new TextEditingController(text:indexdata['jumlah_tagihan'].toString());
+      kategoritagihanController = new TextEditingController(text:indexdata['kategori_tagihan_id'].toString());
+      tanggaltagihanController = new TextEditingController(text:indexdata['tanggal_tagihan']);
+      notagihanController = new TextEditingController(text:indexdata['no_tagihan'].toString());
+      norekeningController = new TextEditingController(text: indexdata['no_rekening']);
+      kodebankController = new TextEditingController(text: indexdata['kode_bank']);
+      if(indexdata['status_tagihan'] == 1){
+        statustagihanController = new TextEditingController(text: 'Active');
+      }else if(indexdata['status_tagihan'] == 0){
+        statustagihanController = new TextEditingController(text: 'Non Active');
+      }
     });
   }
 
@@ -110,18 +124,23 @@ class _UbahsimpananState extends State<Ubahsimpanan> {
     var settingsdata = jsonDecode(localStorage.getString('settings'));
 
     var data = {
-      'deskripsi': deskripsiController.text,
-      'jumlah_simpanan' : jumlahsimpananController.text,
-      'currency_id': settingsdata['currency_id'],
-      'tujuan_simpanan_id': tujuansimpananController.text,
-      'jenis_simpanan_id': jenissimpananController.text,
+      'nama_tagihan' : namatagihanController.text,
+      'kategori_tagihan_id' : kategoritagihanController.text,
+      'no_tagihan' : notagihanController.text,
+      'no_rekening' : notagihanController.text,
+      'jumlah_tagihan' : jumlahtagihanController.text,
+      'status_tagihan': 1,
+      'kode_bank' : kodebankController.text,
+      'deskripsi' : deskripsiController.text,
+      'tanggal_tagihan' : tanggaltagihanController.text
+
     };
 
-    var res = await Network().postData(data, '/simpanan/update/'+widget.id.toString());
+    var res = await Network().postData(data, '/tagihan/update/'+widget.id.toString());
     print(res.body);
     var body = json.decode(res.body);
     if(body['status'] == 201){
-      Navigator.pushReplacementNamed(context, '/simpanan');
+      Navigator.pushReplacementNamed(context, '/tagihan');
     }else{
       Navigator.of(context).pushReplacementNamed('/home');
     }
@@ -130,7 +149,7 @@ class _UbahsimpananState extends State<Ubahsimpanan> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: FlutterMoneyquDrawer(currentPage: "update-pemasukan"),
+      drawer: FlutterMoneyquDrawer(currentPage: "update-tagihan"),
       bottomNavigationBar: BottomAppBar(
         child: RaisedButton(
           child: Text("Update"),
@@ -183,7 +202,7 @@ class _UbahsimpananState extends State<Ubahsimpanan> {
                                   })
                           ),
                           Text(
-                            "Update Pemasukan",
+                            "Update Tagihan",
                             style: TextStyle(
                               fontSize: 18.0,
                               fontWeight: FontWeight.w600,
@@ -213,13 +232,18 @@ class _UbahsimpananState extends State<Ubahsimpanan> {
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   color: Colors.grey.shade100,
                   child: SingleChildScrollView(
-                      child: AppFormsimpanan(
-                        formKey: formKey,
-                        deskripsiController: deskripsiController,
-                        jumlahsimpananController : jumlahsimpananController,
-                        tujuansimpananController : tujuansimpananController,
-                        jenissimpananController : jenissimpananController,
-                      )
+                      child: AppFormtagihan(
+                          formKey: formKey,
+                          namatagihanController : namatagihanController,
+                          kategoritagihanController : kategoritagihanController,
+                          notagihanController : notagihanController,
+                          norekeningController : notagihanController,
+                          jumlahtagihanController : jumlahtagihanController,
+                          statustagihanController: statustagihanController,
+                          kodebankController : kodebankController,
+                          deskrispiController : deskripsiController,
+                          tanggaltagihanController : tanggaltagihanController
+                      ),
                   ),
                 ),
               )

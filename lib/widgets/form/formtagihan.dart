@@ -221,7 +221,7 @@ class _AppFormtagihanState extends State<AppFormtagihan> {
               ),
               //fillColor: Colors.green
             ),
-            controller: widget.norekeningController,
+            controller: widget.kodebankController,
             keyboardType: TextInputType.text,
             style: new TextStyle(
               fontFamily: "Poppins",
