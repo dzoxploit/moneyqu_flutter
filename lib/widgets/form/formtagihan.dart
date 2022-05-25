@@ -7,8 +7,8 @@ class AppFormpiutang extends StatefulWidget {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   // Handles text onchange
-  TextEditingController namapiutangController;
-  TextEditingController deksripsiController;
+  TextEditingController namatagihanController;
+  TextEditingController kategoritagihanController;
   TextEditingController noteleponController;
   TextEditingController jumlahhutangController;
   TextEditingController tanggalpiutangController;

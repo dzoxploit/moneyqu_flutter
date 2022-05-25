@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_moneyqularavel/widgets/drawer.dart';
 import 'package:flutter_moneyqularavel/constants/Theme.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-import 'package:flutter_moneyqularavel/widgets/card-horizontal/card-horizontal.dart';
+import 'package:flutter_moneyqularavel/widgets/card-horizontal/card-horizontal-pengeluaran.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_moneyqularavel/network/api.dart';
 import 'package:flutter_moneyqularavel/model/Pengeluarans.dart';
@@ -53,9 +53,9 @@ class _PengeluaranState extends State<Pengeluaran> {
   final pengeluaranListKey = GlobalKey<_PengeluaranState>();
 
   String name='';
-  var pemasukan_total;
-  var pemasukan_hari_ini;
-  var pemasukandata;
+  var pengeluaran_total;
+  var pengeluaran_hari_ini;
+  var pengeluarandata;
   var indexdata;
 
   @override
@@ -84,9 +84,9 @@ class _PengeluaranState extends State<Pengeluaran> {
     final response = await Network().getData(baseUrl);
     indexdata = json.decode(response.body)['data'];
     setState(() {
-      pemasukan_total = indexdata['pengeluaran'];
-      pemasukan_hari_ini = indexdata['pengeluaran_hari_ini'];
-      pemasukandata = indexdata['data_penegluaran'];
+      pengeluaran_total = indexdata['total_pengeluaran'];
+      pengeluaran_hari_ini = indexdata['total_pengeluaran_hari_ini'];
+      pengeluarandata = indexdata['data_pengeluaran'];
     });
   }
 
@@ -94,7 +94,7 @@ class _PengeluaranState extends State<Pengeluaran> {
   Future<List<Pengeluarans>> _getPengeluaran() async {
     final response = await Network().getData(baseUrl);
     final items = json.decode(response.body)['data']['data_pengeluaran'].cast<Map<String, dynamic>>();
-    List<Pengeluarans> pemasukans = items.map<Pengeluarans>((json) {
+    List<Pengeluarans> pengeluarans = items.map<Pengeluarans>((json) {
       return Pengeluarans.fromJson(json);
     }).toList();
 
@@ -105,13 +105,13 @@ class _PengeluaranState extends State<Pengeluaran> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: FlutterMoneyquDrawer(currentPage: "Pemasukan"),
+      drawer: FlutterMoneyquDrawer(currentPage: "Pengeluaran"),
       key: pengeluaranListKey,
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(75.0),
           child: AppBar(
             centerTitle: true,
-            title: Text('Pemasukan'),
+            title: Text('Pengeluaran'),
             actions: <Widget>[
             ],
           )),
@@ -162,7 +162,7 @@ class _PengeluaranState extends State<Pengeluaran> {
                                         Row(
                                           children: [
                                             Text(
-                                              "Pemasukan",
+                                              "Pengeluaran",
                                               style: TextStyle(
                                                   color: Colors.grey,
                                                   fontWeight: FontWeight.bold),
@@ -177,7 +177,7 @@ class _PengeluaranState extends State<Pengeluaran> {
                                           ],
                                         ),
                                         Text(
-                                          '${pemasukan_total}',
+                                          '${pengeluaran_total}',
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 18.0,
@@ -207,7 +207,7 @@ class _PengeluaranState extends State<Pengeluaran> {
                                           ],
                                         ),
                                         Text(
-                                          '${pemasukan_hari_ini}',
+                                          '${pengeluaran_hari_ini}',
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 18.0,
@@ -243,11 +243,11 @@ class _PengeluaranState extends State<Pengeluaran> {
                           SizedBox(
                             height: 10,
                           ),
-                          CardHorizontal(
+                          CardHorizontalPengeluaran(
                               cta: "View data",
                               title: data.nama,
-                              id_pemasukan: data.id,
-                              harga: "Rp."+ data.jumlah_pemasukan.toString(),
+                              id_pengeluaran: data.id,
+                              harga: "Rp."+ data.jumlah_pengeluaran.toString(),
                               tap: () {
                                 Navigator.pushNamed(context, '/pro');
                               }
@@ -265,7 +265,7 @@ class _PengeluaranState extends State<Pengeluaran> {
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: new FloatingActionButton(
 
-        onPressed:(){ Navigator.pushNamed(context, '/tambah-pemasukan'); },
+        onPressed:(){ Navigator.pushNamed(context, '/tambah-pengeluaran'); },
         tooltip: 'Increment',
         child: new Icon(Icons.add),
       ),

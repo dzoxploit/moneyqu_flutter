@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_moneyqularavel/screens/crud/hutang/ubahhutang.dart';
-import 'package:flutter_moneyqularavel/screens/crud/piutang/ubahpiutang.dart';
+import 'package:flutter_moneyqularavel/screens/crud/pemasukan/ubahpemasukan.dart';
+import 'package:flutter_moneyqularavel/screens/crud/pengeluaran/ubahpengeluaran.dart';
 import 'package:flutter_moneyqularavel/widgets/drawer.dart';
 import 'package:flutter_moneyqularavel/constants/Theme.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
@@ -11,10 +11,11 @@ import 'package:flutter_moneyqularavel/widgets/card-square.dart';
 import 'package:flutter_moneyqularavel/widgets/card-category.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:flutter_moneyqularavel/widgets/form/formpengeluaran.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_moneyqularavel/network/api.dart';
 
-class Detailpiutang extends StatefulWidget implements PreferredSizeWidget {
+class Detailpengeluaran extends StatefulWidget implements PreferredSizeWidget {
   final bool backButton;
   final bool transparent;
   final bool rightOptions;
@@ -28,7 +29,7 @@ class Detailpiutang extends StatefulWidget implements PreferredSizeWidget {
   final Color bgColor;
   final int id;
 
-  const Detailpiutang(
+  const Detailpengeluaran(
       {
         this.tags,
         this.transparent = false,
@@ -47,33 +48,31 @@ class Detailpiutang extends StatefulWidget implements PreferredSizeWidget {
   final double _prefferedHeight = 180.0;
 
   @override
-  _DetailpiutangState createState() => _DetailpiutangState();
+  _DetailpengeluaranState createState() => _DetailpengeluaranState();
 
   @override
   // TODO: implement preferredSize
   Size get preferredSize => throw UnimplementedError();
 }
 
-class _DetailpiutangState extends State<Detailpiutang> {
+class _DetailpengeluaranState extends State<Detailpengeluaran> {
+  final _dateController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
   var indexdata;
-  var id_piutang;
-  var nama_piutang;
-  var deksripsi;
-  var jumlah_hutang;
-  var tanggal_piutang;
-  var no_telepon;
-  var status_piutang;
-  var jumlah_piutang_dibayar;
-  var tanggal_piutang_dibayar;
+  var id_pengeluaran;
+  var nama_pengeluaran;
+  var kategori_pengeluaran;
+  var jumlah_pengeluaran;
+  var tanggal_pengeluaran;
+  var keterangan;
 
   String currency='';
 
   void initState(){
     super.initState();
     _loadUserData();
-    _getPiutangById();
+    _getPengeluaranById();
   }
 
   _loadUserData() async{
@@ -87,33 +86,25 @@ class _DetailpiutangState extends State<Detailpiutang> {
     }
   }
 
-  Future<void> _getPiutangById() async {
-    final response = await Network().getData('/piutang?id='+widget.id.toString());
-    indexdata = json.decode(response.body)['data']['data_piutang'];
-    print(indexdata);
+  Future<void> _getPengeluaranById() async {
+    final response = await Network().getData('/pengeluaran?id='+widget.id.toString());
+    indexdata = json.decode(response.body)['data']['data_pengeluaran'];
     setState(() {
-      id_piutang = indexdata['id'];
-      nama_piutang = indexdata['nama_piutang'];
-      deksripsi = indexdata['deksripsi'];
-      jumlah_hutang =  indexdata['jumlah_hutang'].toString();
-      tanggal_piutang = indexdata['tanggal_piutang'].toString();
-      jumlah_piutang_dibayar =  indexdata['jumlah_piutang_dibayar'].toString();
-      if(indexdata['status_piutang'] == 1){
-        status_piutang = "Lunas";
-      }else{
-        status_piutang = "Belum Lunas";
-      }
-      no_telepon = indexdata['no_telepon'];
-      tanggal_piutang_dibayar = indexdata['tanggal_piutang_dibayar'].toString();
+      id_pengeluaran = indexdata['id'];
+      nama_pengeluaran = indexdata['nama'];
+      kategori_pengeluaran = indexdata['kategori'].toString();
+      jumlah_pengeluaran =  indexdata['jumlah_pengeluaran'].toString();
+      tanggal_pengeluaran = indexdata['tanggal_pengeluaran'].toString();
+      keterangan =  indexdata['keterangan'];
     });
   }
-  void _deleteHutang() async {
+  void _deletePengeluaran() async {
     var data = null;
-    var res = await Network().postData(data, '/piutang/destroy/'+id_piutang.toString());
+    var res = await Network().postData(data, '/pengeluaran/destroy/'+id_pengeluaran.toString());
     print(res.body);
     var body = json.decode(res.body);
     if(body['status'] == 201){
-      Navigator.pushReplacementNamed(context, '/piutang');
+      Navigator.pushReplacementNamed(context, '/pengeluaran');
     }else{
       Navigator.of(context).pushReplacementNamed('/home');
     }
@@ -124,7 +115,7 @@ class _DetailpiutangState extends State<Detailpiutang> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: FlutterMoneyquDrawer(currentPage: "detail-piutang"),
+      drawer: FlutterMoneyquDrawer(currentPage: "detail-pengeluaran"),
       body:  Stack(
         children: [
           Column(
@@ -164,7 +155,7 @@ class _DetailpiutangState extends State<Detailpiutang> {
                                   })
                           ),
                           Text(
-                            "Detail Piutang",
+                            "Detail Pengeluaran",
                             style: TextStyle(
                               fontSize: 18.0,
                               fontWeight: FontWeight.w600,
@@ -175,7 +166,7 @@ class _DetailpiutangState extends State<Detailpiutang> {
                               icon: const Icon(Icons.restore_from_trash_sharp, color: Colors.white),
                               tooltip: 'Increase volume by 10',
                               onPressed: () {
-                                _deleteHutang();
+                                _deletePengeluaran();
                               }
                           ),
                         ],
@@ -206,7 +197,7 @@ class _DetailpiutangState extends State<Detailpiutang> {
                                     strutStyle: StrutStyle(fontSize: 20.0),
                                     text: TextSpan(
                                         style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
-                                        text: "Nama Piutang"),
+                                        text: "Nama"),
                                   ),
                                 ),
                                 SizedBox(
@@ -230,7 +221,7 @@ class _DetailpiutangState extends State<Detailpiutang> {
                                     strutStyle: StrutStyle(fontSize: 20),
                                     text: TextSpan(
                                         style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
-                                        text: nama_piutang),
+                                        text: nama_pengeluaran),
                                   ),
                                 ),
                               ],
@@ -255,7 +246,7 @@ class _DetailpiutangState extends State<Detailpiutang> {
                                     strutStyle: StrutStyle(fontSize: 20.0),
                                     text: TextSpan(
                                         style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
-                                        text: "Deksripsi"),
+                                        text: "Kategori"),
                                   ),
                                 ),
                                 SizedBox(
@@ -279,7 +270,7 @@ class _DetailpiutangState extends State<Detailpiutang> {
                                     strutStyle: StrutStyle(fontSize: 20),
                                     text: TextSpan(
                                         style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
-                                        text: deksripsi),
+                                        text: kategori_pengeluaran),
                                   ),
                                 ),
                               ],
@@ -304,7 +295,7 @@ class _DetailpiutangState extends State<Detailpiutang> {
                                     strutStyle: StrutStyle(fontSize: 20.0),
                                     text: TextSpan(
                                         style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
-                                        text: "Jumlah Piutang"),
+                                        text: "Jumlah"),
                                   ),
                                 ),
                                 SizedBox(
@@ -328,7 +319,7 @@ class _DetailpiutangState extends State<Detailpiutang> {
                                     strutStyle: StrutStyle(fontSize: 20),
                                     text: TextSpan(
                                         style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
-                                        text: "Rp. " +jumlah_hutang.toString()),
+                                        text: "Rp. " +jumlah_pengeluaran.toString()),
                                   ),
                                 ),
                               ],
@@ -353,7 +344,7 @@ class _DetailpiutangState extends State<Detailpiutang> {
                                     strutStyle: StrutStyle(fontSize: 20.0),
                                     text: TextSpan(
                                         style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
-                                        text: "Tanggal Piutang"),
+                                        text: "Tanggal"),
                                   ),
                                 ),
                                 SizedBox(
@@ -377,7 +368,7 @@ class _DetailpiutangState extends State<Detailpiutang> {
                                     strutStyle: StrutStyle(fontSize: 20),
                                     text: TextSpan(
                                         style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
-                                        text: tanggal_piutang),
+                                        text: tanggal_pengeluaran),
                                   ),
                                 ),
                               ],
@@ -402,59 +393,7 @@ class _DetailpiutangState extends State<Detailpiutang> {
                                     strutStyle: StrutStyle(fontSize: 20.0),
                                     text: TextSpan(
                                         style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
-                                        text: "No telepon"),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                  child: RichText(
-                                    overflow: TextOverflow.ellipsis,
-                                    strutStyle: StrutStyle(fontSize: 20.0),
-                                    text: TextSpan(
-                                        style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
-                                        text: " : "),
-                                  ),
-                                )
-                              ],
-                            ),
-                            SizedBox(
-                              height: 15,
-                            ),
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: 200,
-                                  child: RichText(
-                                    overflow: TextOverflow.ellipsis,
-                                    strutStyle: StrutStyle(fontSize: 20),
-                                    text: TextSpan(
-                                        style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
-                                        text: no_telepon),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            SizedBox(
-                              height: 50,
-                            ),
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: 120,
-                                  child: RichText(
-                                    overflow: TextOverflow.ellipsis,
-                                    strutStyle: StrutStyle(fontSize: 20.0),
-                                    text: TextSpan(
-                                        style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
-                                        text: "Jumlah dibayar"),
+                                        text: "Keterangan"),
                                   ),
                                 ),
                                 SizedBox(
@@ -478,126 +417,12 @@ class _DetailpiutangState extends State<Detailpiutang> {
                                     strutStyle: StrutStyle(fontSize: 20),
                                     text: TextSpan(
                                         style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
-                                        text: jumlah_piutang_dibayar),
+                                        text: keterangan),
                                   ),
                                 ),
                               ],
                             ),
                           ],
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            SizedBox(
-                              height: 50,
-                            ),
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: 120,
-                                  child: RichText(
-                                    overflow: TextOverflow.ellipsis,
-                                    strutStyle: StrutStyle(fontSize: 20.0),
-                                    text: TextSpan(
-                                        style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
-                                        text: "Tanggal Dibayar"),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                  child: RichText(
-                                    overflow: TextOverflow.ellipsis,
-                                    strutStyle: StrutStyle(fontSize: 20.0),
-                                    text: TextSpan(
-                                        style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
-                                        text: " : "),
-                                  ),
-                                )
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: 200,
-                                  child: RichText(
-                                    overflow: TextOverflow.ellipsis,
-                                    strutStyle: StrutStyle(fontSize: 20),
-                                    text: TextSpan(
-                                        style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
-                                        text: tanggal_piutang_dibayar),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            SizedBox(
-                              height: 50,
-                            ),
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: 120,
-                                  child: RichText(
-                                    overflow: TextOverflow.ellipsis,
-                                    strutStyle: StrutStyle(fontSize: 20.0),
-                                    text: TextSpan(
-                                        style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
-                                        text: "Status piutang"),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                  child: RichText(
-                                    overflow: TextOverflow.ellipsis,
-                                    strutStyle: StrutStyle(fontSize: 20.0),
-                                    text: TextSpan(
-                                        style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
-                                        text: " : "),
-                                  ),
-                                )
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: 200,
-                                  child: RichText(
-                                    overflow: TextOverflow.ellipsis,
-                                    strutStyle: StrutStyle(fontSize: 20),
-                                    text: TextSpan(
-                                        style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
-                                        text: status_piutang),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Container(
-                            height: 100,
-                            child: Row(
-                                children : <Widget>[
-                                  Expanded(
-                                      child: RaisedButton(
-                                          onPressed: () {},
-                                          color: Colors.lightBlue,
-                                          child: Text("Bayar Piutang", style: TextStyle(color: Colors.white),)
-                                      )
-                                  ),
-                                ])
                         ),
                       ],
                     ),
@@ -613,7 +438,7 @@ class _DetailpiutangState extends State<Detailpiutang> {
 
         onPressed:(){ Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Ubahpiutang(id: id_piutang)),
+          MaterialPageRoute(builder: (context) => Ubahpengeluaran(id: id_pengeluaran)),
         );},
         tooltip: 'Increment',
         child: new Icon(Icons.edit),

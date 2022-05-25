@@ -1,31 +1,37 @@
 class Tagihans{
-  int id,jumlah_hutang,jumlah_hutang_dibayar,status_hutang;
-  String nama_hutang, no_telepon, deksripsi,tanggal_hutang,tanggal_hutang_dibayar;
+  int id,no_tagihan,jumlah_tagihan,status_tagihan,status_tagihan_lunas;
+  String nama_tagihan, kategori, no_rekening ,kode_bank,deksripsi,tanggal_tagihan,tanggal_tagihan_lunas;
 
-  Tagihans({this.id, this.nama_hutang, this.no_telepon, this.deksripsi, this.jumlah_hutang,this.tanggal_hutang, this.jumlah_hutang_dibayar, this.tanggal_hutang_dibayar,this.status_hutang});
+  Tagihans({this.id, this.no_tagihan,this.jumlah_tagihan,this.status_tagihan,this.status_tagihan_lunas, this.nama_tagihan, this.kategori, this.no_rekening ,this.kode_bank,this.deksripsi,this.tanggal_tagihan,this.tanggal_tagihan_lunas});
 
   factory Tagihans.fromJson(Map<String, dynamic> json){
     return Tagihans(
         id: json['id'],
-        nama_hutang: json['nama_hutang'],
+        nama_tagihan: json['nama_tagihan'],
+        kategori: json['kategori'],
+        no_rekening: json['no_rekening'],
+        no_tagihan: json['no_tagihan'],
+        kode_bank: json['kode_bank'],
         deksripsi: json['deksripsi'],
-        no_telepon: json['no_telepon'],
-        jumlah_hutang: json['jumlah_hutang'],
-        tanggal_hutang: json['tanggal_hutang'],
-        jumlah_hutang_dibayar: json['jumlah_hutang_dibayar'],
-        tanggal_hutang_dibayar: json['tanggal_hutang_dibayar'],
-        status_hutang: json['status_hutang']
+        jumlah_tagihan: json['jumlah_tagihan'],
+        status_tagihan: json['status_tagihan'],
+        tanggal_tagihan: json['tanggal_tagihan'],
+        status_tagihan_lunas: json['status_tagihan_lunas'],
+        tanggal_tagihan_lunas: json['tanggal_tagihan_lunas']
     );
   }
   Map<String, dynamic> toJson() => {
     'id': id,
-    'nama_hutang': nama_hutang,
+    'nama_tagihan': nama_tagihan,
+    'kategori': kategori,
+    'no_rekening': no_rekening,
+    'no_tagihan': no_tagihan,
+    'kode_bank': kode_bank,
     'deksripsi': deksripsi,
-    'no_telepon': no_telepon,
-    'jumlah_hutang': jumlah_hutang,
-    'tanggal_hutang': tanggal_hutang,
-    'jumlah_hutang_dibayar':jumlah_hutang_dibayar,
-    'tanggal_hutang_dibayar': tanggal_hutang_dibayar,
-    'status_hutang': status_hutang
+    'jumlah_tagihan': jumlah_tagihan,
+    'status_tagihan': status_tagihan,
+    'tanggal_tagihan': tanggal_tagihan,
+    'status_tagihan_lunas': status_tagihan_lunas,
+    'tanggal_tagihan_lunas': tanggal_tagihan_lunas,
   };
 }

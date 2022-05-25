@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_moneyqularavel/constants/Theme.dart';
-import 'package:flutter_moneyqularavel/screens/crud/hutang/detailhutang.dart';
+import 'package:flutter_moneyqularavel/screens/crud/piutang/detailpiutang.dart';
 import 'package:flutter_moneyqularavel/screens/crud/pemasukan/ubahpemasukan.dart';
 import 'package:flutter_moneyqularavel/screens/crud/simpanan/detailsimpanan.dart';
 
@@ -36,7 +36,7 @@ class CardHorizontalPiutang extends StatelessWidget {
         splashColor: Colors.grey, // Splash color
         onTap: () =>  Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Detailhutang(id: id_piutang)),
+          MaterialPageRoute(builder: (context) => Detailpiutang(id: id_piutang)),
         ),
         child:  Container(
           padding: EdgeInsets.all(20),

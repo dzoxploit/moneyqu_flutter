@@ -93,7 +93,7 @@ class _UbahpiutangState extends State<Ubahpiutang> {
   }
 
   Future<void> _getPiutangById() async {
-    final response = await Network().getData('/hutang/update/'+widget.id.toString());
+    final response = await Network().getData('/piutang/update/'+widget.id.toString());
     indexdata = json.decode(response.body)['data'];
     setState(() {
       namapiutangController = new TextEditingController(text: indexdata['nama_piutang']);
@@ -105,7 +105,7 @@ class _UbahpiutangState extends State<Ubahpiutang> {
   }
 
   // Http post request to create new data
-  void _updateSimpanan() async {
+  void _updatePiutang() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var settingsdata = jsonDecode(localStorage.getString('settings'));
 
@@ -140,7 +140,7 @@ class _UbahpiutangState extends State<Ubahpiutang> {
           onPressed: () {
             if (formKey.currentState.validate()) {
               formKey.currentState.save();
-              _updateSimpanan();
+              _updatePiutang();
             }
           },
         ),

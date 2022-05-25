@@ -77,7 +77,7 @@ class _TambahpiutangState extends State<Tambahpiutang> {
       'nama_piutang': namapiutangController.text,
       'deksripsi' : deksripsiController.text,
       'currency_id': settingsdata['currency_id'],
-      'jumlah_piutang': jumlahhutangController.text,
+      'jumlah_hutang': jumlahhutangController.text,
       'no_telepon': noteleponController.text,
       'tanggal_piutang': tanggalpiutangController.text,
     };

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_moneyqularavel/model/Tagihans.dart';
+import 'package:flutter_moneyqularavel/widgets/card-horizontal/card-horizontal-tagihan.dart';
 import 'package:flutter_moneyqularavel/widgets/drawer.dart';
 import 'package:flutter_moneyqularavel/constants/Theme.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
@@ -49,7 +51,7 @@ class Tagihan extends StatefulWidget implements PreferredSizeWidget {
 
 class _TagihanState extends State<Tagihan> {
   @override
-  Future<List<Simpanans>> simpanans;
+  Future<List<Tagihans>> tagihans;
   final simpananListKey = GlobalKey<_TagihanState>();
 
   String name='';
@@ -91,14 +93,14 @@ class _TagihanState extends State<Tagihan> {
   }
 
 
-  Future<List<Simpanans>> _getTagihan() async {
+  Future<List<Tagihans>> _getTagihan() async {
     final response = await Network().getData(baseUrl);
     final items = json.decode(response.body)['data']['data_tagihan'].cast<Map<String, dynamic>>();
-    List<Simpanans> simpanans = items.map<Simpanans>((json) {
-      return Simpanans.fromJson(json);
+    List<Tagihans> tagihans = items.map<Tagihans>((json) {
+      return Tagihans.fromJson(json);
     }).toList();
 
-    return simpanans;
+    return tagihans;
   }
 
 
@@ -227,7 +229,7 @@ class _TagihanState extends State<Tagihan> {
               ),
             ),
             Expanded(
-              child: FutureBuilder<List<Simpanans>>(
+              child: FutureBuilder<List<Tagihans>>(
                 future: _getTagihan(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   // By default, show a loading spinner.
@@ -237,22 +239,47 @@ class _TagihanState extends State<Tagihan> {
                     itemCount: snapshot.data.length,
                     itemBuilder: (BuildContext context, int index) {
                       var data = snapshot.data[index];
-                      return Column(
-                        children: [
-                          SizedBox(
-                            height: 10,
-                          ),
-                          CardHorizontalSimpanan(
-                              cta: data.nama_jenis_simpanan,
-                              title: data.deskripsi,
-                              id_simpanan: data.id,
-                              harga: "Rp."+ data.jumlah_simpanan.toString(),
-                              tap: () {
-                                Navigator.pushNamed(context, '/pro');
-                              }
-                          ),
-                        ],
-                      );
+                      if(data.status_tagihan == 1){
+                        return Column(
+                          children: [
+                            SizedBox(
+                              height: 10,
+                            ),
+                            CardHorizontalTagihan(
+                                nama_tagihan: data.nama_tagihan,
+                                status_tagihan: "Lunas",
+                                id_tagihan: data.id,
+                                tanggal_tagihan: data.tanggal_tagihan,
+                                jumlah_tagihan: "Rp."+ data.jumlah_tagihan.toString(),
+                                no_tagihan: data.no_tagihan.toString(),
+                                no_rekening: data.no_rekening.toString(),
+                                tap: () {
+                                  Navigator.pushNamed(context, '/pro');
+                                }
+                            ),
+                          ],
+                        );
+                      }else {
+                        return Column(
+                          children: [
+                            SizedBox(
+                              height: 10,
+                            ),
+                            CardHorizontalTagihan(
+                                nama_tagihan: data.nama_tagihan,
+                                status_tagihan: "Belum Lunas",
+                                id_tagihan: data.id,
+                                tanggal_tagihan: data.tanggal_tagihan,
+                                jumlah_tagihan: "Rp."+ data.jumlah_tagihan.toString(),
+                                no_tagihan: data.no_tagihan.toString(),
+                                no_rekening: data.no_rekening.toString(),
+                                tap: () {
+                                  Navigator.pushNamed(context, '/pro');
+                                }
+                            ),
+                          ],
+                        );
+                      }
                     },
                   );
                 },
