@@ -23,6 +23,8 @@ import 'package:flutter_moneyqularavel/screens/crud/piutang/tambahpiutang.dart';
 import 'package:flutter_moneyqularavel/screens/crud/pemasukan/detailpemasukan.dart';
 import 'package:flutter_moneyqularavel/screens/crud/tujuankeuangan/tambahtujuankeuangan.dart';
 import 'package:flutter_moneyqularavel/screens/tagihan.dart';
+import 'package:flutter_moneyqularavel/screens/crud/tagihan/tambahtagihan.dart';
+
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -66,6 +68,7 @@ class MyApp extends StatelessWidget {
 
           //route tambah hutang
           "/tagihan": (BuildContext context) => new Tagihan(),
+          "/tambah-tagihan": (BuildContext context) => new Tambahtagihan(),
 
           //route tambah piutang
           "/piutang": (BuildContext context) => new Piutang(),

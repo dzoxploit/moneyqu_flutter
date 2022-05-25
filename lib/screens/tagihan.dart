@@ -291,7 +291,7 @@ class _TagihanState extends State<Tagihan> {
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: new FloatingActionButton(
 
-        onPressed:(){ Navigator.pushNamed(context, '/tambah-simpanan'); },
+        onPressed:(){ Navigator.pushNamed(context, '/tambah-tagihan'); },
         tooltip: 'Increment',
         child: new Icon(Icons.add),
       ),
