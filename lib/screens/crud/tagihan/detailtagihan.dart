@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_moneyqularavel/screens/crud/pemasukan/ubahpemasukan.dart';
-import 'package:flutter_moneyqularavel/screens/crud/simpanan/ubahsimpanan.dart';
+import 'package:flutter_moneyqularavel/screens/crud/tagihan/ubahtagihan.dart';
 import 'package:flutter_moneyqularavel/widgets/drawer.dart';
 import 'package:flutter_moneyqularavel/constants/Theme.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
@@ -15,7 +15,7 @@ import 'package:flutter_moneyqularavel/widgets/form/formpemasukan.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_moneyqularavel/network/api.dart';
 
-class Detailsimpanan extends StatefulWidget implements PreferredSizeWidget {
+class Detailtagihan extends StatefulWidget implements PreferredSizeWidget {
   final bool backButton;
   final bool transparent;
   final bool rightOptions;
@@ -29,7 +29,7 @@ class Detailsimpanan extends StatefulWidget implements PreferredSizeWidget {
   final Color bgColor;
   final int id;
 
-  const Detailsimpanan(
+  const Detailtagihan(
       {
         this.tags,
         this.transparent = false,
@@ -48,30 +48,35 @@ class Detailsimpanan extends StatefulWidget implements PreferredSizeWidget {
   final double _prefferedHeight = 180.0;
 
   @override
-  _DetailsimpananState createState() => _DetailsimpananState();
+  _DetailtagihanState createState() => _DetailtagihanState();
 
   @override
   // TODO: implement preferredSize
   Size get preferredSize => throw UnimplementedError();
 }
 
-class _DetailsimpananState extends State<Detailsimpanan> {
+class _DetailtagihanState extends State<Detailtagihan> {
   final _dateController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
   var indexdata;
-  var id_simpanan;
+  var id_tagihan;
+  var nama_tagihan;
   var deskripsi;
-  var jumlah_simpanan;
-  var tujuan_simpanan;
-  var jenis_simpanan;
+  var jumlah_tagihan;
+  var kategori_tagihan;
+  var tanggal_tagihan;
+  var no_tagihan;
+  var no_rekening;
+  var kode_bank;
+  var status_tagihan;
 
   String currency='';
 
   void initState(){
     super.initState();
     _loadUserData();
-    _getSimpananById();
+    _getTagihanById();
   }
 
   _loadUserData() async{
@@ -85,24 +90,33 @@ class _DetailsimpananState extends State<Detailsimpanan> {
     }
   }
 
-  Future<void> _getSimpananById() async {
-    final response = await Network().getData('/simpanan?id='+widget.id.toString());
-    indexdata = json.decode(response.body)['data']['data_simpanan'];
+  Future<void> _getTagihanById() async {
+    final response = await Network().getData('/tagihan?id='+widget.id.toString());
+    indexdata = json.decode(response.body)['data']['data_tagihan'];
     setState(() {
-      id_simpanan = indexdata['id'];
-      deskripsi = indexdata['deskripsi'];
-      jumlah_simpanan = indexdata['jumlah_simpanan'].toString();
-      tujuan_simpanan =  indexdata['nama_tujuan_simpanan'].toString();
-      jenis_simpanan = indexdata['nama_jenis_simpanan'].toString();
+      id_tagihan = indexdata['id'];
+      nama_tagihan = indexdata['nama'];
+      kategori_tagihan = indexdata['kategori'];
+      deskripsi = indexdata['deksripsi'];
+      jumlah_tagihan = indexdata['jumlah_tagihan'].toString();
+      tanggal_tagihan = indexdata['tanggal_tagihan'];
+      no_tagihan = indexdata['no_tagihan'].toString();
+      no_rekening = indexdata['no_rekening'];
+      kode_bank = indexdata['kode_bank'];
+      if(indexdata['status_tagihan'] == 1){
+        status_tagihan = "Active";
+      }else if(indexdata['status_tagihan'] == 0){
+        status_tagihan = "Non Active";
+      }
     });
   }
   void _deleteSimpanan() async {
     var data = null;
-    var res = await Network().postData(data, '/simpanan/destroy/'+id_simpanan.toString());
+    var res = await Network().postData(data, '/tagihan/destroy/'+id_tagihan.toString());
     print(res.body);
     var body = json.decode(res.body);
     if(body['status'] == 201){
-      Navigator.pushReplacementNamed(context, '/simpanan');
+      Navigator.pushReplacementNamed(context, '/tagihan');
     }else{
       Navigator.of(context).pushReplacementNamed('/home');
     }
@@ -113,7 +127,7 @@ class _DetailsimpananState extends State<Detailsimpanan> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: FlutterMoneyquDrawer(currentPage: "detail-pemasukan"),
+      drawer: FlutterMoneyquDrawer(currentPage: "detail-tagihan"),
       body:  Stack(
         children: [
           Column(
@@ -153,7 +167,7 @@ class _DetailsimpananState extends State<Detailsimpanan> {
                                   })
                           ),
                           Text(
-                            "Detail Simpanan",
+                            "Detail Tagihan",
                             style: TextStyle(
                               fontSize: 18.0,
                               fontWeight: FontWeight.w600,
@@ -195,7 +209,154 @@ class _DetailsimpananState extends State<Detailsimpanan> {
                                     strutStyle: StrutStyle(fontSize: 20.0),
                                     text: TextSpan(
                                         style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
-                                        text: "Nama Simpanan"),
+                                        text: "Nama Tagihan"),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                  child: RichText(
+                                    overflow: TextOverflow.ellipsis,
+                                    strutStyle: StrutStyle(fontSize: 20.0),
+                                    text: TextSpan(
+                                        style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
+                                        text: " : "),
+                                  ),
+                                )
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: 200,
+                                  child: RichText(
+                                    overflow: TextOverflow.ellipsis,
+                                    strutStyle: StrutStyle(fontSize: 20),
+                                    text: TextSpan(
+                                        style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
+                                        text: nama_tagihan),
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                              height: 50,
+                            ),
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: 120,
+                                  child: RichText(
+                                    overflow: TextOverflow.ellipsis,
+                                    strutStyle: StrutStyle(fontSize: 20.0),
+                                    text: TextSpan(
+                                        style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
+                                        text: "Kategori"),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                  child: RichText(
+                                    overflow: TextOverflow.ellipsis,
+                                    strutStyle: StrutStyle(fontSize: 20.0),
+                                    text: TextSpan(
+                                        style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
+                                        text: " : "),
+                                  ),
+                                )
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: 200,
+                                  child: RichText(
+                                    overflow: TextOverflow.ellipsis,
+                                    strutStyle: StrutStyle(fontSize: 20),
+                                    text: TextSpan(
+                                        style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
+                                        text: kategori_tagihan),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                              height: 50,
+                            ),
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: 120,
+                                  child: RichText(
+                                    overflow: TextOverflow.ellipsis,
+                                    strutStyle: StrutStyle(fontSize: 20.0),
+                                    text: TextSpan(
+                                        style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
+                                        text: "Jumlah Tagihan"),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                  child: RichText(
+                                    overflow: TextOverflow.ellipsis,
+                                    strutStyle: StrutStyle(fontSize: 20.0),
+                                    text: TextSpan(
+                                        style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
+                                        text: " : "),
+                                  ),
+                                )
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: 200,
+                                  child: RichText(
+                                    overflow: TextOverflow.ellipsis,
+                                    strutStyle: StrutStyle(fontSize: 20),
+                                    text: TextSpan(
+                                        style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
+                                        text: "Rp. "+ jumlah_tagihan.toString()),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                              height: 50,
+                            ),
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: 120,
+                                  child: RichText(
+                                    overflow: TextOverflow.ellipsis,
+                                    strutStyle: StrutStyle(fontSize: 20.0),
+                                    text: TextSpan(
+                                        style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
+                                        text: "Deskripsi"),
                                   ),
                                 ),
                                 SizedBox(
@@ -223,7 +384,7 @@ class _DetailsimpananState extends State<Detailsimpanan> {
                                   ),
                                 ),
                               ],
-                            )
+                            ),
                           ],
                         ),
                         SizedBox(
@@ -244,7 +405,7 @@ class _DetailsimpananState extends State<Detailsimpanan> {
                                     strutStyle: StrutStyle(fontSize: 20.0),
                                     text: TextSpan(
                                         style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
-                                        text: "Jumlah Simpanan"),
+                                        text: "No Tagihan"),
                                   ),
                                 ),
                                 SizedBox(
@@ -268,56 +429,7 @@ class _DetailsimpananState extends State<Detailsimpanan> {
                                     strutStyle: StrutStyle(fontSize: 20),
                                     text: TextSpan(
                                         style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
-                                        text: "Rp. " + jumlah_simpanan.toString()),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            SizedBox(
-                              height: 50,
-                            ),
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: 120,
-                                  child: RichText(
-                                    overflow: TextOverflow.ellipsis,
-                                    strutStyle: StrutStyle(fontSize: 20.0),
-                                    text: TextSpan(
-                                        style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
-                                        text: "Tujuan Simpanan"),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                  child: RichText(
-                                    overflow: TextOverflow.ellipsis,
-                                    strutStyle: StrutStyle(fontSize: 20.0),
-                                    text: TextSpan(
-                                        style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
-                                        text: " : "),
-                                  ),
-                                )
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: 200,
-                                  child: RichText(
-                                    overflow: TextOverflow.ellipsis,
-                                    strutStyle: StrutStyle(fontSize: 20),
-                                    text: TextSpan(
-                                        style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
-                                        text: tujuan_simpanan),
+                                        text: no_tagihan.toString()),
                                   ),
                                 ),
                               ],
@@ -342,7 +454,7 @@ class _DetailsimpananState extends State<Detailsimpanan> {
                                     strutStyle: StrutStyle(fontSize: 20.0),
                                     text: TextSpan(
                                         style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
-                                        text: "Jenis Simpanan"),
+                                        text: "No Rekening"),
                                   ),
                                 ),
                                 SizedBox(
@@ -366,7 +478,105 @@ class _DetailsimpananState extends State<Detailsimpanan> {
                                     strutStyle: StrutStyle(fontSize: 20),
                                     text: TextSpan(
                                         style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
-                                        text: jenis_simpanan),
+                                        text: no_rekening),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                              height: 50,
+                            ),
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: 120,
+                                  child: RichText(
+                                    overflow: TextOverflow.ellipsis,
+                                    strutStyle: StrutStyle(fontSize: 20.0),
+                                    text: TextSpan(
+                                        style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
+                                        text: "Kode Bank"),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                  child: RichText(
+                                    overflow: TextOverflow.ellipsis,
+                                    strutStyle: StrutStyle(fontSize: 20.0),
+                                    text: TextSpan(
+                                        style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
+                                        text: " : "),
+                                  ),
+                                )
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: 200,
+                                  child: RichText(
+                                    overflow: TextOverflow.ellipsis,
+                                    strutStyle: StrutStyle(fontSize: 20),
+                                    text: TextSpan(
+                                        style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
+                                        text: kode_bank),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                              height: 50,
+                            ),
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: 120,
+                                  child: RichText(
+                                    overflow: TextOverflow.ellipsis,
+                                    strutStyle: StrutStyle(fontSize: 20.0),
+                                    text: TextSpan(
+                                        style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
+                                        text: "Status Tagihan"),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                  child: RichText(
+                                    overflow: TextOverflow.ellipsis,
+                                    strutStyle: StrutStyle(fontSize: 20.0),
+                                    text: TextSpan(
+                                        style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
+                                        text: " : "),
+                                  ),
+                                )
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: 200,
+                                  child: RichText(
+                                    overflow: TextOverflow.ellipsis,
+                                    strutStyle: StrutStyle(fontSize: 20),
+                                    text: TextSpan(
+                                        style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
+                                        text: status_tagihan),
                                   ),
                                 ),
                               ],
@@ -390,7 +600,7 @@ class _DetailsimpananState extends State<Detailsimpanan> {
 
         onPressed:(){ Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Ubahsimpanan(id: id_simpanan)),
+          MaterialPageRoute(builder: (context) => Ubahtagihan(id: id_tagihan)),
         );},
         tooltip: 'Increment',
         child: new Icon(Icons.edit),

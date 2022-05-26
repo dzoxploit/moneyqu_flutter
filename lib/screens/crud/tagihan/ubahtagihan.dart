@@ -99,7 +99,7 @@ class _UbahtagihanState extends State<Ubahtagihan> {
   }
 
   Future<void> _getTagihanById() async {
-    final response = await Network().getData('/simpanan/update/'+widget.id.toString());
+    final response = await Network().getData('/tagihan/update/'+widget.id.toString());
     indexdata = json.decode(response.body)['data'];
     setState(() {
       namatagihanController = new TextEditingController(text:indexdata['nama_tagihan']);
