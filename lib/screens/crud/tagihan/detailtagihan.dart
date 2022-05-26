@@ -95,7 +95,7 @@ class _DetailtagihanState extends State<Detailtagihan> {
     indexdata = json.decode(response.body)['data']['data_tagihan'];
     setState(() {
       id_tagihan = indexdata['id'];
-      nama_tagihan = indexdata['nama'];
+      nama_tagihan = indexdata['nama_tagihan'];
       kategori_tagihan = indexdata['kategori'];
       deskripsi = indexdata['deksripsi'];
       jumlah_tagihan = indexdata['jumlah_tagihan'].toString();
