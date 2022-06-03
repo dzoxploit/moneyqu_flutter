@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_moneyqularavel/constants/Theme.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_moneyqularavel/network/api.dart';
+import 'dart:convert';
 
 class AppFormpemasukan extends StatefulWidget {
   // Required for form validations
@@ -20,6 +23,22 @@ class AppFormpemasukan extends StatefulWidget {
 }
 
 class _AppFormpemasukanState extends State<AppFormpemasukan> {
+  static String baseUrl = "/kategori-pemasukan";
+  List _dataKategori = [];
+  String valKategori;
+  Future<void> _getKategori() async {
+    final response = await Network().getData(baseUrl);
+    var indexdata = json.decode(response.body)['data'];
+    setState(() {
+      _dataKategori = indexdata;
+    });
+  }
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _getKategori();
+  }
+
   String _validateNamaPemasukan(String value) {
     if (value.length == 0) return 'Nama Pemasukan cannot be empty';
     return null;
@@ -72,22 +91,52 @@ class _AppFormpemasukanState extends State<AppFormpemasukan> {
             ),
           ),
           new Padding(padding: EdgeInsets.only(top: 20.0)),
-          new TextFormField(
+          InputDecorator(
             decoration: new InputDecoration(
-              labelText: "Kategori Pemasukan",
-              fillColor: Colors.white,
-              border: new OutlineInputBorder(
-                borderRadius: new BorderRadius.circular(25.0),
-                borderSide: new BorderSide(
+                border: OutlineInputBorder(
+                    borderRadius: new BorderRadius.circular(25.0),
+                    borderSide: new BorderSide(),
                 ),
-              ),
-              //fillColor: Colors.green
             ),
-            controller: widget.kategoripemasukanController,
-            validator: _validateKategoriPemasukan,
-            keyboardType: TextInputType.number,
-            style: new TextStyle(
-              fontFamily: "Poppins",
+            child: DropdownButtonHideUnderline(
+              child:  DropdownButton(
+                hint: Text("Select Kategori"),
+                value: valKategori,
+                items: _dataKategori.map((item) {
+                  return DropdownMenuItem(
+                    child: Text(item['nama_pemasukan']),
+                    value: item['id'].toString(),
+                    );
+                    }).toList(),
+                  onChanged: (value) {
+                  setState(() {
+                  valKategori = value;
+                  widget.kategoripemasukanController.text = value;
+                  });
+                },
+              ),
+            ),
+          ),
+          new Padding(padding: EdgeInsets.only(top: 20.0)),
+          new Visibility(
+            visible: false,
+            child: TextFormField(
+              decoration: new InputDecoration(
+                labelText: "Kategori Pemasukan",
+                fillColor: Colors.white,
+                border: new OutlineInputBorder(
+                  borderRadius: new BorderRadius.circular(25.0),
+                  borderSide: new BorderSide(
+                  ),
+                ),
+                //fillColor: Colors.green
+              ),
+              controller: widget.kategoripemasukanController,
+              validator: _validateKategoriPemasukan,
+              keyboardType: TextInputType.number,
+              style: new TextStyle(
+                fontFamily: "Poppins",
+              ),
             ),
           ),
           new Padding(padding: EdgeInsets.only(top: 20.0)),
