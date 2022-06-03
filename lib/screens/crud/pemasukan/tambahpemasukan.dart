@@ -61,6 +61,12 @@ class _TambahpemasukanState extends State<Tambahpemasukan> {
   TextEditingController tanggalpemasukanController = new TextEditingController();
   TextEditingController keteranganController = new TextEditingController();
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+
   _loadUserData() async{
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var settingsdata = jsonDecode(localStorage.getString('settings'));
