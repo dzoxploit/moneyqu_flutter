@@ -19,6 +19,7 @@ class AppFormsimpanan extends StatefulWidget {
 }
 
 class _AppFormsimpananState extends State<AppFormsimpanan> {
+  AutovalidateMode _autovalidate = AutovalidateMode.disabled;
   String _validateDeskripsi(String value) {
     if (value.length == 0) return 'Nama Simpanan cannot be empty';
     return null;
@@ -41,7 +42,7 @@ class _AppFormsimpananState extends State<AppFormsimpanan> {
   Widget build(BuildContext context) {
     return Form(
       key: widget.formKey,
-      autovalidate: true,
+      autovalidateMode: _autovalidate,
       child: Column(
         children: <Widget>[
           new Padding(padding: EdgeInsets.only(top: 50.0)),

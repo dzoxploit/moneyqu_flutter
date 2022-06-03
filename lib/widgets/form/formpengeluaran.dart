@@ -20,6 +20,7 @@ class AppFormpengeluaran extends StatefulWidget {
 }
 
 class _AppFormpengeluaranState extends State<AppFormpengeluaran> {
+  AutovalidateMode _autovalidate = AutovalidateMode.disabled;
   String _validateNamaPengeluaran(String value) {
     if (value.length == 0) return 'Nama Pengeluaran cannot be empty';
     return null;
@@ -49,7 +50,7 @@ class _AppFormpengeluaranState extends State<AppFormpengeluaran> {
   Widget build(BuildContext context) {
     return Form(
       key: widget.formKey,
-      autovalidate: true,
+      autovalidateMode: _autovalidate,
       child: Column(
         children: <Widget>[
           new Padding(padding: EdgeInsets.only(top: 50.0)),

@@ -24,6 +24,7 @@ class AppFormtagihan extends StatefulWidget {
 }
 
 class _AppFormtagihanState extends State<AppFormtagihan> {
+  AutovalidateMode _autovalidate = AutovalidateMode.disabled;
   var _items = [
     "Active",
     "Non Active",
@@ -67,7 +68,7 @@ class _AppFormtagihanState extends State<AppFormtagihan> {
   Widget build(BuildContext context) {
     return Form(
       key: widget.formKey,
-      autovalidate: true,
+      autovalidateMode: _autovalidate,
       child: Column(
         children: <Widget>[
           new Padding(padding: EdgeInsets.only(top: 50.0)),

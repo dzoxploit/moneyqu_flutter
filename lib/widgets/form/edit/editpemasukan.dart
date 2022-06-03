@@ -24,6 +24,7 @@ class AppEditpemasukan extends StatefulWidget {
 
 class _AppEditpemasukanState extends State<AppEditpemasukan> {
   static String baseUrl = "/kategori-pemasukan";
+  AutovalidateMode _autovalidate = AutovalidateMode.disabled;
   List _dataKategori = [];
   String valKategori;
   Future<void> _getKategori() async {
@@ -69,7 +70,7 @@ class _AppEditpemasukanState extends State<AppEditpemasukan> {
   Widget build(BuildContext context) {
     return Form(
       key: widget.formKey,
-      autovalidate: true,
+      autovalidateMode: _autovalidate,
       child: Column(
         children: <Widget>[
           new Padding(padding: EdgeInsets.only(top: 50.0)),
