@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter_moneyqularavel/network/api.dart';
 import 'dart:convert';
 
-class AppFormtagihan extends StatefulWidget {
+class AppEdittagihan extends StatefulWidget {
   // Required for form validations
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -19,13 +19,13 @@ class AppFormtagihan extends StatefulWidget {
   TextEditingController deskrispiController;
   TextEditingController tanggaltagihanController;
 
-  AppFormtagihan({this.formKey, this.namatagihanController,this.tanggaltagihanController, this.deskrispiController, this.kategoritagihanController, this.norekeningController, this.notagihanController, this.statustagihanController, this.jumlahtagihanController, this.kodebankController});
+  AppEdittagihan({this.formKey, this.namatagihanController,this.tanggaltagihanController, this.deskrispiController, this.kategoritagihanController, this.norekeningController, this.notagihanController, this.statustagihanController, this.jumlahtagihanController, this.kodebankController});
 
   @override
-  _AppFormtagihanState createState() => _AppFormtagihanState();
+  _AppEdittagihanState createState() => _AppEdittagihanState();
 }
 
-class _AppFormtagihanState extends State<AppFormtagihan> {
+class _AppEdittagihanState extends State<AppEdittagihan> {
   AutovalidateMode _autovalidate = AutovalidateMode.disabled;
   var _items = [
     "Active",

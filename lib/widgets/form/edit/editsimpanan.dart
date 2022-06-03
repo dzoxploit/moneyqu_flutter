@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter_moneyqularavel/network/api.dart';
 import 'dart:convert';
 
-class AppFormsimpanan extends StatefulWidget {
+class AppEditsimpanan extends StatefulWidget {
   // Required for form validations
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -14,13 +14,13 @@ class AppFormsimpanan extends StatefulWidget {
   TextEditingController jenissimpananController;
   TextEditingController jumlahsimpananController;
 
-  AppFormsimpanan({this.formKey, this.deskripsiController, this.tujuansimpananController, this.jenissimpananController, this.jumlahsimpananController});
+  AppEditsimpanan({this.formKey, this.deskripsiController, this.tujuansimpananController, this.jenissimpananController, this.jumlahsimpananController});
 
   @override
-  _AppFormsimpananState createState() => _AppFormsimpananState();
+  _AppEditsimpananState createState() => _AppEditsimpananState();
 }
 
-class _AppFormsimpananState extends State<AppFormsimpanan> {
+class _AppEditsimpananState extends State<AppEditsimpanan> {
   static String baseUrl = "/tujuan-simpanan";
   static String baseUrl2 = "/jenis-simpanan";
   AutovalidateMode _autovalidate = AutovalidateMode.disabled;
@@ -34,6 +34,7 @@ class _AppFormsimpananState extends State<AppFormsimpanan> {
     var indexdata = json.decode(response.body)['data'];
     setState(() {
       _dataTujuanSimpanan = indexdata;
+      valTujuanSimpanan = widget.tujuansimpananController.text;
     });
   }
 
@@ -42,6 +43,7 @@ class _AppFormsimpananState extends State<AppFormsimpanan> {
     var indexdata = json.decode(response.body)['data'];
     setState(() {
       _dataJenisSimpanan = indexdata;
+      valJenisSimpanan = widget.jenissimpananController.text;
     });
   }
   void initState() {

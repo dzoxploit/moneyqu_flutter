@@ -9,7 +9,7 @@ import 'package:flutter_moneyqularavel/widgets/card-square.dart';
 import 'package:flutter_moneyqularavel/widgets/card-category.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:flutter_moneyqularavel/widgets/form/formtagihan.dart';
+import 'package:flutter_moneyqularavel/widgets/form/edit/edittagihan.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_moneyqularavel/network/api.dart';
 
@@ -232,7 +232,7 @@ class _UbahtagihanState extends State<Ubahtagihan> {
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   color: Colors.grey.shade100,
                   child: SingleChildScrollView(
-                      child: AppFormtagihan(
+                      child: AppEdittagihan(
                           formKey: formKey,
                           namatagihanController : namatagihanController,
                           kategoritagihanController : kategoritagihanController,

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_moneyqularavel/widgets/drawer.dart';
 import 'package:flutter_moneyqularavel/constants/Theme.dart';
+import 'package:flutter_moneyqularavel/widgets/form/edit/editpemasukan.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'file:///C:/Users/didin/Documents/flutter_moneyqularavel/lib/widgets/card-horizontal/card-horizontal.dart';
 import 'package:flutter_moneyqularavel/widgets/card-small.dart';
@@ -9,7 +10,7 @@ import 'package:flutter_moneyqularavel/widgets/card-square.dart';
 import 'package:flutter_moneyqularavel/widgets/card-category.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:flutter_moneyqularavel/widgets/form/formsimpanan.dart';
+import 'package:flutter_moneyqularavel/widgets/form/edit/editsimpanan.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_moneyqularavel/network/api.dart';
 
@@ -213,7 +214,7 @@ class _UbahsimpananState extends State<Ubahsimpanan> {
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   color: Colors.grey.shade100,
                   child: SingleChildScrollView(
-                      child: AppFormsimpanan(
+                      child: AppEditsimpanan(
                         formKey: formKey,
                         deskripsiController: deskripsiController,
                         jumlahsimpananController : jumlahsimpananController,

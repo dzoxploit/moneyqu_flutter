@@ -9,7 +9,7 @@ import 'package:flutter_moneyqularavel/widgets/card-square.dart';
 import 'package:flutter_moneyqularavel/widgets/card-category.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:flutter_moneyqularavel/widgets/form/formpengeluaran.dart';
+import 'package:flutter_moneyqularavel/widgets/form/edit/editpengeluaran.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_moneyqularavel/network/api.dart';
 
@@ -217,7 +217,7 @@ class _UbahpengeluaranState extends State<Ubahpengeluaran> {
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   color: Colors.grey.shade100,
                   child: SingleChildScrollView(
-                    child:AppFormpengeluaran(
+                    child:AppEditpengeluaran(
                         formKey: formKey,
                         namapengeluaranController: namapengeluaranController,
                         kategoripengeluaranController : kategoripengeluaranController,

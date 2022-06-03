@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter_moneyqularavel/network/api.dart';
 import 'dart:convert';
 
-class AppFormpengeluaran extends StatefulWidget {
+class AppEditpengeluaran extends StatefulWidget {
   // Required for form validations
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -15,13 +15,13 @@ class AppFormpengeluaran extends StatefulWidget {
   TextEditingController tanggalpengeluaranController;
   TextEditingController keteranganController;
 
-  AppFormpengeluaran({this.formKey, this.namapengeluaranController, this.kategoripengeluaranController, this.jumlahpengeluaranController, this.tanggalpengeluaranController, this.keteranganController});
+  AppEditpengeluaran({this.formKey, this.namapengeluaranController, this.kategoripengeluaranController, this.jumlahpengeluaranController, this.tanggalpengeluaranController, this.keteranganController});
 
   @override
-  _AppFormpengeluaranState createState() => _AppFormpengeluaranState();
+  _AppEditpengeluaranState createState() => _AppEditpengeluaranState();
 }
 
-class _AppFormpengeluaranState extends State<AppFormpengeluaran> {
+class _AppEditpengeluaranState extends State<AppEditpengeluaran> {
   static String baseUrl = "/kategori-pengeluaran";
   AutovalidateMode _autovalidate = AutovalidateMode.disabled;
   List _dataKategori = [];
@@ -31,6 +31,7 @@ class _AppFormpengeluaranState extends State<AppFormpengeluaran> {
     var indexdata = json.decode(response.body)['data'];
     setState(() {
       _dataKategori = indexdata;
+      valKategori = widget.kategoripengeluaranController.text;
     });
   }
   void initState() {
