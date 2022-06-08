@@ -1,37 +1,31 @@
 class Tujuankeuangans{
-  int id,no_tagihan,jumlah_tagihan,status_tagihan,status_tagihan_lunas;
-  String nama_tagihan, kategori, no_rekening ,kode_bank,deksripsi,tanggal_tagihan,tanggal_tagihan_lunas;
+  int id,nominal,nominal_goals,percentage_goals;
+  String kategori,nama,nama_hutang,nama_simpanan,tanggal,status_tujuan_keuangan;
 
-  Tujuankeuangans({this.id, this.no_tagihan,this.jumlah_tagihan,this.status_tagihan,this.status_tagihan_lunas, this.nama_tagihan, this.kategori, this.no_rekening ,this.kode_bank,this.deksripsi,this.tanggal_tagihan,this.tanggal_tagihan_lunas});
+  Tujuankeuangans({this.id,this.nama,this.nominal,this.nominal_goals,this.percentage_goals,this.kategori,this.nama_hutang,this.nama_simpanan,this.tanggal,this.status_tujuan_keuangan});
 
   factory Tujuankeuangans.fromJson(Map<String, dynamic> json){
     return Tujuankeuangans(
         id: json['id'],
-        nama_tagihan: json['nama_tagihan'],
-        kategori: json['kategori'],
-        no_rekening: json['no_rekening'],
-        no_tagihan: json['no_tagihan'],
-        kode_bank: json['kode_bank'],
-        deksripsi: json['deksripsi'],
-        jumlah_tagihan: json['jumlah_tagihan'],
-        status_tagihan: json['status_tagihan'],
-        tanggal_tagihan: json['tanggal_tagihan'],
-        status_tagihan_lunas: json['status_tagihan_lunas'],
-        tanggal_tagihan_lunas: json['tanggal_tagihan_lunas']
+        nama: json['nama'],
+        nominal: json['nominal'],
+        nominal_goals: json['nominal_goals'],
+        percentage_goals: json['percentage_goals'],
+        nama_hutang: json['nama_hutang'],
+        nama_simpanan: json['nama_simpanan'],
+        tanggal: json['tanggal'],
+        status_tujuan_keuangan: json['status_tujuan_keuangan'],
     );
   }
   Map<String, dynamic> toJson() => {
     'id': id,
-    'nama_tagihan': nama_tagihan,
-    'kategori': kategori,
-    'no_rekening': no_rekening,
-    'no_tagihan': no_tagihan,
-    'kode_bank': kode_bank,
-    'deksripsi': deksripsi,
-    'jumlah_tagihan': jumlah_tagihan,
-    'status_tagihan': status_tagihan,
-    'tanggal_tagihan': tanggal_tagihan,
-    'status_tagihan_lunas': status_tagihan_lunas,
-    'tanggal_tagihan_lunas': tanggal_tagihan_lunas,
+    'nama': nama,
+    'nominal':nominal,
+    'nominal_goals': nominal_goals,
+    'percentage_goals': percentage_goals,
+    'nama_hutang': nama_hutang,
+    'nama_simpanan': nama_simpanan,
+    'tanggal': tanggal,
+    'status_tujuan_keuangan': status_tujuan_keuangan,
   };
 }
