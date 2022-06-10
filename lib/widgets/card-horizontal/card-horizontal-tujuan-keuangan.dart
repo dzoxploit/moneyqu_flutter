@@ -9,24 +9,26 @@ class CardHorizontalTujuankeuangan extends StatelessWidget {
 
 
   CardHorizontalTujuankeuangan(
-      {this.jumlah_tagihan  = "",
-        this.tanggal_tagihan = "",
-        this.status_tagihan = "",
-        this.nama_tagihan = "",
-        this.no_tagihan = "",
-        this.no_rekening = "",
-        this.tap = defaultFunc,
-        this.id_tagihan = 0,
+      {this.id_tujuan_keuangan  = "",
+        this.nama = "",
+        this.nominal = 0,
+        this.nominal_goals = 0,
+        this.percentage_goals = 0,
+        this.nama_hutang = "",
+        this.nama_simpanan = "",
+        this.tanggal = "",
+        this.status_tujuan_keuangan = "",
       });
 
-  final String tanggal_tagihan;
-  final int id_tagihan;
-  final String status_tagihan;
-  final String jumlah_tagihan;
-  final String no_tagihan;
-  final String no_rekening;
-  final Function tap;
-  final String nama_tagihan;
+  final int id_tujuan_keuangan;
+  final String nama;
+  final int nominal;
+  final int nominal_goals;
+  final int percentage_goals;
+  final String nama_hutang;
+  final String nama_simpanan;
+  final String tanggal;
+  final String status_tujuan_keuangan;
 
   static void defaultFunc() {
     print("the function works!");
@@ -39,7 +41,7 @@ class CardHorizontalTujuankeuangan extends StatelessWidget {
         splashColor: Colors.grey, // Splash color
         onTap: () =>  Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Detailtagihan(id: id_tagihan)),
+          MaterialPageRoute(builder: (context) => Detailtagihan(id: id_tujuan_keuangan)),
         ),
         child:  Container(
           padding: EdgeInsets.all(15),
