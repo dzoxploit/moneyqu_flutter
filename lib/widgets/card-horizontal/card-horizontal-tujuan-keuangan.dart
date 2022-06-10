@@ -5,10 +5,10 @@ import 'package:flutter_moneyqularavel/screens/crud/pemasukan/ubahpemasukan.dart
 import 'package:flutter_moneyqularavel/screens/crud/piutang/detailpiutang.dart';
 import 'package:flutter_moneyqularavel/screens/crud/simpanan/detailsimpanan.dart';
 
-class CardHorizontalTujuankeuangan extends StatelessWidget {
+class CardHorizontalTujuanKeuangan extends StatelessWidget {
 
 
-  CardHorizontalTujuankeuangan(
+  CardHorizontalTujuanKeuangan(
       {this.id_tujuan_keuangan  = 0,
         this.nama = "",
         this.nominal = 0,
@@ -66,7 +66,7 @@ class CardHorizontalTujuankeuangan extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        "\Rp.nominal",
+                        nominal.toString(),
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -132,7 +132,7 @@ class CardHorizontalTujuankeuangan extends StatelessWidget {
                   ),
                   Container(
                     height: 5,
-                    width: 340,
+                    width: percentage_goals.toDouble() * 3.4,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(2),
                         color: Color(0XFF00B686)),

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_moneyqularavel/model/Tujuankeuangans.dart';
+import 'package:flutter_moneyqularavel/widgets/card-horizontal/card-horizontal-tujuan-keuangan.dart';
 import 'package:flutter_moneyqularavel/widgets/drawer.dart';
 import 'package:flutter_moneyqularavel/constants/Theme.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-import 'file:///C:/Users/didin/Documents/flutter_moneyqularavel/lib/widgets/card-horizontal/card-horizontal.dart';
 import 'package:flutter_moneyqularavel/widgets/card-small.dart';
 import 'package:flutter_moneyqularavel/widgets/card-square.dart';
 import 'package:flutter_moneyqularavel/widgets/card-category.dart';
@@ -331,39 +331,97 @@ class _TujuanKeuanganState extends State<TujuanKeuangan> {
                 ),
               ),
               Expanded(
-                child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    color: Colors.grey.shade100,
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 16.0),
-                            child: buildTujuanKeuanganCard("Buat Beli Tamiya", 120, 20),
-                          ),
-                          SizedBox(height: 8.0),
-                          buildTujuanKeuanganCard("Buat Beli Tamiya", 120, 50),
-                          SizedBox(height: 8.0),
-                          buildTujuanKeuanganCard("Buat Beli Tamiya", 120, 20),
-                          SizedBox(height: 8.0),
-                          buildTujuanKeuanganCard("Buat Beli Tamiya", 120, 20),
-                          SizedBox(height: 8.0),
-                          buildTujuanKeuanganCard("Buat Beli Tamiya", 120, 20),
-                          SizedBox(height: 8.0),
-                          buildTujuanKeuanganCard("Buat Beli Tamiya", 120, 20),
-                          SizedBox(height: 8.0),
-                          buildTujuanKeuanganCard("Buat Beli Tamiya", 120, 20),
-                          SizedBox(height: 8.0),
-                          buildTujuanKeuanganCard("Buat Beli Tamiya", 120, 20),
-                          SizedBox(height: 8.0),
-                          buildTujuanKeuanganCard("Buat Beli Tamiya", 120, 20),
-                          SizedBox(height: 8.0),
-                          buildTujuanKeuanganCard("Buat Beli Tamiya", 120, 20),
-                        ],
-                      ),
-                    )
+                child: FutureBuilder<List<Tujuankeuangans>>(
+                  future: _getTujuanKeuangan(),
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    // By default, show a loading spinner.
+                    if (!snapshot.hasData) return CircularProgressIndicator();
+                    // Render student lists
+                    return ListView.builder(
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        var data = snapshot.data[index];
+                        if(data.status_tujuan_keuangan == 1){
+                          if(data.nama_hutang != null && data.nama_simpanan != null){
+                            return Column(
+                              children: [
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                CardHorizontalTujuanKeuangan(
+                                    id_tujuan_keuangan: data.id,
+                                    nama: data.nama,
+                                    nominal:data.nominal,
+                                    nominal_goals: data.nominal_goals,
+                                    percentage_goals: data.percentage_goals,
+                                    nama_hutang_simpanan: data.nama_hutang,
+                                    tanggal: data.tanggal,
+                                    status_tujuan_keuangan: "tercapai",
+                                ),
+                              ],
+                            );
+                          }else if(data.nama_simpanan != null && data.nama_hutang == null){
+                            return Column(
+                              children: [
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                CardHorizontalTujuanKeuangan(
+                                  id_tujuan_keuangan: data.id,
+                                  nama: data.nama,
+                                  nominal:data.nominal,
+                                  nominal_goals: data.nominal_goals,
+                                  percentage_goals: data.percentage_goals,
+                                  nama_hutang_simpanan: data.nama_simpanan,
+                                  tanggal: data.tanggal,
+                                  status_tujuan_keuangan: "tercapai",
+                                ),
+                              ],
+                            );
+                          }else{
+                            return Column(
+                              children: [
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                CardHorizontalTujuanKeuangan(
+                                  id_tujuan_keuangan: data.id,
+                                  nama: data.nama,
+                                  nominal:data.nominal,
+                                  nominal_goals: data.nominal_goals,
+                                  percentage_goals: data.percentage_goals,
+                                  nama_hutang_simpanan: null,
+                                  tanggal: data.tanggal,
+                                  status_tujuan_keuangan: "tercapai",
+                                ),
+                              ],
+                            );
+                          }
+
+                        }else {
+                          return Column(
+                            children: [
+                              SizedBox(
+                                height: 10,
+                              ),
+                              CardHorizontalTujuanKeuangan(
+                                id_tujuan_keuangan: data.id,
+                                nama: data.nama,
+                                nominal:data.nominal,
+                                nominal_goals: data.nominal_goals,
+                                percentage_goals: data.percentage_goals,
+                                nama_hutang_simpanan: data.nama_hutang,
+                                tanggal: data.tanggal,
+                                status_tujuan_keuangan: "belum tercapai",
+                              ),
+                            ],
+                          );
+                        }
+                      },
+                    );
+                  },
                 ),
-              )
+              ),
             ],
           ),
         ],
