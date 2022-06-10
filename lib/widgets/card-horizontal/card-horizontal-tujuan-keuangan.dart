@@ -66,7 +66,7 @@ class CardHorizontalTujuanKeuangan extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        nominal.toString(),
+                        "Rp."+nominal.toString(),
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,

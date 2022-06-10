@@ -43,7 +43,7 @@ class CardHorizontalPengeluaran extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
             color: Colors.white70,
           ),
-          height: 85,
+          height: 100,
           child: Column(
             children: [
               Row(
@@ -78,6 +78,25 @@ class CardHorizontalPengeluaran extends StatelessWidget {
               ),
               SizedBox(
                 height: 15,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 220,
+                        child:  RichText(
+                          overflow: TextOverflow.ellipsis,
+                          strutStyle: StrutStyle(fontSize: 13.0),
+                          text: TextSpan(
+                              style: TextStyle(color: Colors.lightBlue),
+                              text: category),
+                        ),
+                      )
+                    ],
+                  ),
+                ],
               ),
             ],
           ),

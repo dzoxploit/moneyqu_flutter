@@ -246,6 +246,7 @@ class _PengeluaranState extends State<Pengeluaran> {
                           CardHorizontalPengeluaran(
                               cta: "View data",
                               title: data.nama,
+                              category: data.kategori,
                               id_pengeluaran: data.id,
                               harga: "Rp."+ data.jumlah_pengeluaran.toString(),
                               tap: () {

@@ -247,6 +247,7 @@ class _PemasukanState extends State<Pemasukan> {
                           cta: "View data",
                           title: data.nama,
                           id_pemasukan: data.id,
+                          category: data.kategori,
                           harga: "Rp."+ data.jumlah_pemasukan.toString(),
                           tap: () {
                             Navigator.pushNamed(context, '/pro');

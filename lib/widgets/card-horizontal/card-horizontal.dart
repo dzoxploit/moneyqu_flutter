@@ -43,7 +43,7 @@ class CardHorizontal extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
             color: Colors.white70,
           ),
-          height: 85,
+          height: 100,
           child: Column(
             children: [
               Row(
@@ -79,23 +79,25 @@ class CardHorizontal extends StatelessWidget {
               SizedBox(
                 height: 15,
               ),
-              Stack(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
-                    height: 5,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(2),
-                        color: Colors.grey.shade300),
-                  ),
-                  Container(
-                    height: 5,
-                    width: 80,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(2),
-                        color: Color(0XFF00B686)),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 220,
+                        child:  RichText(
+                          overflow: TextOverflow.ellipsis,
+                          strutStyle: StrutStyle(fontSize: 13.0),
+                          text: TextSpan(
+                              style: TextStyle(color: Colors.lightBlue),
+                              text: category),
+                        ),
+                      )
+                    ],
                   ),
                 ],
-              )
+              ),
             ],
           ),
         ),
