@@ -126,8 +126,8 @@ class _TujuanKeuanganState extends State<TujuanKeuangan> {
   final tujuankeuanganListKey = GlobalKey<_TujuanKeuanganState>();
 
   String name='';
-  var pemasukan_total;
-  var pemasukan_hari_ini;
+  var tercapai;
+  var belum_tercapai;
   var pemasukandata;
   var indexdata;
 
@@ -135,8 +135,8 @@ class _TujuanKeuanganState extends State<TujuanKeuangan> {
   void initState(){
     super.initState();
     _loadUserData();
-    _getPemasukan2();
     _getTujuanKeuangan();
+    _getTujuanKeuangan2();
   }
 
 
@@ -153,13 +153,12 @@ class _TujuanKeuanganState extends State<TujuanKeuangan> {
 
   static String baseUrl = "/tujuan-keuangan";
 
-  Future<void> _getPemasukan2() async {
+  Future<void> _getTujuanKeuangan2() async {
     final response = await Network().getData(baseUrl);
-    indexdata = json.decode(response.body)['data'];
+    indexdata = json.decode(response.body);
     setState(() {
-      pemasukan_total = indexdata['pemasukan'];
-      pemasukan_hari_ini = indexdata['pemasukan_hari_ini'];
-      pemasukandata = indexdata['data_pemasukan'];
+      tercapai = indexdata['tercapai'];
+      belum_tercapai = indexdata['belum_tercapai'];
     });
   }
 
@@ -281,7 +280,7 @@ class _TujuanKeuanganState extends State<TujuanKeuangan> {
                                             ],
                                           ),
                                           Text(
-                                            "\0",
+                                              '${tercapai}',
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 18.0,
@@ -311,7 +310,7 @@ class _TujuanKeuanganState extends State<TujuanKeuangan> {
                                             ],
                                           ),
                                           Text(
-                                            "\0",
+                                            '${belum_tercapai}',
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 18.0,
@@ -472,7 +471,7 @@ class _TujuanKeuanganState extends State<TujuanKeuangan> {
               ),
               Container(
                 height: 5,
-                width: 340,
+                width: belum_tercapai.toDouble() * 3.4,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(2),
                     color: Color(0XFF00B686)),

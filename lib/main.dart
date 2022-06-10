@@ -58,7 +58,7 @@ class MyApp extends StatelessWidget {
           //end pemasukan
 
           //route tujuan keuangan
-          // "/TujuanKeuangan": (BuildContext context) => new TujuanKeuangan(),
+          "/TujuanKeuangan": (BuildContext context) => new TujuanKeuangan(),
           "/tambah-tujuan-keuangan": (BuildContext context) => new Tambahtujuankeuangan(),
           //end tujuan keuangan
 

@@ -1,6 +1,6 @@
 class Tujuankeuangans{
-  int id,nominal,nominal_goals,percentage_goals;
-  String kategori,nama,nama_hutang,nama_simpanan,tanggal,status_tujuan_keuangan;
+  int id,nominal,nominal_goals,percentage_goals,status_tujuan_keuangan;
+  String kategori,nama,nama_hutang,nama_simpanan,tanggal;
 
   Tujuankeuangans({this.id,this.nama,this.nominal,this.nominal_goals,this.percentage_goals,this.kategori,this.nama_hutang,this.nama_simpanan,this.tanggal,this.status_tujuan_keuangan});
 

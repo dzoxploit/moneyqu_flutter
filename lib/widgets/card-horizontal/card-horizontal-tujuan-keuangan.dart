@@ -9,13 +9,12 @@ class CardHorizontalTujuankeuangan extends StatelessWidget {
 
 
   CardHorizontalTujuankeuangan(
-      {this.id_tujuan_keuangan  = "",
+      {this.id_tujuan_keuangan  = 0,
         this.nama = "",
         this.nominal = 0,
         this.nominal_goals = 0,
         this.percentage_goals = 0,
-        this.nama_hutang = "",
-        this.nama_simpanan = "",
+        this.nama_hutang_simpanan = "",
         this.tanggal = "",
         this.status_tujuan_keuangan = "",
       });
@@ -25,8 +24,7 @@ class CardHorizontalTujuankeuangan extends StatelessWidget {
   final int nominal;
   final int nominal_goals;
   final int percentage_goals;
-  final String nama_hutang;
-  final String nama_simpanan;
+  final String nama_hutang_simpanan;
   final String tanggal;
   final String status_tujuan_keuangan;
 
@@ -49,7 +47,6 @@ class CardHorizontalTujuankeuangan extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
             color: Colors.white,
           ),
-          height: 85,
           child: Column(
             children: [
               Row(
@@ -58,7 +55,7 @@ class CardHorizontalTujuankeuangan extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        "",
+                        nama,
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -69,7 +66,7 @@ class CardHorizontalTujuankeuangan extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        "",
+                        "\Rp.nominal",
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -79,7 +76,7 @@ class CardHorizontalTujuankeuangan extends StatelessWidget {
                         width: 10,
                       ),
                       Text(
-                        "",
+                        "($percentage_goals%)",
                         style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -104,7 +101,7 @@ class CardHorizontalTujuankeuangan extends StatelessWidget {
                           strutStyle: StrutStyle(fontSize: 13.0),
                           text: TextSpan(
                               style: TextStyle(color: Colors.lightBlue),
-                              text: ""),
+                              text: nama_hutang_simpanan),
                         ),
                       )
                     ],
@@ -116,7 +113,7 @@ class CardHorizontalTujuankeuangan extends StatelessWidget {
                         strutStyle: StrutStyle(fontSize: 13.0),
                         text: TextSpan(
                             style: TextStyle(color: Colors.lightBlue),
-                            text: ""),
+                            text: status_tujuan_keuangan),
                       ),
                     ],
                   )
