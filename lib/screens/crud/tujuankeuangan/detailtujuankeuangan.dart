@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_moneyqularavel/screens/crud/pemasukan/ubahpemasukan.dart';
 import 'package:flutter_moneyqularavel/screens/crud/tagihan/ubahtagihan.dart';
+import 'package:flutter_moneyqularavel/screens/crud/tujuankeuangan/detailgoalstujuankeuangan.dart';
 import 'package:flutter_moneyqularavel/widgets/drawer.dart';
 import 'package:flutter_moneyqularavel/constants/Theme.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
@@ -59,6 +60,8 @@ class _DetailTujuanKeuanganState extends State<DetailTujuanKeuangan> {
   final formKey = GlobalKey<FormState>();
 
   var indexdata;
+  var id;
+  var id_tujuan_keuangan;
   var nama;
   var kategori;
   var nominal;
@@ -93,16 +96,17 @@ class _DetailTujuanKeuanganState extends State<DetailTujuanKeuangan> {
     indexdata = json.decode(response.body)['data'];
     setState(() {
       nama = indexdata['nama'];
+      kategori = indexdata['kategori'];
       nominal = indexdata['nominal'];
       nominal_goals = indexdata['nominal_goals'];
       percentage_goals = indexdata['percentage_goals'];
-      nama_hutang = indexdata['nama_hutang'];
-      nama_simpanan = indexdata['nama_simpanan'];
-      var tanggal = indexdata['tanggal'];
-      if(indexdata['status_tujuan_keuangan'] == 1){
-        status_tujuan_keuangan = "Active";
-      }else if(indexdata['status_tagihan'] == 0){
-        status_tujuan_keuangan = "Non Active";
+      nama_hutang = indexdata['nama_hutang'].toString();
+      nama_simpanan = indexdata['nama_simpanan'].toString();
+      tanggal = indexdata['tanggal'];
+      if(indexdata['status_tujuan_keuangan'] != 0){
+        status_tujuan_keuangan = "Lunas";
+      }else{
+        status_tujuan_keuangan = "Belum Lunas";
       }
     });
   }
@@ -169,13 +173,6 @@ class _DetailTujuanKeuanganState extends State<DetailTujuanKeuangan> {
                               fontWeight: FontWeight.w600,
                               color: Colors.white,
                             ),
-                          ),
-                          IconButton(
-                              icon: const Icon(Icons.restore_from_trash_sharp, color: Colors.white),
-                              tooltip: 'Increase volume by 10',
-                              onPressed: () {
-                                _deleteTujuanKeuangan();
-                              }
                           ),
                           IconButton(
                               icon: const Icon(Icons.restore_from_trash_sharp, color: Colors.white),
@@ -310,7 +307,7 @@ class _DetailTujuanKeuanganState extends State<DetailTujuanKeuangan> {
                                     strutStyle: StrutStyle(fontSize: 20.0),
                                     text: TextSpan(
                                         style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
-                                        text: "Jumlah Tagihan"),
+                                        text: "Nominal"),
                                   ),
                                 ),
                                 SizedBox(
@@ -334,7 +331,53 @@ class _DetailTujuanKeuanganState extends State<DetailTujuanKeuangan> {
                                     strutStyle: StrutStyle(fontSize: 20),
                                     text: TextSpan(
                                         style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
-                                        text: "Rp. "+ jumlah_tagihan.toString()),
+                                        text: "Rp. "+ nominal.toString()),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                              height: 50,
+                            ),
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: 120,
+                                  child: RichText(
+                                    overflow: TextOverflow.ellipsis,
+                                    strutStyle: StrutStyle(fontSize: 20.0),
+                                    text: TextSpan(
+                                        style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
+                                        text: "Nominal Goals"),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                  child: RichText(
+                                    overflow: TextOverflow.ellipsis,
+                                    strutStyle: StrutStyle(fontSize: 20.0),
+                                    text: TextSpan(
+                                        style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
+                                        text: " : "),
+                                  ),
+                                )
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: 200,
+                                  child: RichText(
+                                    overflow: TextOverflow.ellipsis,
+                                    strutStyle: StrutStyle(fontSize: 20),
+                                    text: TextSpan(
+                                        style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
+                                        text: "Rp. "+ nominal_goals.toString()),
                                   ),
                                 ),
                               ],
@@ -359,7 +402,7 @@ class _DetailTujuanKeuanganState extends State<DetailTujuanKeuangan> {
                                     strutStyle: StrutStyle(fontSize: 20.0),
                                     text: TextSpan(
                                         style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
-                                        text: "Deskripsi"),
+                                        text: "Nama Hutang"),
                                   ),
                                 ),
                                 SizedBox(
@@ -383,7 +426,7 @@ class _DetailTujuanKeuanganState extends State<DetailTujuanKeuangan> {
                                     strutStyle: StrutStyle(fontSize: 20),
                                     text: TextSpan(
                                         style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
-                                        text: deskripsi),
+                                        text: nama_hutang),
                                   ),
                                 ),
                               ],
@@ -408,7 +451,7 @@ class _DetailTujuanKeuanganState extends State<DetailTujuanKeuangan> {
                                     strutStyle: StrutStyle(fontSize: 20.0),
                                     text: TextSpan(
                                         style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
-                                        text: "No Tagihan"),
+                                        text: "Nama Simpanan"),
                                   ),
                                 ),
                                 SizedBox(
@@ -432,7 +475,7 @@ class _DetailTujuanKeuanganState extends State<DetailTujuanKeuangan> {
                                     strutStyle: StrutStyle(fontSize: 20),
                                     text: TextSpan(
                                         style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
-                                        text: no_tagihan.toString()),
+                                        text: nama_simpanan),
                                   ),
                                 ),
                               ],
@@ -457,7 +500,7 @@ class _DetailTujuanKeuanganState extends State<DetailTujuanKeuangan> {
                                     strutStyle: StrutStyle(fontSize: 20.0),
                                     text: TextSpan(
                                         style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
-                                        text: "No Rekening"),
+                                        text: "Tanggal"),
                                   ),
                                 ),
                                 SizedBox(
@@ -481,7 +524,7 @@ class _DetailTujuanKeuanganState extends State<DetailTujuanKeuangan> {
                                     strutStyle: StrutStyle(fontSize: 20),
                                     text: TextSpan(
                                         style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
-                                        text: no_rekening),
+                                        text: tanggal),
                                   ),
                                 ),
                               ],
@@ -506,7 +549,7 @@ class _DetailTujuanKeuanganState extends State<DetailTujuanKeuangan> {
                                     strutStyle: StrutStyle(fontSize: 20.0),
                                     text: TextSpan(
                                         style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
-                                        text: "Kode Bank"),
+                                        text: "Status Tujuan Keuangan"),
                                   ),
                                 ),
                                 SizedBox(
@@ -530,7 +573,7 @@ class _DetailTujuanKeuanganState extends State<DetailTujuanKeuangan> {
                                     strutStyle: StrutStyle(fontSize: 20),
                                     text: TextSpan(
                                         style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
-                                        text: kode_bank),
+                                        text: status_tujuan_keuangan),
                                   ),
                                 ),
                               ],
@@ -540,54 +583,21 @@ class _DetailTujuanKeuanganState extends State<DetailTujuanKeuangan> {
                         SizedBox(
                           height: 15,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            SizedBox(
-                              height: 50,
-                            ),
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: 120,
-                                  child: RichText(
-                                    overflow: TextOverflow.ellipsis,
-                                    strutStyle: StrutStyle(fontSize: 20.0),
-                                    text: TextSpan(
-                                        style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
-                                        text: "Status Tagihan"),
+                        Container(
+                            height: 100,
+                            child: Row(
+                                children : <Widget>[
+                                  Expanded(
+                                      child: RaisedButton(
+                                          onPressed:(){ Navigator.push(
+                                            context,
+                                            MaterialPageRoute(builder: (context) => DetailGoalsTujuanKeuangan(id: id_tujuan_keuangan)),
+                                          );},
+                                          color: Colors.lightBlue,
+                                          child: Text("Detail Goals", style: TextStyle(color: Colors.white),)
+                                      )
                                   ),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                  child: RichText(
-                                    overflow: TextOverflow.ellipsis,
-                                    strutStyle: StrutStyle(fontSize: 20.0),
-                                    text: TextSpan(
-                                        style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
-                                        text: " : "),
-                                  ),
-                                )
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: 200,
-                                  child: RichText(
-                                    overflow: TextOverflow.ellipsis,
-                                    strutStyle: StrutStyle(fontSize: 20),
-                                    text: TextSpan(
-                                        style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
-                                        text: status_tagihan),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 15,
+                                ])
                         ),
                       ],
                     ),
@@ -603,7 +613,7 @@ class _DetailTujuanKeuanganState extends State<DetailTujuanKeuangan> {
 
         onPressed:(){ Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Ubahtagihan(id: id_tagihan)),
+          MaterialPageRoute(builder: (context) => Ubahtagihan(id: id_tujuan_keuangan)),
         );},
         tooltip: 'Increment',
         child: new Icon(Icons.edit),

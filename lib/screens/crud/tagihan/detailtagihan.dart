@@ -97,12 +97,12 @@ class _DetailtagihanState extends State<Detailtagihan> {
       id_tagihan = indexdata['id'];
       nama_tagihan = indexdata['nama_tagihan'];
       kategori_tagihan = indexdata['kategori'];
-      deskripsi = indexdata['deksripsi'];
+      deskripsi = indexdata['deksripsi'].toString();
       jumlah_tagihan = indexdata['jumlah_tagihan'].toString();
       tanggal_tagihan = indexdata['tanggal_tagihan'];
       no_tagihan = indexdata['no_tagihan'].toString();
-      no_rekening = indexdata['no_rekening'];
-      kode_bank = indexdata['kode_bank'];
+      no_rekening = indexdata['no_rekening'].toString();
+      kode_bank = indexdata['kode_bank'].toString();
       if(indexdata['status_tagihan'] == 1){
         status_tagihan = "Active";
       }else if(indexdata['status_tagihan'] == 0){

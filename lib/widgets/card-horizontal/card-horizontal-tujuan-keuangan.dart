@@ -4,6 +4,7 @@ import 'package:flutter_moneyqularavel/screens/crud/tagihan/detailtagihan.dart';
 import 'package:flutter_moneyqularavel/screens/crud/pemasukan/ubahpemasukan.dart';
 import 'package:flutter_moneyqularavel/screens/crud/piutang/detailpiutang.dart';
 import 'package:flutter_moneyqularavel/screens/crud/simpanan/detailsimpanan.dart';
+import 'package:flutter_moneyqularavel/screens/crud/tujuankeuangan/detailtujuankeuangan.dart';
 
 class CardHorizontalTujuanKeuangan extends StatelessWidget {
 
@@ -39,7 +40,7 @@ class CardHorizontalTujuanKeuangan extends StatelessWidget {
         splashColor: Colors.grey, // Splash color
         onTap: () =>  Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Detailtagihan(id: id_tujuan_keuangan)),
+          MaterialPageRoute(builder: (context) => DetailTujuanKeuangan(id: id_tujuan_keuangan)),
         ),
         child:  Container(
           padding: EdgeInsets.all(15),
