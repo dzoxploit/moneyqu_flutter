@@ -5,7 +5,7 @@ import 'package:flutter_moneyqularavel/constants/Theme.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:flutter_moneyqularavel/widgets/form/formhutang.dart';
+import 'package:flutter_moneyqularavel/widgets/form/formbayarhutang.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_moneyqularavel/network/api.dart';
 
@@ -52,10 +52,10 @@ class Bayarhutang extends StatefulWidget implements PreferredSizeWidget {
 class _BayarhutangState extends State<Bayarhutang> {
   final _dateController = TextEditingController();
   final formKey = GlobalKey<FormState>();
-  TextEditingController namahutangController;
-  TextEditingController deksripsiController;
-  TextEditingController jumlahhutangController;
+  TextEditingController namapengeluaranController;
+  TextEditingController jumlahpengeluaranController;
   TextEditingController tanggalpengeluaranController;
+  TextEditingController keteranganController;
 
 
   var indexdata;
@@ -87,9 +87,8 @@ class _BayarhutangState extends State<Bayarhutang> {
     final response = await Network().getData('/hutang/update/'+widget.id.toString());
     indexdata = json.decode(response.body)['data'];
     setState(() {
-      namahutangController = new TextEditingController(text: indexdata['nama_hutang']);
-      deksripsiController = new TextEditingController(text: indexdata['deksripsi']);
-      jumlahhutangController = new TextEditingController(text: indexdata['jumlah_hutang'].toString());
+      namapengeluaranController = new TextEditingController(text: indexdata['nama_hutang']);
+      jumlahpengeluaranController = new TextEditingController(text: indexdata['jumlah_hutang']);
     });
   }
 
@@ -99,13 +98,14 @@ class _BayarhutangState extends State<Bayarhutang> {
     var settingsdata = jsonDecode(localStorage.getString('settings'));
 
     var data = {
-      'nama_pengeluaran': namahutangController.text,
-      'keterangan' : deksripsiController.text,
+      'nama_pengeluaran': namapengeluaranController.text,
+      'jumlah_pengeluaran': jumlahpengeluaranController.text,
       'currency_id': settingsdata['currency_id'],
-      'jumlah_pengeluaran': jumlahhutangController.text,
+      'tanggal_pengeluaran': tanggalpengeluaranController.text,
+      'keterangan': keteranganController.text,
     };
 
-    var res = await Network().postData(data, '/hutang/update/'+widget.id.toString());
+    var res = await Network().postData(data, 'pengeluaran/create/bayar-hutang'+widget.id.toString());
     print(res.body);
     var body = json.decode(res.body);
     if(body['status'] == 201){
@@ -118,7 +118,7 @@ class _BayarhutangState extends State<Bayarhutang> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: FlutterMoneyquDrawer(currentPage: "update-hutang"),
+      drawer: FlutterMoneyquDrawer(currentPage: "bayar-hutang"),
       bottomNavigationBar: BottomAppBar(
         child: RaisedButton(
           child: Text("Update"),
@@ -201,11 +201,12 @@ class _BayarhutangState extends State<Bayarhutang> {
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   color: Colors.grey.shade100,
                   child: SingleChildScrollView(
-                      child: AppFormhutang(
+                      child: AppFormBayarHutang(
                         formKey: formKey,
-                        namahutangController: namahutangController,
-                        deksripsiController : deksripsiController,
-                        jumlahhutangController : jumlahhutangController,
+                        namapengeluaranController: namapengeluaranController,
+                        tanggalpengeluaranController : tanggalpengeluaranController,
+                        jumlahpengeluaranController : jumlahpengeluaranController,
+                        keteranganController : keteranganController,
                       )
                   ),
                 ),

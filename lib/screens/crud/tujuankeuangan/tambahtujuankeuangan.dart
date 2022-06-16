@@ -1,11 +1,19 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_moneyqularavel/widgets/drawer.dart';
 import 'package:flutter_moneyqularavel/constants/Theme.dart';
+import 'package:flutter_moneyqularavel/widgets/form/formtujuankeuangan.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'file:///C:/Users/didin/Documents/flutter_moneyqularavel/lib/widgets/card-horizontal/card-horizontal.dart';
 import 'package:flutter_moneyqularavel/widgets/card-small.dart';
 import 'package:flutter_moneyqularavel/widgets/card-square.dart';
 import 'package:flutter_moneyqularavel/widgets/card-category.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:flutter_moneyqularavel/widgets/form/formsimpanan.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_moneyqularavel/network/api.dart';
+import 'package:flutter_moneyqularavel/model/Simpanans.dart';
 
 class Tambahtujuankeuangan extends StatefulWidget implements PreferredSizeWidget {
   final bool backButton;
@@ -46,10 +54,67 @@ class Tambahtujuankeuangan extends StatefulWidget implements PreferredSizeWidget
 }
 
 class _TambahtujuankeuanganState extends State<Tambahtujuankeuangan> {
+  String currency='';
+  final formKey = GlobalKey<FormState>();
+
+  TextEditingController namatujuankeuanganController = new TextEditingController();
+  TextEditingController kategoritujuankeuanganController = new TextEditingController();
+  TextEditingController tanggalController = new TextEditingController();
+  TextEditingController nominalController  = new TextEditingController();
+  TextEditingController hutangController  = new TextEditingController();
+  TextEditingController simpananController  = new TextEditingController();
+
+  _loadUserData() async{
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var settingsdata = jsonDecode(localStorage.getString('settings'));
+
+    if(settingsdata != null) {
+      setState(() {
+        currency = settingsdata['currency_id'];
+      });
+    }
+  }
+  // Http post request to create new data
+  void _createPemasukan() async {
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var settingsdata = jsonDecode(localStorage.getString('settings'));
+
+    var data = {
+      'nama_tujuan_keuangan': namatujuankeuanganController.text,
+      'kategori_tujuan_keuangan_id' : kategoritujuankeuanganController.text,
+      'nominal' : nominalController.text,
+      'currency_id': settingsdata['currency_id'],
+      'tanggal': tanggalController.text,
+      'hutang_id': hutangController.text,
+      'simpanan_id': simpananController.text
+    };
+
+    var res = await Network().postData(data, '/tujuan-keuangan/create');
+    print(res.body);
+    var body = json.decode(res.body);
+    if(body['status'] == 201){
+      Navigator.pushReplacementNamed(context, '/tujuan-keuangan');
+    }else{
+      Navigator.of(context).pushReplacementNamed('/home');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: FlutterMoneyquDrawer(currentPage: "Tambah-piutang"),
+      drawer: FlutterMoneyquDrawer(currentPage: "Tambah-tujuan-keuangan"),
+      bottomNavigationBar: BottomAppBar(
+        child: RaisedButton(
+          child: Text("Create"),
+          color: Colors.blue,
+          textColor: Colors.white,
+          onPressed: () {
+            if (formKey.currentState.validate()) {
+              _createPemasukan();
+            }
+          },
+        ),
+      ),
       body: Stack(
         children: [
           Column(
@@ -89,7 +154,7 @@ class _TambahtujuankeuanganState extends State<Tambahtujuankeuangan> {
                                   })
                           ),
                           Text(
-                            "Create Pemasukan",
+                            "Create Simpanan",
                             style: TextStyle(
                               fontSize: 18.0,
                               fontWeight: FontWeight.w600,
@@ -111,44 +176,19 @@ class _TambahtujuankeuanganState extends State<Tambahtujuankeuangan> {
               ),
               Expanded(
                 child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    color: Colors.grey.shade100,
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(top: 50.0),
-                          ),
-                          TextFormField(
-                            decoration: const InputDecoration(
-                              icon: const Icon(Icons.person),
-                              hintText: 'Enter your name',
-                              labelText: 'Name',
-                            ),
-                          ),
-                          TextFormField(
-                            decoration: const InputDecoration(
-                              icon: const Icon(Icons.phone),
-                              hintText: 'Enter a phone number',
-                              labelText: 'Phone',
-                            ),
-                          ),
-                          TextFormField(
-                            decoration: const InputDecoration(
-                              icon: const Icon(Icons.calendar_today),
-                              hintText: 'Enter your date of birth',
-                              labelText: 'Dob',
-                            ),
-                          ),
-                          new Container(
-                              padding: const EdgeInsets.only(left: 150.0, top: 40.0),
-                              child: new RaisedButton(
-                                child: const Text('Submit'),
-                                onPressed: null,
-                              )),
-                        ],
-                      ),
-                    )
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  color: Colors.grey.shade100,
+                  child: SingleChildScrollView(
+                      child: AppFormtujuankeuangan(
+                        formKey: formKey,
+                        namatujuankeuanganController: namatujuankeuanganController,
+                        kategoritujuankeuanganController : kategoritujuankeuanganController,
+                        nominalController : nominalController,
+                        tanggalController : tanggalController,
+                        hutangController: hutangController,
+                        simpananController: simpananController,
+                      )
+                  ),
                 ),
               )
             ],

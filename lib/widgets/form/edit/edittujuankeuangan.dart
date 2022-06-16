@@ -4,75 +4,86 @@ import 'package:intl/intl.dart';
 import 'package:flutter_moneyqularavel/network/api.dart';
 import 'dart:convert';
 
-class AppEdittagihan extends StatefulWidget {
+class AppEdittujuankeuangan extends StatefulWidget {
   // Required for form validations
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   // Handles text onchange
-  TextEditingController namatagihanController;
-  TextEditingController kategoritagihanController;
-  TextEditingController notagihanController;
-  TextEditingController norekeningController;
-  TextEditingController jumlahtagihanController;
-  TextEditingController statustagihanController;
-  TextEditingController kodebankController;
-  TextEditingController deskrispiController;
-  TextEditingController tanggaltagihanController;
+  TextEditingController namatujuankeuanganController;
+  TextEditingController kategoritujuankeuanganController;
+  TextEditingController tanggalController;
+  TextEditingController nominalController;
+  TextEditingController hutangController;
+  TextEditingController simpananController;
 
-  AppEdittagihan({this.formKey, this.namatagihanController,this.tanggaltagihanController, this.deskrispiController, this.kategoritagihanController, this.norekeningController, this.notagihanController, this.statustagihanController, this.jumlahtagihanController, this.kodebankController});
+  AppEdittujuankeuangan({this.formKey, this.namatujuankeuanganController,this.kategoritujuankeuanganController, this.tanggalController, this.nominalController, this.hutangController, this.simpananController});
 
   @override
-  _AppEdittagihanState createState() => _AppEdittagihanState();
+  _AppEdittujuankeuanganState createState() => _AppEdittujuankeuanganState();
 }
 
-class _AppEdittagihanState extends State<AppEdittagihan> {
+class _AppEdittujuankeuanganState extends State<AppEdittujuankeuangan> {
   AutovalidateMode _autovalidate = AutovalidateMode.disabled;
   var _items = [
     "Active",
     "Non Active",
   ];
 
-  static String baseUrl = "/kategori-tagihan";
+  static String baseUrl = "/kategori-tujuan-keuangan";
+  static String baseUrl2 = "/hutang";
+  static String baseUrl3 = "/simpanan";
+
   List _dataKategori = [];
+  List _dataHutang = [];
+  List _dataSimpanan = [];
   String valKategori;
+  String valHutang;
+  String valSimpanan;
+
   Future<void> _getKategori() async {
     final response = await Network().getData(baseUrl);
     var indexdata = json.decode(response.body)['data'];
     setState(() {
       _dataKategori = indexdata;
+      valHutang = widget.hutangController.text;
+      valSimpanan = widget.simpananController.text;
+      valKategori = widget.kategoritujuankeuanganController.text;
+    });
+  }
+
+  Future<void> _getHutang() async {
+    final response = await Network().getData(baseUrl2);
+    var indexdata = json.decode(response.body)['data']['data_hutang'];
+    setState(() {
+      _dataHutang = indexdata;
+    });
+  }
+
+  Future<void> _getSimpanan() async {
+    final response = await Network().getData(baseUrl3);
+    var indexdata = json.decode(response.body)['data']['data_simpanan'];
+    setState(() {
+      _dataSimpanan = indexdata;
     });
   }
   void initState() {
     // TODO: implement initState
     super.initState();
     _getKategori();
+    _getSimpanan();
+    _getHutang();
   }
-  String _validateNamaTagihan(String value) {
-    if (value.length == 0) return 'Nama Hutang cannot be empty';
+  String _validateNamaTujuanKeuangan(String value) {
+    if (value.length == 0) return 'Nama Tujuan Keuangan cannot be empty';
     return null;
   }
-  String _validateDeksripsi(String value) {
-    if (value.length == 0) return 'Deksripsi Hutang cannot be empty';
-    return null;
-  }
-  String _validateJumlahTagihan(String value) {
-    if (value == null || value.isEmpty) return 'Jumlah Hutang be empty';
-    return null;
-  }
-
-  String _validateKategoriTagihan(String value) {
-    if (value == null || value.isEmpty) return 'Tanggal Hutang cannot be empty';
-    return null;
-  }
-  String _validateStatusTagihan(String value) {
-    if (value == null || value.isEmpty) return 'Tanggal Hutang cannot be empty';
+  String _validateNominal(String value) {
+    if (value == null || value.isEmpty) return 'Nominal be empty';
     return null;
   }
 
-  String _validateNoTelepon(String value) {
-    Pattern pattern = r'(?<=\s|^)\d+(?=\s|$)';
-    RegExp regex = new RegExp(pattern);
-    if (!regex.hasMatch(value)) return 'No telepon must be a number';
+  String _validateKategoriTujuanKeuangan(String value) {
+    if (value == null || value.isEmpty) return 'Tanggal cannot be empty';
     return null;
   }
 
@@ -87,7 +98,7 @@ class _AppEdittagihanState extends State<AppEdittagihan> {
           new Padding(padding: EdgeInsets.only(top: 50.0)),
           new TextFormField(
             decoration: new InputDecoration(
-              labelText: "Nama Tagihan",
+              labelText: "Nama Tujuan Keuangan",
               fillColor: Colors.white,
               border: new OutlineInputBorder(
                 borderRadius: new BorderRadius.circular(25.0),
@@ -96,27 +107,8 @@ class _AppEdittagihanState extends State<AppEdittagihan> {
               ),
               //fillColor: Colors.green
             ),
-            controller: widget.namatagihanController,
-            validator: _validateNamaTagihan,
-            keyboardType: TextInputType.text,
-            style: new TextStyle(
-              fontFamily: "Poppins",
-            ),
-          ),
-          new Padding(padding: EdgeInsets.only(top: 20.0)),
-          new TextFormField(
-            decoration: new InputDecoration(
-              labelText: "Deksripsi Tagihan",
-              fillColor: Colors.white,
-              border: new OutlineInputBorder(
-                borderRadius: new BorderRadius.circular(25.0),
-                borderSide: new BorderSide(
-                ),
-              ),
-              //fillColor: Colors.green
-            ),
-            controller: widget.deskrispiController,
-            validator: _validateDeksripsi,
+            controller: widget.namatujuankeuanganController,
+            validator: _validateNamaTujuanKeuangan,
             keyboardType: TextInputType.text,
             style: new TextStyle(
               fontFamily: "Poppins",
@@ -132,18 +124,18 @@ class _AppEdittagihanState extends State<AppEdittagihan> {
             ),
             child: DropdownButtonHideUnderline(
               child:  DropdownButton(
-                hint: Text("Kategori Tagihan"),
+                hint: Text("Kategori Tujuan Keuangan"),
                 value: valKategori,
                 items: _dataKategori.map((item) {
                   return DropdownMenuItem(
-                    child: Text(item['nama_tagihan']),
+                    child: Text(item['nama_tujuan_keuangan']),
                     value: item['id'].toString(),
                   );
                 }).toList(),
                 onChanged: (value) {
                   setState(() {
                     valKategori = value;
-                    widget.kategoritagihanController.text = value;
+                    widget.kategoritujuankeuanganController.text = value;
                   });
                 },
               ),
@@ -154,7 +146,7 @@ class _AppEdittagihanState extends State<AppEdittagihan> {
             visible: false,
             child: TextFormField(
               decoration: new InputDecoration(
-                labelText: "Kategori Tagihan",
+                labelText: "Kategori ",
                 fillColor: Colors.white,
                 border: new OutlineInputBorder(
                   borderRadius: new BorderRadius.circular(25.0),
@@ -163,8 +155,8 @@ class _AppEdittagihanState extends State<AppEdittagihan> {
                 ),
                 //fillColor: Colors.green
               ),
-              controller: widget.kategoritagihanController,
-              validator: _validateKategoriTagihan,
+              controller: widget.kategoritujuankeuanganController,
+              validator: _validateKategoriTujuanKeuangan,
               keyboardType: TextInputType.number,
               style: new TextStyle(
                 fontFamily: "Poppins",
@@ -174,7 +166,7 @@ class _AppEdittagihanState extends State<AppEdittagihan> {
           new Padding(padding: EdgeInsets.only(top: 20.0)),
           new TextFormField(
             decoration: new InputDecoration(
-              labelText: "Jumlah Tagihan (Rp)",
+              labelText: "Nominal (Rp)",
               fillColor: Colors.white,
               border: new OutlineInputBorder(
                 borderRadius: new BorderRadius.circular(25.0),
@@ -183,8 +175,8 @@ class _AppEdittagihanState extends State<AppEdittagihan> {
               ),
               //fillColor: Colors.green
             ),
-            controller: widget.jumlahtagihanController,
-            validator: _validateJumlahTagihan,
+            controller: widget.nominalController,
+            validator: _validateNominal,
             keyboardType: TextInputType.number,
             style: new TextStyle(
               fontFamily: "Poppins",
@@ -193,9 +185,9 @@ class _AppEdittagihanState extends State<AppEdittagihan> {
           new Padding(padding: EdgeInsets.only(top: 20.0)),
           new TextFormField(
             readOnly: true,
-            controller: widget.tanggaltagihanController,
+            controller: widget.tanggalController,
             decoration: InputDecoration(
-              labelText: 'Tanggal Tagihan',
+              labelText: 'Tanggal',
               border: new OutlineInputBorder(
                 borderRadius: new BorderRadius.circular(25.0),
                 borderSide: new BorderSide(
@@ -210,92 +202,157 @@ class _AppEdittagihanState extends State<AppEdittagihan> {
                 lastDate: DateTime(2025),
               ).then((selectedDate) {
                 if (selectedDate != null) {
-                  widget.tanggaltagihanController.text =
+                  widget.tanggalController.text =
                       DateFormat('yyyy-MM-dd').format(selectedDate);
                 }
               });
             },
           ),
-          new Padding(padding: EdgeInsets.only(top: 50.0)),
-          new TextFormField(
+          new Padding(padding: EdgeInsets.only(top: 20.0)),
+          InputDecorator(
             decoration: new InputDecoration(
-              labelText: "No tagihan",
-              fillColor: Colors.white,
-              border: new OutlineInputBorder(
+              border: OutlineInputBorder(
                 borderRadius: new BorderRadius.circular(25.0),
-                borderSide: new BorderSide(
-                ),
+                borderSide: new BorderSide(),
               ),
-              //fillColor: Colors.green
             ),
-            controller: widget.notagihanController,
-            keyboardType: TextInputType.text,
-            style: new TextStyle(
-              fontFamily: "Poppins",
-            ),
-            validator: _validateNoTelepon,
-          ),
-          new Padding(padding: EdgeInsets.only(top: 50.0)),
-          new TextFormField(
-            decoration: new InputDecoration(
-              labelText: "No rekening",
-              fillColor: Colors.white,
-              border: new OutlineInputBorder(
-                borderRadius: new BorderRadius.circular(25.0),
-                borderSide: new BorderSide(
-                ),
-              ),
-              //fillColor: Colors.green
-            ),
-            controller: widget.norekeningController,
-            keyboardType: TextInputType.text,
-            style: new TextStyle(
-              fontFamily: "Poppins",
-            ),
-          ),
-          new Padding(padding: EdgeInsets.only(top: 50.0)),
-          new TextFormField(
-            decoration: new InputDecoration(
-              labelText: "Kode Bank",
-              fillColor: Colors.white,
-              border: new OutlineInputBorder(
-                borderRadius: new BorderRadius.circular(25.0),
-                borderSide: new BorderSide(
-                ),
-              ),
-              //fillColor: Colors.green
-            ),
-            controller: widget.kodebankController,
-            keyboardType: TextInputType.text,
-            style: new TextStyle(
-              fontFamily: "Poppins",
-            ),
-          ),
-          new Padding(padding: EdgeInsets.only(top: 50.0)),
-          TextField(
-            controller: widget.statustagihanController,
-            decoration: InputDecoration(
-              labelText: "Status Tagihan",
-              border: new OutlineInputBorder(
-                borderRadius: new BorderRadius.circular(25.0),
-                borderSide: new BorderSide(
-                ),
-              ),
-              suffixIcon: PopupMenuButton<String>(
-                icon: const Icon(Icons.arrow_drop_down),
-                onSelected: (String value) {
-                  widget.statustagihanController.text = value;
-                },
-                itemBuilder: (BuildContext context) {
-                  return _items
-                      .map<PopupMenuItem<String>>((String value) {
-                    return new PopupMenuItem(
-                        child: new Text(value), value: value);
-                  }).toList();
+            child: DropdownButtonHideUnderline(
+              child:  DropdownButton(
+                hint: Text("Kategori Tujuan Keuangan"),
+                value: valKategori,
+                items: _dataKategori.map((item) {
+                  return DropdownMenuItem(
+                    child: Text(item['nama_tujuan_keuangan']),
+                    value: item['id'].toString(),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    valKategori = value;
+                    widget.kategoritujuankeuanganController.text = value;
+                  });
                 },
               ),
             ),
-          )
+          ),
+          new Padding(padding: EdgeInsets.only(top: 20.0)),
+          new Visibility(
+            visible: false,
+            child: TextFormField(
+              decoration: new InputDecoration(
+                labelText: "Kategori ",
+                fillColor: Colors.white,
+                border: new OutlineInputBorder(
+                  borderRadius: new BorderRadius.circular(25.0),
+                  borderSide: new BorderSide(
+                  ),
+                ),
+                //fillColor: Colors.green
+              ),
+              controller: widget.kategoritujuankeuanganController,
+              validator: _validateKategoriTujuanKeuangan,
+              keyboardType: TextInputType.number,
+              style: new TextStyle(
+                fontFamily: "Poppins",
+              ),
+            ),
+          ),
+          new Padding(padding: EdgeInsets.only(top: 20.0)),
+          InputDecorator(
+            decoration: new InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: new BorderRadius.circular(25.0),
+                borderSide: new BorderSide(),
+              ),
+            ),
+            child: DropdownButtonHideUnderline(
+              child:  DropdownButton(
+                hint: Text("Hutang"),
+                value: valHutang,
+                items: _dataHutang.map((item) {
+                  return DropdownMenuItem(
+                    child: Text(item['nama_hutang']),
+                    value: item['id'].toString(),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    valHutang = value;
+                    widget.hutangController.text = value;
+                  });
+                },
+              ),
+            ),
+          ),
+          new Padding(padding: EdgeInsets.only(top: 20.0)),
+          new Visibility(
+            visible: false,
+            child: TextFormField(
+              decoration: new InputDecoration(
+                labelText: "Hutang ",
+                fillColor: Colors.white,
+                border: new OutlineInputBorder(
+                  borderRadius: new BorderRadius.circular(25.0),
+                  borderSide: new BorderSide(
+                  ),
+                ),
+                //fillColor: Colors.green
+              ),
+              controller: widget.hutangController,
+              keyboardType: TextInputType.number,
+              style: new TextStyle(
+                fontFamily: "Poppins",
+              ),
+            ),
+          ),
+          new Padding(padding: EdgeInsets.only(top: 20.0)),
+          InputDecorator(
+            decoration: new InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: new BorderRadius.circular(25.0),
+                borderSide: new BorderSide(),
+              ),
+            ),
+            child: DropdownButtonHideUnderline(
+              child:  DropdownButton(
+                hint: Text("Simpanan"),
+                value: valSimpanan,
+                items: _dataSimpanan.map((item) {
+                  return DropdownMenuItem(
+                    child: Text(item['deskripsi']),
+                    value: item['id'].toString(),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    valSimpanan = value;
+                    widget.simpananController.text = value;
+                  });
+                },
+              ),
+            ),
+          ),
+          new Padding(padding: EdgeInsets.only(top: 20.0)),
+          new Visibility(
+            visible: false,
+            child: TextFormField(
+              decoration: new InputDecoration(
+                labelText: "Simpanan",
+                fillColor: Colors.white,
+                border: new OutlineInputBorder(
+                  borderRadius: new BorderRadius.circular(25.0),
+                  borderSide: new BorderSide(
+                  ),
+                ),
+                //fillColor: Colors.green
+              ),
+              controller: widget.simpananController,
+              keyboardType: TextInputType.number,
+              style: new TextStyle(
+                fontFamily: "Poppins",
+              ),
+            ),
+          ),
         ],
       ),
     );

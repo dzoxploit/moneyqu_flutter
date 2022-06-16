@@ -1,48 +1,50 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_moneyqularavel/constants/Theme.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_moneyqularavel/network/api.dart';
+import 'dart:convert';
 
-class AppFormhutang extends StatefulWidget {
+class AppFormBayarHutang extends StatefulWidget {
   // Required for form validations
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   // Handles text onchange
-  TextEditingController namahutangController;
-  TextEditingController deksripsiController;
-  TextEditingController noteleponController;
-  TextEditingController jumlahhutangController;
-  TextEditingController tanggalhutangController;
+  TextEditingController namapengeluaranController;
+  TextEditingController kategoripengeluaranController;
+  TextEditingController jumlahpengeluaranController;
+  TextEditingController tanggalpengeluaranController;
+  TextEditingController keteranganController;
 
-  AppFormhutang({this.formKey, this.namahutangController, this.deksripsiController, this.noteleponController, this.jumlahhutangController, this.tanggalhutangController});
+  AppFormBayarHutang({this.formKey, this.namapengeluaranController, this.kategoripengeluaranController, this.jumlahpengeluaranController, this.tanggalpengeluaranController, this.keteranganController});
 
   @override
-  _AppFormhutangState createState() => _AppFormhutangState();
+  _AppFormBayarHutangState createState() => _AppFormBayarHutangState();
 }
 
-class _AppFormhutangState extends State<AppFormhutang> {
+class _AppFormBayarHutangState extends State<AppFormBayarHutang> {
   AutovalidateMode _autovalidate = AutovalidateMode.disabled;
-  String _validateNamaHutang(String value) {
-    if (value.length == 0) return 'Nama Hutang cannot be empty';
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+  String _validateNamaPengeluaran(String value) {
+    if (value.length == 0) return 'Nama Pengeluaran cannot be empty';
     return null;
   }
-  String _validateDeksripsiHutang(String value) {
-    if (value.length == 0) return 'Deksripsi Hutang cannot be empty';
-    return null;
-  }
-  String _validateJumlahHutang(String value) {
-    if (value == null || value.isEmpty) return 'Jumlah Hutang be empty';
-    return null;
-  }
-
-  String _validateTanggalHutang(String value) {
-    if (value == null || value.isEmpty) return 'Tanggal Hutang cannot be empty';
+  String _validateKeterangan(String value) {
+    if (value == null || value.isEmpty) return 'Keterangan cannot be empty';
     return null;
   }
 
-  String _validateNoTelepon(String value) {
+  String _validateTanggalPengeluaran(String value) {
+    if (value == null || value.isEmpty) return 'Tanggal Pengeluaran cannot be empty';
+    return null;
+  }
+
+  String _validateJumlahpengeluaran(String value) {
     Pattern pattern = r'(?<=\s|^)\d+(?=\s|$)';
     RegExp regex = new RegExp(pattern);
-    if (!regex.hasMatch(value)) return 'No telepon must be a number';
+    if (!regex.hasMatch(value)) return 'Jumlah Pengeluaran must be a number';
     return null;
   }
 
@@ -56,7 +58,7 @@ class _AppFormhutangState extends State<AppFormhutang> {
           new Padding(padding: EdgeInsets.only(top: 50.0)),
           new TextFormField(
             decoration: new InputDecoration(
-              labelText: "Nama Hutang",
+              labelText: "Nama Pengeluaran",
               fillColor: Colors.white,
               border: new OutlineInputBorder(
                 borderRadius: new BorderRadius.circular(25.0),
@@ -65,8 +67,8 @@ class _AppFormhutangState extends State<AppFormhutang> {
               ),
               //fillColor: Colors.green
             ),
-            controller: widget.namahutangController,
-            validator: _validateNamaHutang,
+            controller: widget.namapengeluaranController,
+            validator: _validateNamaPengeluaran,
             keyboardType: TextInputType.text,
             style: new TextStyle(
               fontFamily: "Poppins",
@@ -75,7 +77,7 @@ class _AppFormhutangState extends State<AppFormhutang> {
           new Padding(padding: EdgeInsets.only(top: 20.0)),
           new TextFormField(
             decoration: new InputDecoration(
-              labelText: "Deksripsi Hutang",
+              labelText: "Jumlah Pengeluaran (Rp)",
               fillColor: Colors.white,
               border: new OutlineInputBorder(
                 borderRadius: new BorderRadius.circular(25.0),
@@ -84,27 +86,8 @@ class _AppFormhutangState extends State<AppFormhutang> {
               ),
               //fillColor: Colors.green
             ),
-            controller: widget.deksripsiController,
-            validator: _validateDeksripsiHutang,
-            keyboardType: TextInputType.text,
-            style: new TextStyle(
-              fontFamily: "Poppins",
-            ),
-          ),
-          new Padding(padding: EdgeInsets.only(top: 20.0)),
-          new TextFormField(
-            decoration: new InputDecoration(
-              labelText: "Jumlah Hutang (Rp)",
-              fillColor: Colors.white,
-              border: new OutlineInputBorder(
-                borderRadius: new BorderRadius.circular(25.0),
-                borderSide: new BorderSide(
-                ),
-              ),
-              //fillColor: Colors.green
-            ),
-            controller: widget.jumlahhutangController,
-            validator: _validateJumlahHutang,
+            controller: widget.jumlahpengeluaranController,
+            validator: _validateJumlahpengeluaran,
             keyboardType: TextInputType.number,
             style: new TextStyle(
               fontFamily: "Poppins",
@@ -113,9 +96,9 @@ class _AppFormhutangState extends State<AppFormhutang> {
           new Padding(padding: EdgeInsets.only(top: 20.0)),
           new TextFormField(
             readOnly: true,
-            controller: widget.tanggalhutangController,
+            controller: widget.tanggalpengeluaranController,
             decoration: InputDecoration(
-              labelText: 'Tanggal Hutang',
+              labelText: 'Tanggal Pengeluaran',
               border: new OutlineInputBorder(
                 borderRadius: new BorderRadius.circular(25.0),
                 borderSide: new BorderSide(
@@ -130,7 +113,7 @@ class _AppFormhutangState extends State<AppFormhutang> {
                 lastDate: DateTime(2025),
               ).then((selectedDate) {
                 if (selectedDate != null) {
-                  widget.tanggalhutangController.text =
+                  widget.tanggalpengeluaranController.text =
                       DateFormat('yyyy-MM-dd').format(selectedDate);
                 }
               });
@@ -139,7 +122,7 @@ class _AppFormhutangState extends State<AppFormhutang> {
           new Padding(padding: EdgeInsets.only(top: 50.0)),
           new TextFormField(
             decoration: new InputDecoration(
-              labelText: "No telepon",
+              labelText: "Keterangan",
               fillColor: Colors.white,
               border: new OutlineInputBorder(
                 borderRadius: new BorderRadius.circular(25.0),
@@ -148,12 +131,11 @@ class _AppFormhutangState extends State<AppFormhutang> {
               ),
               //fillColor: Colors.green
             ),
-            controller: widget.noteleponController,
+            controller: widget.keteranganController,
             keyboardType: TextInputType.text,
             style: new TextStyle(
               fontFamily: "Poppins",
             ),
-            validator: _validateNoTelepon,
           ),
         ],
       ),

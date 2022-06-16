@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_moneyqularavel/screens/crud/pemasukan/ubahpemasukan.dart';
 import 'package:flutter_moneyqularavel/screens/crud/tagihan/ubahtagihan.dart';
 import 'package:flutter_moneyqularavel/screens/crud/tujuankeuangan/detailgoalstujuankeuangan.dart';
+import 'package:flutter_moneyqularavel/screens/crud/tujuankeuangan/ubahtujuankeuangan.dart';
 import 'package:flutter_moneyqularavel/widgets/drawer.dart';
 import 'package:flutter_moneyqularavel/constants/Theme.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
@@ -613,7 +614,7 @@ class _DetailTujuanKeuanganState extends State<DetailTujuanKeuangan> {
 
         onPressed:(){ Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Ubahtagihan(id: id_tujuan_keuangan)),
+          MaterialPageRoute(builder: (context) =>  Ubahtujuankeuangan(id: id_tujuan_keuangan)),
         );},
         tooltip: 'Increment',
         child: new Icon(Icons.edit),
