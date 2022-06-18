@@ -37,16 +37,16 @@ class _AppEdittujuankeuanganState extends State<AppEdittujuankeuangan> {
   List _dataHutang = [];
   List _dataSimpanan = [];
   String valKategori;
-  String valHutang;
-  String valSimpanan;
+  int  _valHutang;
+  int _valSimpanan;
 
   Future<void> _getKategori() async {
     final response = await Network().getData(baseUrl);
     var indexdata = json.decode(response.body)['data'];
     setState(() {
       _dataKategori = indexdata;
-      valHutang = widget.hutangController.text;
-      valSimpanan = widget.simpananController.text;
+      _valHutang = int.parse(widget.hutangController.text);
+      _valSimpanan = int.parse(widget.simpananController.text);
       valKategori = widget.kategoritujuankeuanganController.text;
     });
   }
@@ -94,7 +94,7 @@ class _AppEdittujuankeuanganState extends State<AppEdittujuankeuangan> {
       key: widget.formKey,
       autovalidateMode: _autovalidate,
       child: Column(
-        children: <Widget>[
+        children:<Widget>[
           new Padding(padding: EdgeInsets.only(top: 50.0)),
           new TextFormField(
             decoration: new InputDecoration(
@@ -164,6 +164,104 @@ class _AppEdittujuankeuanganState extends State<AppEdittujuankeuangan> {
             ),
           ),
           new Padding(padding: EdgeInsets.only(top: 20.0)),
+          InputDecorator(
+            decoration: new InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: new BorderRadius.circular(25.0),
+                borderSide: new BorderSide(),
+              ),
+            ),
+            child: DropdownButtonHideUnderline(
+              child:  DropdownButton(
+                hint: Text("Hutang"),
+                value: _valHutang == null ? null : _dataHutang[_valHutang],
+                items: _dataHutang.map((value) {
+                  return DropdownMenuItem(
+                      child: Text(value['nama_hutang']),
+                      value: value
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    _valHutang = _dataHutang.indexOf(value);
+                    widget.hutangController.text = value['id'].toString();
+                    widget.nominalController.text = value['jumlah_hutang'].toString();
+                  });
+                },
+              ),
+            ),
+          ),
+          new Padding(padding: EdgeInsets.only(top: 20.0)),
+          new Visibility(
+            visible: false,
+            child: TextFormField(
+              decoration: new InputDecoration(
+                labelText: "Hutang ",
+                fillColor: Colors.white,
+                border: new OutlineInputBorder(
+                  borderRadius: new BorderRadius.circular(25.0),
+                  borderSide: new BorderSide(
+                  ),
+                ),
+                //fillColor: Colors.green
+              ),
+              controller: widget.hutangController,
+              keyboardType: TextInputType.number,
+              style: new TextStyle(
+                fontFamily: "Poppins",
+              ),
+            ),
+          ),
+          new Padding(padding: EdgeInsets.only(top: 20.0)),
+          InputDecorator(
+            decoration: new InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: new BorderRadius.circular(25.0),
+                borderSide: new BorderSide(),
+              ),
+            ),
+            child: DropdownButtonHideUnderline(
+              child:  DropdownButton(
+                hint: Text("Simpanan"),
+                value: _valSimpanan == null ? null : _dataSimpanan[_valSimpanan],
+                items: _dataSimpanan.map((value) {
+                  return DropdownMenuItem(
+                      child: Text(value['deskripsi']),
+                      value: value
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    _valSimpanan= _dataSimpanan.indexOf(value);
+                    widget.simpananController.text = value['id'].toString();
+                    widget.nominalController.text = value['jumlah_simpanan'].toString();
+                  });
+                },
+              ),
+            ),
+          ),
+          new Padding(padding: EdgeInsets.only(top: 20.0)),
+          new Visibility(
+            visible: false,
+            child: TextFormField(
+              decoration: new InputDecoration(
+                labelText: "Simpanan",
+                fillColor: Colors.white,
+                border: new OutlineInputBorder(
+                  borderRadius: new BorderRadius.circular(25.0),
+                  borderSide: new BorderSide(
+                  ),
+                ),
+                //fillColor: Colors.green
+              ),
+              controller: widget.simpananController,
+              keyboardType: TextInputType.number,
+              style: new TextStyle(
+                fontFamily: "Poppins",
+              ),
+            ),
+          ),
+          new Padding(padding: EdgeInsets.only(top: 20.0)),
           new TextFormField(
             decoration: new InputDecoration(
               labelText: "Nominal (Rp)",
@@ -207,151 +305,6 @@ class _AppEdittujuankeuanganState extends State<AppEdittujuankeuangan> {
                 }
               });
             },
-          ),
-          new Padding(padding: EdgeInsets.only(top: 20.0)),
-          InputDecorator(
-            decoration: new InputDecoration(
-              border: OutlineInputBorder(
-                borderRadius: new BorderRadius.circular(25.0),
-                borderSide: new BorderSide(),
-              ),
-            ),
-            child: DropdownButtonHideUnderline(
-              child:  DropdownButton(
-                hint: Text("Kategori Tujuan Keuangan"),
-                value: valKategori,
-                items: _dataKategori.map((item) {
-                  return DropdownMenuItem(
-                    child: Text(item['nama_tujuan_keuangan']),
-                    value: item['id'].toString(),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  setState(() {
-                    valKategori = value;
-                    widget.kategoritujuankeuanganController.text = value;
-                  });
-                },
-              ),
-            ),
-          ),
-          new Padding(padding: EdgeInsets.only(top: 20.0)),
-          new Visibility(
-            visible: false,
-            child: TextFormField(
-              decoration: new InputDecoration(
-                labelText: "Kategori ",
-                fillColor: Colors.white,
-                border: new OutlineInputBorder(
-                  borderRadius: new BorderRadius.circular(25.0),
-                  borderSide: new BorderSide(
-                  ),
-                ),
-                //fillColor: Colors.green
-              ),
-              controller: widget.kategoritujuankeuanganController,
-              validator: _validateKategoriTujuanKeuangan,
-              keyboardType: TextInputType.number,
-              style: new TextStyle(
-                fontFamily: "Poppins",
-              ),
-            ),
-          ),
-          new Padding(padding: EdgeInsets.only(top: 20.0)),
-          InputDecorator(
-            decoration: new InputDecoration(
-              border: OutlineInputBorder(
-                borderRadius: new BorderRadius.circular(25.0),
-                borderSide: new BorderSide(),
-              ),
-            ),
-            child: DropdownButtonHideUnderline(
-              child:  DropdownButton(
-                hint: Text("Hutang"),
-                value: valHutang,
-                items: _dataHutang.map((item) {
-                  return DropdownMenuItem(
-                    child: Text(item['nama_hutang']),
-                    value: item['id'].toString(),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  setState(() {
-                    valHutang = value;
-                    widget.hutangController.text = value;
-                  });
-                },
-              ),
-            ),
-          ),
-          new Padding(padding: EdgeInsets.only(top: 20.0)),
-          new Visibility(
-            visible: false,
-            child: TextFormField(
-              decoration: new InputDecoration(
-                labelText: "Hutang ",
-                fillColor: Colors.white,
-                border: new OutlineInputBorder(
-                  borderRadius: new BorderRadius.circular(25.0),
-                  borderSide: new BorderSide(
-                  ),
-                ),
-                //fillColor: Colors.green
-              ),
-              controller: widget.hutangController,
-              keyboardType: TextInputType.number,
-              style: new TextStyle(
-                fontFamily: "Poppins",
-              ),
-            ),
-          ),
-          new Padding(padding: EdgeInsets.only(top: 20.0)),
-          InputDecorator(
-            decoration: new InputDecoration(
-              border: OutlineInputBorder(
-                borderRadius: new BorderRadius.circular(25.0),
-                borderSide: new BorderSide(),
-              ),
-            ),
-            child: DropdownButtonHideUnderline(
-              child:  DropdownButton(
-                hint: Text("Simpanan"),
-                value: valSimpanan,
-                items: _dataSimpanan.map((item) {
-                  return DropdownMenuItem(
-                    child: Text(item['deskripsi']),
-                    value: item['id'].toString(),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  setState(() {
-                    valSimpanan = value;
-                    widget.simpananController.text = value;
-                  });
-                },
-              ),
-            ),
-          ),
-          new Padding(padding: EdgeInsets.only(top: 20.0)),
-          new Visibility(
-            visible: false,
-            child: TextFormField(
-              decoration: new InputDecoration(
-                labelText: "Simpanan",
-                fillColor: Colors.white,
-                border: new OutlineInputBorder(
-                  borderRadius: new BorderRadius.circular(25.0),
-                  borderSide: new BorderSide(
-                  ),
-                ),
-                //fillColor: Colors.green
-              ),
-              controller: widget.simpananController,
-              keyboardType: TextInputType.number,
-              style: new TextStyle(
-                fontFamily: "Poppins",
-              ),
-            ),
           ),
         ],
       ),

@@ -5,6 +5,7 @@ import 'package:flutter_moneyqularavel/widgets/drawer.dart';
 import 'package:flutter_moneyqularavel/constants/Theme.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:flutter_moneyqularavel/widgets/card-horizontal/card-horizontal-goals-tujuan-keuangan.dart';
+import 'package:flutter_moneyqularavel/screens/crud/tujuankeuangan/tambahgoals.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_moneyqularavel/network/api.dart';
 import 'package:flutter_moneyqularavel/model/GoalsTujuanKeuangans.dart';
@@ -38,7 +39,7 @@ class DetailGoalsTujuanKeuangan extends StatefulWidget implements PreferredSizeW
         this.backButton = false,
         this.noShadow = false,
         this.bgColor = FlutterMoneyquColors.white,
-        this.id
+        this.id = 0
       });
 
   final double _prefferedHeight = 180.0;
@@ -56,9 +57,11 @@ class _DetailGoalsTujuanKeuanganState extends State<DetailGoalsTujuanKeuangan> {
   Future<List<GoalsTujuankeuangans>> goals;
   final detailgoalsListKey = GlobalKey<_DetailGoalsTujuanKeuanganState>();
   var name;
+  var id_tujuan_keuangan;
   @override
   void initState(){
     super.initState();
+    id_tujuan_keuangan = widget.id;
     _loadUserData();
     _getGoalsTujuanKeuangan();
   }
@@ -75,15 +78,16 @@ class _DetailGoalsTujuanKeuanganState extends State<DetailGoalsTujuanKeuangan> {
     }
   }
   Future<List<GoalsTujuankeuangans>> _getGoalsTujuanKeuangan() async {
+    print(widget.id.toString());
     final response = await Network().getData("/detail-tujuan-keuangan/"+widget.id.toString());
     final items = json.decode(response.body)['data'].cast<Map<String, dynamic>>();
+    print(items);
     List<GoalsTujuankeuangans> goals = items.map<GoalsTujuankeuangans>((json) {
       return GoalsTujuankeuangans.fromJson(json);
     }).toList();
 
     return goals;
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -100,72 +104,43 @@ class _DetailGoalsTujuanKeuanganState extends State<DetailGoalsTujuanKeuangan> {
       body: Center(
         child:Column(
           children: <Widget>[
-            Container(
-              height: 150,
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage("assets/img/onboard-background.png"),
-                      fit: BoxFit.cover)
-              ),
-              child: Padding(
-                padding:
-                const EdgeInsets.only(left: 20, right: 10.0, top: 10),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      children: [
-                        Positioned(
-                          top: 170,
-                          right: 0,
-                          child: Container(
-                            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                            width: MediaQuery.of(context).size.width * 0.90,
-                            height: 90,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(10),
-                                    bottomLeft: Radius.circular(10),
-                                    topRight: Radius.circular(10),
-                                    bottomRight: Radius.circular(10)
-                                )),
-                          ),
-                        )
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            ),
             Expanded(
               child: FutureBuilder<List<GoalsTujuankeuangans>>(
                 future: _getGoalsTujuanKeuangan(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   // By default, show a loading spinner.
-                  if (!snapshot.hasData) return CircularProgressIndicator();
-                  // Render student lists
-                  return ListView.builder(
-                    itemCount: snapshot.data.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      var data = snapshot.data[index];
-                      return Column(
-                        children: [
-                          SizedBox(
-                            height: 10,
-                          ),
-                          CardHorizontalGoalsTujuanKeuangan(
-                              nama: data.nama_goals_tujuan_keuangan,
-                              nominal: data.nominal,
-                              id_goals_tujuan_keuangan: data.id,
-                              tanggal: data.created_at
-                          ),
-                        ],
-                      );
-                    },
-                  );
+                  if (!snapshot.hasData) return Center(
+                    heightFactor: 1,
+                    widthFactor: 1,
+                    child: SizedBox(
+                      height: 50,
+                      width: 50,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 3.0,
+                      ),
+                    ),
+                  )
+                  ;
+                    // Render student lists
+                    return ListView.builder(
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        var data = snapshot.data[index];
+                        return Column(
+                          children: [
+                            SizedBox(
+                              height: 10,
+                            ),
+                            CardHorizontalGoalsTujuanKeuangan(
+                                nama: data.nama_goals_tujuan_keuangan,
+                                nominal: data.nominal,
+                                id_goals_tujuan_keuangan: data.id,
+                                tanggal: data.created_at
+                            ),
+                          ],
+                        );
+                      },
+                    );
                 },
               ),
             ),
@@ -175,7 +150,10 @@ class _DetailGoalsTujuanKeuanganState extends State<DetailGoalsTujuanKeuangan> {
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: new FloatingActionButton(
 
-        onPressed:(){ Navigator.pushNamed(context, '/tambah-goals-tujuan-keuangan'); },
+        onPressed:(){ Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) =>  Tambahgoals(id: id_tujuan_keuangan)),
+        );},
         tooltip: 'Increment',
         child: new Icon(Icons.add),
       ),

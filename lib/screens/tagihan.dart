@@ -233,7 +233,18 @@ class _TagihanState extends State<Tagihan> {
                 future: _getTagihan(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   // By default, show a loading spinner.
-                  if (!snapshot.hasData) return CircularProgressIndicator();
+                  if (!snapshot.hasData) return  Center(
+                    heightFactor: 1,
+                    widthFactor: 1,
+                    child: SizedBox(
+                      height: 50,
+                      width: 50,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 3.0,
+                      ),
+                    ),
+                  )
+                  ;
                   // Render student lists
                   return ListView.builder(
                     itemCount: snapshot.data.length,

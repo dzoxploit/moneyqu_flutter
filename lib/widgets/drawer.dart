@@ -94,12 +94,12 @@ class FlutterMoneyquDrawer extends StatelessWidget {
               DrawerTile(
                   icon: Icons.verified_user,
                   onTap: () {
-                    if (currentPage != "TujuanKeuangan")
-                      Navigator.pushNamed(context, '/TujuanKeuangan');
+                    if (currentPage != "Tujuan-keuangan")
+                      Navigator.pushNamed(context, '/tujuan-keuangan');
                   },
                   iconColor: FlutterMoneyquColors.info,
                   title: "Tujuan Keuangan",
-                  isSelected: currentPage == "TujuanKeuangan" ? true : false),
+                  isSelected: currentPage == "Tujuan-keuangan" ? true : false),
               DrawerTile(
                   icon: Icons.money_outlined,
                   onTap: () {

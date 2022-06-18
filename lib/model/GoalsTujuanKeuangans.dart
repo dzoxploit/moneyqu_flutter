@@ -8,6 +8,7 @@ class GoalsTujuankeuangans{
     return GoalsTujuankeuangans(
       id: json['id'],
       nama_goals_tujuan_keuangan: json['nama_goals_tujuan_keuangan'],
+      nominal: json['nominal'],
       created_at: json['created_at']
     );
   }

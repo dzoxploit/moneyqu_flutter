@@ -96,11 +96,11 @@ class _UbahhutangState extends State<Ubahhutang> {
     final response = await Network().getData('/hutang/update/'+widget.id.toString());
     indexdata = json.decode(response.body)['data'];
     setState(() {
-      namahutangController = new TextEditingController(text: indexdata['nama_hutang']);
-      deksripsiController = new TextEditingController(text: indexdata['deksripsi']);
-      jumlahhutangController = new TextEditingController(text: indexdata['jumlah_hutang'].toString());
-      noteleponController = new TextEditingController(text: indexdata['no_telepon'].toString());
-      tanggalhutangController = new TextEditingController(text: indexdata['tanggal_hutang']);
+      namahutangController = TextEditingController(text: indexdata['nama_hutang']);
+      deksripsiController = TextEditingController(text: indexdata['deksripsi']);
+      jumlahhutangController = TextEditingController(text: indexdata['jumlah_hutang'].toString());
+      noteleponController = TextEditingController(text: indexdata['no_telepon'].toString());
+      tanggalhutangController = TextEditingController(text: indexdata['tanggal_hutang']);
     });
   }
 

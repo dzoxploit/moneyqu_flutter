@@ -27,6 +27,7 @@ class Tambahgoals extends StatefulWidget implements PreferredSizeWidget {
   final bool searchAutofocus;
   final bool noShadow;
   final Color bgColor;
+  final int id;
 
   const Tambahgoals(
       {
@@ -41,6 +42,7 @@ class Tambahgoals extends StatefulWidget implements PreferredSizeWidget {
         this.backButton = false,
         this.noShadow = false,
         this.bgColor = FlutterMoneyquColors.white,
+        this.id = 0
       });
 
   final double _prefferedHeight = 180.0;
@@ -80,7 +82,7 @@ class _TambahgoalsState extends State<Tambahgoals> {
       'nominal': nominalController.text,
     };
 
-    var res = await Network().postData(data, '/tujuan-keuangan/goals/create');
+    var res = await Network().postData(data, '/tujuan-keuangan/goals/create/'+widget.id.toString());
     print(res.body);
     var body = json.decode(res.body);
     if(body['status'] == 201){
@@ -145,7 +147,7 @@ class _TambahgoalsState extends State<Tambahgoals> {
                                   })
                           ),
                           Text(
-                            "Create Simpanan",
+                            "Create Goals",
                             style: TextStyle(
                               fontSize: 18.0,
                               fontWeight: FontWeight.w600,

@@ -88,12 +88,14 @@ class _BayarhutangState extends State<Bayarhutang> {
     indexdata = json.decode(response.body)['data'];
     setState(() {
       namapengeluaranController = new TextEditingController(text: indexdata['nama_hutang']);
-      jumlahpengeluaranController = new TextEditingController(text: indexdata['jumlah_hutang']);
+      jumlahpengeluaranController = new TextEditingController(text: indexdata['jumlah_hutang'].toString());
+      tanggalpengeluaranController = new TextEditingController();
+      keteranganController = new TextEditingController();
     });
   }
 
   // Http post request to create new data
-  void _updateSimpanan() async {
+  void _updateHutang() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var settingsdata = jsonDecode(localStorage.getString('settings'));
 
@@ -105,9 +107,11 @@ class _BayarhutangState extends State<Bayarhutang> {
       'keterangan': keteranganController.text,
     };
 
-    var res = await Network().postData(data, 'pengeluaran/create/bayar-hutang'+widget.id.toString());
-    print(res.body);
+    print(data);
+
+    var res = await Network().postData(data, '/pengeluaran/create/bayar-hutang/'+widget.id.toString());
     var body = json.decode(res.body);
+    print(body);
     if(body['status'] == 201){
       Navigator.pushReplacementNamed(context, '/hutang');
     }else{
@@ -127,7 +131,7 @@ class _BayarhutangState extends State<Bayarhutang> {
           onPressed: () {
             if (formKey.currentState.validate()) {
               formKey.currentState.save();
-              _updateSimpanan();
+              _updateHutang();
             }
           },
         ),

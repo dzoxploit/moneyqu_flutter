@@ -133,7 +133,7 @@ class CardHorizontalTujuanKeuangan extends StatelessWidget {
                   ),
                   Container(
                     height: 5,
-                    width: percentage_goals.toDouble() * 3.4,
+                    width: percentage_goals.toDouble() * 3.8,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(2),
                         color: Color(0XFF00B686)),

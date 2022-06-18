@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_moneyqularavel/screens/crud/hutang/ubahhutang.dart';
+import 'package:flutter_moneyqularavel/screens/crud/hutang/bayarhutang.dart';
 import 'package:flutter_moneyqularavel/widgets/drawer.dart';
 import 'package:flutter_moneyqularavel/constants/Theme.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
@@ -591,7 +592,10 @@ class _DetailhutangState extends State<Detailhutang> {
                                 children : <Widget>[
                                   Expanded(
                                       child: RaisedButton(
-                                          onPressed: () {},
+                                          onPressed:(){ Navigator.push(
+                                            context,
+                                            MaterialPageRoute(builder: (context) => Bayarhutang(id: id_hutang)),
+                                          );},
                                           color: Colors.lightBlue,
                                           child: Text("Bayar Hutang", style: TextStyle(color: Colors.white),)
                                       )

@@ -96,6 +96,7 @@ class _DetailTujuanKeuanganState extends State<DetailTujuanKeuangan> {
     final response = await Network().getData('/tujuan-keuangan?id='+widget.id.toString());
     indexdata = json.decode(response.body)['data'];
     setState(() {
+      id_tujuan_keuangan = indexdata['id'];
       nama = indexdata['nama'];
       kategori = indexdata['kategori'];
       nominal = indexdata['nominal'];

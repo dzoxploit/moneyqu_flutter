@@ -119,6 +119,18 @@ class _DetailpiutangState extends State<Detailpiutang> {
     }
   }
 
+  void _bayarPiutang() async {
+    var data = null;
+    var res = await Network().postData(data, '/piutang/create/bayar-piutang/'+id_piutang.toString());
+    print(res.body);
+    var body = json.decode(res.body);
+    if(body['status'] == 201){
+      Navigator.pushReplacementNamed(context, '/piutang');
+    }else{
+      Navigator.of(context).pushReplacementNamed('/home');
+    }
+  }
+
   // Http post request to create new data
 
   @override
@@ -592,9 +604,11 @@ class _DetailpiutangState extends State<Detailpiutang> {
                                 children : <Widget>[
                                   Expanded(
                                       child: RaisedButton(
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            _bayarPiutang();
+                                          },
                                           color: Colors.lightBlue,
-                                          child: Text("Bayar Piutang", style: TextStyle(color: Colors.white),)
+                                          child: Text("Ubah Piutang Dibayar", style: TextStyle(color: Colors.white),)
                                       )
                                   ),
                                 ])
