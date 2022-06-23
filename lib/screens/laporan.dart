@@ -8,6 +8,12 @@ import 'package:flutter_moneyqularavel/widgets/card-square.dart';
 import 'package:flutter_moneyqularavel/widgets/card-category.dart';
 import 'package:flutter_moneyqularavel/widgets/slider-product.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:flutter_moneyqularavel/network/api.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_moneyqularavel/screens/login.dart';
+import 'package:http/http.dart' as http;
+import 'dart:developer';
+import 'dart:convert';
 
 final Map<String, Map<String, dynamic>> laporanCards = {
   "Ice Cream": {
@@ -106,25 +112,18 @@ class GroupedBarChart extends StatelessWidget {
 
   /// Create series list with multiple series
   static List<charts.Series<OrdinalSales, String>> _createSampleData() {
-    final desktopSalesData = [
-      new OrdinalSales('2014', 5),
-      new OrdinalSales('2015', 25),
-      new OrdinalSales('2016', 100),
-      new OrdinalSales('2017', 75),
+    final PemasukanSalesData = [
+      new OrdinalSales('Harian', 5),
+      new OrdinalSales('Mingguan', 25),
+      new OrdinalSales('Bulanan', 100),
+      new OrdinalSales('Tahunan', 75),
     ];
 
-    final tableSalesData = [
-      new OrdinalSales('2014', 25),
-      new OrdinalSales('2015', 50),
-      new OrdinalSales('2016', 10),
-      new OrdinalSales('2017', 20),
-    ];
-
-    final mobileSalesData = [
-      new OrdinalSales('2014', 10),
-      new OrdinalSales('2015', 15),
-      new OrdinalSales('2016', 50),
-      new OrdinalSales('2017', 45),
+    final PengeluaranSalesData = [
+      new OrdinalSales('Harian', 25),
+      new OrdinalSales('Mingguan', 50),
+      new OrdinalSales('Bulanan', 10),
+      new OrdinalSales('Tahunan', 20),
     ];
 
     return [
@@ -132,19 +131,13 @@ class GroupedBarChart extends StatelessWidget {
         id: 'Desktop',
         domainFn: (OrdinalSales sales, _) => sales.year,
         measureFn: (OrdinalSales sales, _) => sales.sales,
-        data: desktopSalesData,
+        data: PemasukanSalesData,
       ),
       new charts.Series<OrdinalSales, String>(
         id: 'Tablet',
         domainFn: (OrdinalSales sales, _) => sales.year,
         measureFn: (OrdinalSales sales, _) => sales.sales,
-        data: tableSalesData,
-      ),
-      new charts.Series<OrdinalSales, String>(
-        id: 'Mobile',
-        domainFn: (OrdinalSales sales, _) => sales.year,
-        measureFn: (OrdinalSales sales, _) => sales.sales,
-        data: mobileSalesData,
+        data: PengeluaranSalesData,
       ),
     ];
   }
@@ -196,7 +189,52 @@ class Laporan extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _LaporanState extends State<Laporan> {
+  String name='';
+  var indexdata;
+  var calculation;
+  var pemasukan_harian;
+  var pengeluaran_harian;
+  var pemasukan_mingguan;
+  var pengeluaran_mingguan;
+  var pemasukan_bulanan;
+  var pengeluaran_bulanan;
+  var pemasukan_tahunan;
+  var pengeluaran_tahunan;
   @override
+  void initState(){
+    super.initState();
+    _loadUserData();
+    _getIndex1();
+  }
+
+  _loadUserData() async{
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var user = jsonDecode(localStorage.getString('user'));
+
+    if(user != null) {
+      setState(() {
+        name = user['name'];
+      });
+    }
+  }
+  static String baseUrl = "/detail";
+
+  Future<void> _getIndex1() async {
+    final response = await Network().getData(baseUrl);
+    indexdata = json.decode(response.body)['data'];
+    setState(() {
+      calculation = indexdata['calculation'];
+      pemasukan_harian = indexdata['harian']['pemasukan'];
+      pengeluaran_harian = indexdata['harian']['pengeluaran'];
+      pemasukan_mingguan = indexdata['mingguan']['pemasukan'];
+      pengeluaran_mingguan = indexdata['mingguan']['pengeluaran'];
+      pemasukan_bulanan = indexdata['bulanan']['pemasukan'];
+      pengeluaran_bulanan = indexdata['bulanan']['pengeluaran'];
+      pemasukan_tahunan = indexdata['tahunan']['pemasukan'];
+      pengeluaran_tahunan = indexdata['tahunan']['pengeluaran'];
+    });
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: FlutterMoneyquDrawer(currentPage: "Laporan"),
