@@ -222,7 +222,7 @@ class _HomeState extends State<Home> {
                                     width: 10,
                                   ),
                                     Text(
-                                      '${calculation}',
+                                        "Rp. "'${calculation}',
                                       style: TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.w600,

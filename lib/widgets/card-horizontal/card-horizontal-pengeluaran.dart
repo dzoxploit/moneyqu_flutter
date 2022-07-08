@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_moneyqularavel/constants/Theme.dart';
 import 'package:flutter_moneyqularavel/screens/crud/pemasukan/ubahpemasukan.dart';
 import 'package:flutter_moneyqularavel/screens/crud/pemasukan/detailpemasukan.dart';
+import 'package:flutter_moneyqularavel/screens/crud/pengeluaran/detailpengeluaran.dart';
 
 class CardHorizontalPengeluaran extends StatelessWidget {
 
@@ -35,7 +36,7 @@ class CardHorizontalPengeluaran extends StatelessWidget {
         splashColor: Colors.grey, // Splash color
         onTap: () =>  Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Detailpemasukan(id: id_pengeluaran)),
+          MaterialPageRoute(builder: (context) => Detailpengeluaran(id: id_pengeluaran)),
         ),
         child:  Container(
           padding: EdgeInsets.all(20),

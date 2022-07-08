@@ -65,6 +65,7 @@ class _DetailpengeluaranState extends State<Detailpengeluaran> {
   var kategori_pengeluaran;
   var jumlah_pengeluaran;
   var tanggal_pengeluaran;
+  var nama_hutang;
   var keterangan;
 
   String currency='';
@@ -95,6 +96,9 @@ class _DetailpengeluaranState extends State<Detailpengeluaran> {
       kategori_pengeluaran = indexdata['kategori'].toString();
       jumlah_pengeluaran =  indexdata['jumlah_pengeluaran'].toString();
       tanggal_pengeluaran = indexdata['tanggal_pengeluaran'].toString();
+      if(indexdata['nama_hutang'] != null){
+        nama_hutang = indexdata['nama_hutang'];
+      }
       keterangan =  indexdata['keterangan'];
     });
   }
@@ -369,6 +373,55 @@ class _DetailpengeluaranState extends State<Detailpengeluaran> {
                                     text: TextSpan(
                                         style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
                                         text: tanggal_pengeluaran),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                              height: 50,
+                            ),
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: 120,
+                                  child: RichText(
+                                    overflow: TextOverflow.ellipsis,
+                                    strutStyle: StrutStyle(fontSize: 20.0),
+                                    text: TextSpan(
+                                        style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
+                                        text: "Nama Hutang"),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                  child: RichText(
+                                    overflow: TextOverflow.ellipsis,
+                                    strutStyle: StrutStyle(fontSize: 20.0),
+                                    text: TextSpan(
+                                        style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
+                                        text: " : "),
+                                  ),
+                                )
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: 200,
+                                  child: RichText(
+                                    overflow: TextOverflow.ellipsis,
+                                    strutStyle: StrutStyle(fontSize: 20),
+                                    text: TextSpan(
+                                        style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
+                                        text: nama_hutang),
                                   ),
                                 ),
                               ],

@@ -15,11 +15,12 @@ class AppEdittagihan extends StatefulWidget {
   TextEditingController norekeningController;
   TextEditingController jumlahtagihanController;
   TextEditingController statustagihanController;
+  TextEditingController statuslunasController;
   TextEditingController kodebankController;
   TextEditingController deskrispiController;
   TextEditingController tanggaltagihanController;
 
-  AppEdittagihan({this.formKey, this.namatagihanController,this.tanggaltagihanController, this.deskrispiController, this.kategoritagihanController, this.norekeningController, this.notagihanController, this.statustagihanController, this.jumlahtagihanController, this.kodebankController});
+  AppEdittagihan({this.formKey, this.namatagihanController,this.tanggaltagihanController, this.deskrispiController, this.kategoritagihanController, this.norekeningController, this.notagihanController, this.statustagihanController, this.jumlahtagihanController, this.kodebankController, this.statuslunasController});
 
   @override
   _AppEdittagihanState createState() => _AppEdittagihanState();
@@ -31,6 +32,10 @@ class _AppEdittagihanState extends State<AppEdittagihan> {
     "Active",
     "Non Active",
   ];
+  var _lunas = [
+    "Lunas",
+    "Belum Lunas",
+  ];
 
   static String baseUrl = "/kategori-tagihan";
   List _dataKategori = [];
@@ -40,6 +45,7 @@ class _AppEdittagihanState extends State<AppEdittagihan> {
     var indexdata = json.decode(response.body)['data'];
     setState(() {
       _dataKategori = indexdata;
+      valKategori = widget.kategoritagihanController.text;
     });
   }
   void initState() {
@@ -288,6 +294,31 @@ class _AppEdittagihanState extends State<AppEdittagihan> {
                 },
                 itemBuilder: (BuildContext context) {
                   return _items
+                      .map<PopupMenuItem<String>>((String value) {
+                    return new PopupMenuItem(
+                        child: new Text(value), value: value);
+                  }).toList();
+                },
+              ),
+            ),
+          ),
+          new Padding(padding: EdgeInsets.only(top: 50.0)),
+          TextField(
+            controller: widget.statuslunasController,
+            decoration: InputDecoration(
+              labelText: "Status Lunas",
+              border: new OutlineInputBorder(
+                borderRadius: new BorderRadius.circular(25.0),
+                borderSide: new BorderSide(
+                ),
+              ),
+              suffixIcon: PopupMenuButton<String>(
+                icon: const Icon(Icons.arrow_drop_down),
+                onSelected: (String value) {
+                  widget.statuslunasController.text = value;
+                },
+                itemBuilder: (BuildContext context) {
+                  return _lunas
                       .map<PopupMenuItem<String>>((String value) {
                     return new PopupMenuItem(
                         child: new Text(value), value: value);

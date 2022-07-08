@@ -250,7 +250,7 @@ class _TagihanState extends State<Tagihan> {
                     itemCount: snapshot.data.length,
                     itemBuilder: (BuildContext context, int index) {
                       var data = snapshot.data[index];
-                      if(data.status_tagihan == 1){
+                      if(data.status_tagihan_lunas == 1){
                         return Column(
                           children: [
                             SizedBox(

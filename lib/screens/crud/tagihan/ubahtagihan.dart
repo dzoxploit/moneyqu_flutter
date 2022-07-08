@@ -65,6 +65,7 @@ class _UbahtagihanState extends State<Ubahtagihan> {
   TextEditingController norekeningController;
   TextEditingController kodebankController;
   TextEditingController statustagihanController;
+  TextEditingController statuslunasController;
 
   var indexdata;
   var id_tagihan_data;
@@ -77,7 +78,7 @@ class _UbahtagihanState extends State<Ubahtagihan> {
   var no_rekening;
   var kode_bank;
   var status_tagihan;
-
+  var data;
 
   String currency='';
 
@@ -115,6 +116,11 @@ class _UbahtagihanState extends State<Ubahtagihan> {
       }else if(indexdata['status_tagihan'] == 0){
         statustagihanController = new TextEditingController(text: 'Non Active');
       }
+      if(indexdata['status_tagihan_lunas'] == 1){
+        statuslunasController = new TextEditingController(text: 'Lunas');
+      }else if(indexdata['status_tagihan_lunas'] == 0){
+        statuslunasController = new TextEditingController(text: 'Belum Lunas');
+      }
     });
   }
 
@@ -123,18 +129,63 @@ class _UbahtagihanState extends State<Ubahtagihan> {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var settingsdata = jsonDecode(localStorage.getString('settings'));
 
-    var data = {
-      'nama_tagihan' : namatagihanController.text,
-      'kategori_tagihan_id' : kategoritagihanController.text,
-      'no_tagihan' : notagihanController.text,
-      'no_rekening' : notagihanController.text,
-      'jumlah_tagihan' : jumlahtagihanController.text,
-      'status_tagihan': 1,
-      'kode_bank' : kodebankController.text,
-      'deskripsi' : deskripsiController.text,
-      'tanggal_tagihan' : tanggaltagihanController.text
-
-    };
+    if(statustagihanController.text == "Active"){
+      if(statuslunasController.text == "Lunas"){
+        data = {
+          'nama_tagihan' : namatagihanController.text,
+          'kategori_tagihan_id' : kategoritagihanController.text,
+          'no_tagihan' : notagihanController.text,
+          'no_rekening' : notagihanController.text,
+          'jumlah_tagihan' : jumlahtagihanController.text,
+          'status_tagihan': 1,
+          'status_tagihan_lunas': 0,
+          'kode_bank' : kodebankController.text,
+          'deskripsi' : deskripsiController.text,
+          'tanggal_tagihan' : tanggaltagihanController.text
+        };
+      }else{
+        data = {
+          'nama_tagihan' : namatagihanController.text,
+          'kategori_tagihan_id' : kategoritagihanController.text,
+          'no_tagihan' : notagihanController.text,
+          'no_rekening' : notagihanController.text,
+          'jumlah_tagihan' : jumlahtagihanController.text,
+          'status_tagihan': 1,
+          'status_tagihan_lunas': 0,
+          'kode_bank' : kodebankController.text,
+          'deskripsi' : deskripsiController.text,
+          'tanggal_tagihan' : tanggaltagihanController.text
+        };
+      }
+    }else{
+      if(statuslunasController.text == "Lunas") {
+        data = {
+          'nama_tagihan': namatagihanController.text,
+          'kategori_tagihan_id': kategoritagihanController.text,
+          'no_tagihan': notagihanController.text,
+          'no_rekening': notagihanController.text,
+          'jumlah_tagihan': jumlahtagihanController.text,
+          'status_tagihan': 0,
+          'status_tagihan_lunas': 1,
+          'kode_bank': kodebankController.text,
+          'deskripsi': deskripsiController.text,
+          'tanggal_tagihan': tanggaltagihanController.text
+        };
+      }else{
+        data = {
+          'nama_tagihan': namatagihanController.text,
+          'kategori_tagihan_id': kategoritagihanController.text,
+          'no_tagihan': notagihanController.text,
+          'no_rekening': notagihanController.text,
+          'jumlah_tagihan': jumlahtagihanController.text,
+          'status_tagihan': 0,
+          'status_tagihan_lunas': 0,
+          'kode_bank': kodebankController.text,
+          'deskripsi': deskripsiController.text,
+          'tanggal_tagihan': tanggaltagihanController.text
+        };
+      }
+    }
 
     var res = await Network().postData(data, '/tagihan/update/'+widget.id.toString());
     print(res.body);
@@ -240,6 +291,7 @@ class _UbahtagihanState extends State<Ubahtagihan> {
                           norekeningController : notagihanController,
                           jumlahtagihanController : jumlahtagihanController,
                           statustagihanController: statustagihanController,
+                          statuslunasController: statuslunasController,
                           kodebankController : kodebankController,
                           deskrispiController : deskripsiController,
                           tanggaltagihanController : tanggaltagihanController
