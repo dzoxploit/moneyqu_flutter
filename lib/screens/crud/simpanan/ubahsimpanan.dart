@@ -61,6 +61,7 @@ class _UbahsimpananState extends State<Ubahsimpanan> {
   TextEditingController jumlahsimpananController;
   TextEditingController jenissimpananController;
   TextEditingController tujuansimpananController;
+  TextEditingController statussimpananController;
 
   var indexdata;
   var id_pemasukan_data;
@@ -69,6 +70,7 @@ class _UbahsimpananState extends State<Ubahsimpanan> {
   var jumlah_pemasukan;
   var tanggal_pemasukan;
   var keterangan;
+  var status_simpanan;
 
   var deskripsi_edit;
   var jumlah_simpanan_edit;
@@ -102,6 +104,11 @@ class _UbahsimpananState extends State<Ubahsimpanan> {
       jumlahsimpananController = TextEditingController(text: indexdata['jumlah_simpanan'].toString());
       jenissimpananController = TextEditingController(text: indexdata['jenis_simpanan_id'].toString());
       tujuansimpananController = TextEditingController(text: indexdata['tujuan_simpanan_id'].toString());
+      if(indexdata['status_tagihan'] == 1){
+        statussimpananController = new TextEditingController(text: 'Active');
+      }else if(indexdata['status_tagihan'] == 0){
+        statussimpananController = new TextEditingController(text: 'Non Active');
+      }
     });
   }
 
@@ -116,6 +123,7 @@ class _UbahsimpananState extends State<Ubahsimpanan> {
       'currency_id': settingsdata['currency_id'],
       'tujuan_simpanan_id': tujuansimpananController.text,
       'jenis_simpanan_id': jenissimpananController.text,
+      'status_simpanan': statussimpananController.text,
     };
 
     var res = await Network().postData(data, '/simpanan/update/'+widget.id.toString());
@@ -220,6 +228,7 @@ class _UbahsimpananState extends State<Ubahsimpanan> {
                         jumlahsimpananController : jumlahsimpananController,
                         tujuansimpananController : tujuansimpananController,
                         jenissimpananController : jenissimpananController,
+                        statussimpananController: statussimpananController,
                       )
                   ),
                 ),

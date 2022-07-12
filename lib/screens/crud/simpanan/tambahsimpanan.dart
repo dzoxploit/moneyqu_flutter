@@ -59,6 +59,7 @@ class _TambahsimpananState extends State<Tambahsimpanan> {
   TextEditingController jumlahsimpananController = new TextEditingController();
   TextEditingController jenissimpananController = new TextEditingController();
   TextEditingController tujuansimpananController = new TextEditingController();
+  TextEditingController statussimpananController = new TextEditingController();
 
   _loadUserData() async{
     SharedPreferences localStorage = await SharedPreferences.getInstance();
@@ -81,6 +82,7 @@ class _TambahsimpananState extends State<Tambahsimpanan> {
       'currency_id': settingsdata['currency_id'],
       'tujuan_simpanan_id': tujuansimpananController.text,
       'jenis_simpanan_id': jenissimpananController.text,
+      'status_simpanan': statussimpananController.text,
     };
 
     var res = await Network().postData(data, '/simpanan/create');
@@ -179,6 +181,7 @@ class _TambahsimpananState extends State<Tambahsimpanan> {
                           jumlahsimpananController : jumlahsimpananController,
                           tujuansimpananController : tujuansimpananController,
                           jenissimpananController : jenissimpananController,
+                          statussimpananController: statussimpananController,
                       )
                   ),
                 ),

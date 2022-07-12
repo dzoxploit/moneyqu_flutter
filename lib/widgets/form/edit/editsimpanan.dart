@@ -13,8 +13,9 @@ class AppEditsimpanan extends StatefulWidget {
   TextEditingController tujuansimpananController;
   TextEditingController jenissimpananController;
   TextEditingController jumlahsimpananController;
+  TextEditingController statussimpananController;
 
-  AppEditsimpanan({this.formKey, this.deskripsiController, this.tujuansimpananController, this.jenissimpananController, this.jumlahsimpananController});
+  AppEditsimpanan({this.formKey, this.deskripsiController, this.tujuansimpananController, this.jenissimpananController, this.jumlahsimpananController, this.statussimpananController});
 
   @override
   _AppEditsimpananState createState() => _AppEditsimpananState();
@@ -23,6 +24,10 @@ class AppEditsimpanan extends StatefulWidget {
 class _AppEditsimpananState extends State<AppEditsimpanan> {
   static String baseUrl = "/tujuan-simpanan";
   static String baseUrl2 = "/jenis-simpanan";
+  var _items = [
+    "Active",
+    "Non Active",
+  ];
   AutovalidateMode _autovalidate = AutovalidateMode.disabled;
   List _dataTujuanSimpanan = [];
   String valTujuanSimpanan;
@@ -39,7 +44,7 @@ class _AppEditsimpananState extends State<AppEditsimpanan> {
   }
 
   Future<void> _getJenisSimpanan() async {
-    final response = await Network().getData(baseUrl);
+    final response = await Network().getData(baseUrl2);
     var indexdata = json.decode(response.body)['data'];
     setState(() {
       _dataJenisSimpanan = indexdata;
@@ -211,6 +216,31 @@ class _AppEditsimpananState extends State<AppEditsimpanan> {
             keyboardType: TextInputType.number,
             style: new TextStyle(
               fontFamily: "Poppins",
+            ),
+          ),
+          new Padding(padding: EdgeInsets.only(top: 50.0)),
+          TextField(
+            controller: widget.statussimpananController,
+            decoration: InputDecoration(
+              labelText: "Status Simpanan",
+              border: new OutlineInputBorder(
+                borderRadius: new BorderRadius.circular(25.0),
+                borderSide: new BorderSide(
+                ),
+              ),
+              suffixIcon: PopupMenuButton<String>(
+                icon: const Icon(Icons.arrow_drop_down),
+                onSelected: (String value) {
+                  widget.statussimpananController.text = value;
+                },
+                itemBuilder: (BuildContext context) {
+                  return _items
+                      .map<PopupMenuItem<String>>((String value) {
+                    return new PopupMenuItem(
+                        child: new Text(value), value: value);
+                  }).toList();
+                },
+              ),
             ),
           ),
         ],

@@ -31,8 +31,8 @@ class _AppFormtujuankeuanganState extends State<AppFormtujuankeuangan> {
   ];
 
   static String baseUrl = "/kategori-tujuan-keuangan";
-  static String baseUrl2 = "/hutang";
-  static String baseUrl3 = "/simpanan";
+  static String baseUrl2 = "/hutang-belum-lunas";
+  static String baseUrl3 = "/simpanan-non-active";
 
   List _dataKategori = [];
   List _dataHutang = [];
