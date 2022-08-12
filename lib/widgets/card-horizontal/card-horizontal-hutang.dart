@@ -69,7 +69,7 @@ class CardHorizontalHutang extends StatelessWidget {
                       Text(
                         jumlah_hutang,
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 15,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -89,7 +89,7 @@ class CardHorizontalHutang extends StatelessWidget {
                         width: 220,
                         child:  RichText(
                           overflow: TextOverflow.ellipsis,
-                          strutStyle: StrutStyle(fontSize: 13.0),
+                          strutStyle: StrutStyle(fontSize: 12.0),
                           text: TextSpan(
                               style: TextStyle(color: Colors.lightBlue),
                               text: status_hutang),
@@ -101,7 +101,7 @@ class CardHorizontalHutang extends StatelessWidget {
                     children: [
                     RichText(
                     overflow: TextOverflow.ellipsis,
-                    strutStyle: StrutStyle(fontSize: 13.0),
+                    strutStyle: StrutStyle(fontSize: 12.0),
                     text: TextSpan(
                         style: TextStyle(color: Colors.lightBlue),
                         text: tanggal_hutang),

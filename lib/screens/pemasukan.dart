@@ -165,6 +165,7 @@ class _PemasukanState extends State<Pemasukan> {
                                               "Pemasukan",
                                               style: TextStyle(
                                                   color: Colors.grey,
+                                                  fontSize: 15.0,
                                                   fontWeight: FontWeight.bold),
                                             ),
                                             SizedBox(
@@ -180,7 +181,7 @@ class _PemasukanState extends State<Pemasukan> {
                                           '${pemasukan_total}',
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,
-                                              fontSize: 18.0,
+                                              fontSize: 15.0,
                                               color: Colors.black87),
                                         )
                                       ],
@@ -195,6 +196,7 @@ class _PemasukanState extends State<Pemasukan> {
                                               "Pemasukan Hari Ini",
                                               style: TextStyle(
                                                   color: Colors.grey,
+                                                  fontSize: 15.0,
                                                   fontWeight: FontWeight.bold),
                                             ),
                                             SizedBox(
@@ -210,7 +212,7 @@ class _PemasukanState extends State<Pemasukan> {
                                           '${pemasukan_hari_ini}',
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,
-                                              fontSize: 18.0,
+                                              fontSize: 15.0,
                                               color: Colors.black87),
                                         )
                                       ],

@@ -119,15 +119,6 @@ class FlutterMoneyquDrawer extends StatelessWidget {
                   title: "Profile",
                   isSelected: currentPage == "Profile" ? true : false),
               DrawerTile(
-                  icon: Icons.book,
-                  onTap: () {
-                    if (currentPage != "Laporan")
-                      Navigator.pushNamed(context, '/laporan');
-                  },
-                  iconColor: FlutterMoneyquColors.primary,
-                  title: "Laporan",
-                  isSelected: currentPage == "Laporan" ? true : false),
-              DrawerTile(
                   icon: Icons.add_business,
                   onTap: () {
                     if (currentPage != "Simpanan")

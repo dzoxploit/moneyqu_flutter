@@ -69,7 +69,7 @@ class CardHorizontalPengeluaran extends StatelessWidget {
                       Text(
                         harga,
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 15,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

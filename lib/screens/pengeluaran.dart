@@ -180,7 +180,7 @@ class _PengeluaranState extends State<Pengeluaran> {
                                           '${pengeluaran_total}',
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,
-                                              fontSize: 18.0,
+                                              fontSize: 15.0,
                                               color: Colors.black87),
                                         )
                                       ],
@@ -192,7 +192,7 @@ class _PengeluaranState extends State<Pengeluaran> {
                                         Row(
                                           children: [
                                             Text(
-                                              "Pemasukan Hari Ini",
+                                              "Pengeluaran Hari Ini",
                                               style: TextStyle(
                                                   color: Colors.grey,
                                                   fontWeight: FontWeight.bold),
@@ -210,7 +210,7 @@ class _PengeluaranState extends State<Pengeluaran> {
                                           '${pengeluaran_hari_ini}',
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,
-                                              fontSize: 18.0,
+                                              fontSize: 15.0,
                                               color: Colors.black87),
                                         )
                                       ],

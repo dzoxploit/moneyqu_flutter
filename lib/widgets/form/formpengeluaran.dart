@@ -3,6 +3,7 @@ import 'package:flutter_moneyqularavel/constants/Theme.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_moneyqularavel/network/api.dart';
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AppFormpengeluaran extends StatefulWidget {
   // Required for form validations
@@ -26,6 +27,9 @@ class _AppFormpengeluaranState extends State<AppFormpengeluaran> {
   AutovalidateMode _autovalidate = AutovalidateMode.disabled;
   List _dataKategori = [];
   String valKategori;
+  String name='';
+  var indexdata1;
+  var calculation;
   Future<void> _getKategori() async {
     final response = await Network().getData(baseUrl);
     var indexdata = json.decode(response.body)['data'];
@@ -37,7 +41,30 @@ class _AppFormpengeluaranState extends State<AppFormpengeluaran> {
     // TODO: implement initState
     super.initState();
     _getKategori();
+    _loadUserData();
+    _getIndex1();
   }
+
+  _loadUserData() async{
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var user = jsonDecode(localStorage.getString('user'));
+
+    if(user != null) {
+      setState(() {
+        name = user['name'];
+      });
+    }
+  }
+  static String baseUrl2 = "/index";
+
+  Future<void> _getIndex1() async {
+    final response = await Network().getData(baseUrl2);
+    indexdata1 = json.decode(response.body)['data'];
+    setState(() {
+      calculation = indexdata1['calculation'];
+    });
+  }
+
   String _validateNamaPengeluaran(String value) {
     if (value.length == 0) return 'Nama Pengeluaran cannot be empty';
     return null;
@@ -60,6 +87,11 @@ class _AppFormpengeluaranState extends State<AppFormpengeluaran> {
     Pattern pattern = r'(?<=\s|^)\d+(?=\s|$)';
     RegExp regex = new RegExp(pattern);
     if (!regex.hasMatch(value)) return 'Jumlah Pengeluaran must be a number';
+
+    var value2 = int.parse(value);
+
+    if (value2 > calculation) return 'Jumlah pengeluaran tidak boleh lebih dari saldo';
+
     return null;
   }
 

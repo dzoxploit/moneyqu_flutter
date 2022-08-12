@@ -65,6 +65,7 @@ class _DetailsimpananState extends State<Detailsimpanan> {
   var jumlah_simpanan;
   var tujuan_simpanan;
   var jenis_simpanan;
+  var status_simpanan;
 
   String currency='';
 
@@ -94,6 +95,11 @@ class _DetailsimpananState extends State<Detailsimpanan> {
       jumlah_simpanan = indexdata['jumlah_simpanan'].toString();
       tujuan_simpanan =  indexdata['nama_tujuan_simpanan'].toString();
       jenis_simpanan = indexdata['nama_jenis_simpanan'].toString();
+      if(indexdata['status_simpanan'] == 1){
+        status_simpanan = "Active";
+      }else if(indexdata['status_simpanan'] == 0){
+        status_simpanan = "Non Active";
+      }
     });
   }
   void _deleteSimpanan() async {
@@ -373,9 +379,55 @@ class _DetailsimpananState extends State<Detailsimpanan> {
                             ),
                           ],
                         ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
                         SizedBox(
-                          height: 15,
+                          height: 50,
                         ),
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: 120,
+                              child: RichText(
+                                overflow: TextOverflow.ellipsis,
+                                strutStyle: StrutStyle(fontSize: 20.0),
+                                text: TextSpan(
+                                    style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
+                                    text: "Status Simpanan"),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                              child: RichText(
+                                overflow: TextOverflow.ellipsis,
+                                strutStyle: StrutStyle(fontSize: 20.0),
+                                text: TextSpan(
+                                    style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
+                                    text: " : "),
+                              ),
+                            )
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: 200,
+                              child: RichText(
+                                overflow: TextOverflow.ellipsis,
+                                strutStyle: StrutStyle(fontSize: 20),
+                                text: TextSpan(
+                                    style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
+                                    text: status_simpanan),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                       ],
                     ),
                   ),
