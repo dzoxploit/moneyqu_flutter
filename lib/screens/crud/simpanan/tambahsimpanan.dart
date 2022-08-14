@@ -55,6 +55,7 @@ class Tambahsimpanan extends StatefulWidget implements PreferredSizeWidget {
 class _TambahsimpananState extends State<Tambahsimpanan> {
   String currency='';
   final formKey = GlobalKey<FormState>();
+  var data;
   TextEditingController deskripsiController = new TextEditingController();
   TextEditingController jumlahsimpananController = new TextEditingController();
   TextEditingController jenissimpananController = new TextEditingController();
@@ -76,14 +77,25 @@ class _TambahsimpananState extends State<Tambahsimpanan> {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var settingsdata = jsonDecode(localStorage.getString('settings'));
 
-    var data = {
-      'deskripsi': deskripsiController.text,
-      'jumlah_simpanan' : jumlahsimpananController.text,
-      'currency_id': settingsdata['currency_id'],
-      'tujuan_simpanan_id': tujuansimpananController.text,
-      'jenis_simpanan_id': jenissimpananController.text,
-      'status_simpanan': statussimpananController.text,
-    };
+    if(statussimpananController.text == 'Lunas') {
+      data = {
+        'deskripsi': deskripsiController.text,
+        'jumlah_simpanan': jumlahsimpananController.text,
+        'currency_id': settingsdata['currency_id'],
+        'tujuan_simpanan_id': tujuansimpananController.text,
+        'jenis_simpanan_id': jenissimpananController.text,
+        'status_simpanan': 1
+      };
+    }else{
+      data = {
+        'deskripsi': deskripsiController.text,
+        'jumlah_simpanan': jumlahsimpananController.text,
+        'currency_id': settingsdata['currency_id'],
+        'tujuan_simpanan_id': tujuansimpananController.text,
+        'jenis_simpanan_id': jenissimpananController.text,
+        'status_simpanan': 0
+      };
+    }
 
     var res = await Network().postData(data, '/simpanan/create');
     print(res.body);

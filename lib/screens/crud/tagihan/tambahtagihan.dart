@@ -82,7 +82,7 @@ class _TambahtagihanState extends State<Tambahtagihan> {
   void _createTagihan() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var settingsdata = jsonDecode(localStorage.getString('settings'));
-    
+
     if(statustagihanController.text == "Active"){
       if(statuslunasController.text == "Lunas"){
       data = {
