@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter_moneyqularavel/network/api.dart';
 import 'dart:convert';
 import 'dart:developer';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AppFormBayarHutang extends StatefulWidget {
   // Required for form validations
@@ -24,10 +25,35 @@ class AppFormBayarHutang extends StatefulWidget {
 
 class _AppFormBayarHutangState extends State<AppFormBayarHutang> {
   AutovalidateMode _autovalidate = AutovalidateMode.disabled;
+  String name='';
+  var indexdata1;
+  var calculation;
   void initState() {
     // TODO: implement initState
     super.initState();
+    _loadUserData();
+    _getIndex1();
   }
+  _loadUserData() async{
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var user = jsonDecode(localStorage.getString('user'));
+
+    if(user != null) {
+      setState(() {
+        name = user['name'];
+      });
+    }
+  }
+  static String baseUrl2 = "/index";
+
+  Future<void> _getIndex1() async {
+    final response = await Network().getData(baseUrl2);
+    indexdata1 = json.decode(response.body)['data'];
+    setState(() {
+      calculation = indexdata1['calculation'];
+    });
+  }
+
   String _validateNamaPengeluaran(String value) {
     if (value.length == 0) return 'Nama Pengeluaran cannot be empty';
     return null;
@@ -46,6 +72,11 @@ class _AppFormBayarHutangState extends State<AppFormBayarHutang> {
     Pattern pattern = r'(?<=\s|^)\d+(?=\s|$)';
     RegExp regex = new RegExp(pattern);
     if (!regex.hasMatch(value)) return 'Jumlah Pengeluaran must be a number';
+    var value2 = calculation - int.parse(value);
+
+    if (value2 < 0) return 'Jumlah pengeluaran tidak boleh lebih dari saldo';
+
+    return null;
     return null;
   }
 

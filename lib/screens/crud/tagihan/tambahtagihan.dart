@@ -82,7 +82,7 @@ class _TambahtagihanState extends State<Tambahtagihan> {
   void _createTagihan() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var settingsdata = jsonDecode(localStorage.getString('settings'));
-
+    
     if(statustagihanController.text == "Active"){
       if(statuslunasController.text == "Lunas"){
       data = {
@@ -92,7 +92,7 @@ class _TambahtagihanState extends State<Tambahtagihan> {
         'no_rekening' : notagihanController.text,
         'jumlah_tagihan' : jumlahtagihanController.text,
         'status_tagihan': 1,
-        'status_tagihan_lunas': 0,
+        'status_tagihan_lunas': 1,
         'kode_bank' : kodebankController.text,
         'deskripsi' : deskripsiController.text,
         'tanggal_tagihan' : tanggaltagihanController.text

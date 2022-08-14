@@ -3,6 +3,7 @@ import 'package:flutter_moneyqularavel/constants/Theme.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_moneyqularavel/network/api.dart';
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AppFormtagihan extends StatefulWidget {
   // Required for form validations
@@ -39,7 +40,12 @@ class _AppFormtagihanState extends State<AppFormtagihan> {
 
   static String baseUrl = "/kategori-tagihan";
   List _dataKategori = [];
+  List _dataBank = [];
   String valKategori;
+  String valBank;
+  String name='';
+  var indexdata1;
+  var calculation;
   Future<void> _getKategori() async {
     final response = await Network().getData(baseUrl);
     var indexdata = json.decode(response.body)['data'];
@@ -47,10 +53,42 @@ class _AppFormtagihanState extends State<AppFormtagihan> {
       _dataKategori = indexdata;
     });
   }
+
+  static String baseUrl4 = "/data-bank";
+  Future<void> _getDataBank() async {
+    final response = await Network().getData(baseUrl4);
+    var indexdata3 = json.decode(response.body)['data'];
+    setState(() {
+      _dataBank = indexdata3;
+    });
+  }
+
+  _loadUserData() async{
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var user = jsonDecode(localStorage.getString('user'));
+
+    if(user != null) {
+      setState(() {
+        name = user['name'];
+      });
+    }
+  }
+  static String baseUrl3 = "/index";
+
+  Future<void> _getIndex1() async {
+    final response = await Network().getData(baseUrl3);
+    indexdata1 = json.decode(response.body)['data'];
+    setState(() {
+      calculation = indexdata1['calculation'];
+    });
+  }
   void initState() {
     // TODO: implement initState
     super.initState();
     _getKategori();
+    _loadUserData();
+    _getIndex1();
+    _getDataBank();
   }
   String _validateNamaTagihan(String value) {
     if (value.length == 0) return 'Nama Hutang cannot be empty';
@@ -62,6 +100,11 @@ class _AppFormtagihanState extends State<AppFormtagihan> {
   }
   String _validateJumlahTagihan(String value) {
     if (value == null || value.isEmpty) return 'Jumlah Hutang be empty';
+
+    var value2 = calculation - int.parse(value);
+
+    if (value2 < 0) return 'Jumlah pengeluaran tidak boleh lebih dari saldo';
+
     return null;
   }
 
@@ -257,22 +300,52 @@ class _AppFormtagihanState extends State<AppFormtagihan> {
               fontFamily: "Poppins",
             ),
           ),
-          new Padding(padding: EdgeInsets.only(top: 50.0)),
-          new TextFormField(
+          new Padding(padding: EdgeInsets.only(top: 20.0)),
+          InputDecorator(
             decoration: new InputDecoration(
-              labelText: "Kode Bank",
-              fillColor: Colors.white,
-              border: new OutlineInputBorder(
+              border: OutlineInputBorder(
                 borderRadius: new BorderRadius.circular(25.0),
-                borderSide: new BorderSide(
-                ),
+                borderSide: new BorderSide(),
               ),
-              //fillColor: Colors.green
             ),
-            controller: widget.kodebankController,
-            keyboardType: TextInputType.text,
-            style: new TextStyle(
-              fontFamily: "Poppins",
+            child: DropdownButtonHideUnderline(
+              child:  DropdownButton(
+                hint: Text("Nama Bank"),
+                value: valBank,
+                items: _dataBank.map((item) {
+                  return DropdownMenuItem(
+                    child: Text(item['name']),
+                    value: item['code'],
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    valBank = value;
+                    widget.kodebankController.text = value;
+                  });
+                },
+              ),
+            ),
+          ),
+          new Padding(padding: EdgeInsets.only(top: 20.0)),
+          new Visibility(
+            visible: false,
+            child: TextFormField(
+              decoration: new InputDecoration(
+                labelText: "Kode Bank",
+                fillColor: Colors.white,
+                border: new OutlineInputBorder(
+                  borderRadius: new BorderRadius.circular(25.0),
+                  borderSide: new BorderSide(
+                  ),
+                ),
+                //fillColor: Colors.green
+              ),
+              controller: widget.kodebankController,
+              keyboardType: TextInputType.number,
+              style: new TextStyle(
+                fontFamily: "Poppins",
+              ),
             ),
           ),
           new Padding(padding: EdgeInsets.only(top: 50.0)),

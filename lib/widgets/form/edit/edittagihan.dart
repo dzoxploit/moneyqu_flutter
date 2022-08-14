@@ -3,6 +3,7 @@ import 'package:flutter_moneyqularavel/constants/Theme.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_moneyqularavel/network/api.dart';
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AppEdittagihan extends StatefulWidget {
   // Required for form validations
@@ -37,6 +38,10 @@ class _AppEdittagihanState extends State<AppEdittagihan> {
     "Belum Lunas",
   ];
 
+  String name='';
+  var indexdata1;
+  var calculation;
+
   static String baseUrl = "/kategori-tagihan";
   List _dataKategori = [];
   String valKategori;
@@ -52,7 +57,30 @@ class _AppEdittagihanState extends State<AppEdittagihan> {
     // TODO: implement initState
     super.initState();
     _getKategori();
+    _loadUserData();
+    _getIndex1();
   }
+
+  _loadUserData() async{
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var user = jsonDecode(localStorage.getString('user'));
+
+    if(user != null) {
+      setState(() {
+        name = user['name'];
+      });
+    }
+  }
+  static String baseUrl3 = "/index";
+
+  Future<void> _getIndex1() async {
+    final response = await Network().getData(baseUrl3);
+    indexdata1 = json.decode(response.body)['data'];
+    setState(() {
+      calculation = indexdata1['calculation'];
+    });
+  }
+
   String _validateNamaTagihan(String value) {
     if (value.length == 0) return 'Nama Hutang cannot be empty';
     return null;
@@ -63,6 +91,10 @@ class _AppEdittagihanState extends State<AppEdittagihan> {
   }
   String _validateJumlahTagihan(String value) {
     if (value == null || value.isEmpty) return 'Jumlah Hutang be empty';
+    var value2 = calculation - int.parse(value);
+
+    if (value2 < 0) return 'Jumlah pengeluaran tidak boleh lebih dari saldo';
+
     return null;
   }
 

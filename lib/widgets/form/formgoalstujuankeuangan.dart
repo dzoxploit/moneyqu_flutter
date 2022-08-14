@@ -3,6 +3,7 @@ import 'package:flutter_moneyqularavel/constants/Theme.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_moneyqularavel/network/api.dart';
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AppFormgoalstujuankeuangan extends StatefulWidget {
   // Required for form validations
@@ -20,6 +21,9 @@ class AppFormgoalstujuankeuangan extends StatefulWidget {
 
 class _AppFormgoalstujuankeuanganState extends State<AppFormgoalstujuankeuangan> {
   AutovalidateMode _autovalidate = AutovalidateMode.disabled;
+  String name='';
+  var indexdata1;
+  var calculation;
   var _items = [
     "Active",
     "Non Active",
@@ -28,6 +32,28 @@ class _AppFormgoalstujuankeuanganState extends State<AppFormgoalstujuankeuangan>
   void initState() {
     // TODO: implement initState
     super.initState();
+    _loadUserData();
+    _getIndex1();
+  }
+
+  _loadUserData() async{
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var user = jsonDecode(localStorage.getString('user'));
+
+    if(user != null) {
+      setState(() {
+        name = user['name'];
+      });
+    }
+  }
+  static String baseUrl2 = "/index";
+
+  Future<void> _getIndex1() async {
+    final response = await Network().getData(baseUrl2);
+    indexdata1 = json.decode(response.body)['data'];
+    setState(() {
+      calculation = indexdata1['calculation'];
+    });
   }
   String _validateNama(String value) {
     if (value.length == 0) return 'Nama cannot be empty';
@@ -35,6 +61,11 @@ class _AppFormgoalstujuankeuanganState extends State<AppFormgoalstujuankeuangan>
   }
   String _validateNominal(String value) {
     if (value == null || value.isEmpty) return 'Nominal be empty';
+
+    var value2 = calculation - int.parse(value);
+
+    if (value2 < 0) return 'Jumlah pengeluaran tidak boleh lebih dari saldo';
+    
     return null;
   }
 

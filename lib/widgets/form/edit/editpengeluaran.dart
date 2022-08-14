@@ -87,9 +87,9 @@ class _AppEditpengeluaranState extends State<AppEditpengeluaran> {
     RegExp regex = new RegExp(pattern);
     if (!regex.hasMatch(value)) return 'Jumlah Pengeluaran must be a number';
 
-    var value2 = int.parse(value);
+    var value2 = calculation - int.parse(value);
 
-    if (value2 > calculation) return 'Jumlah pengeluaran tidak boleh lebih dari saldo';
+    if (value2 < 0) return 'Jumlah pengeluaran tidak boleh lebih dari saldo';
 
     return null;
   }

@@ -3,6 +3,7 @@ import 'package:flutter_moneyqularavel/constants/Theme.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_moneyqularavel/network/api.dart';
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AppEditsimpanan extends StatefulWidget {
   // Required for form validations
@@ -28,6 +29,10 @@ class _AppEditsimpananState extends State<AppEditsimpanan> {
     "Active",
     "Non Active",
   ];
+  String name='';
+  var indexdata1;
+  var calculation;
+
   AutovalidateMode _autovalidate = AutovalidateMode.disabled;
   List _dataTujuanSimpanan = [];
   String valTujuanSimpanan;
@@ -56,6 +61,28 @@ class _AppEditsimpananState extends State<AppEditsimpanan> {
     super.initState();
     _getTujuanSimpanan();
     _getJenisSimpanan();
+    _loadUserData();
+    _getIndex1();
+  }
+
+  _loadUserData() async{
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var user = jsonDecode(localStorage.getString('user'));
+
+    if(user != null) {
+      setState(() {
+        name = user['name'];
+      });
+    }
+  }
+  static String baseUrl3 = "/index";
+
+  Future<void> _getIndex1() async {
+    final response = await Network().getData(baseUrl3);
+    indexdata1 = json.decode(response.body)['data'];
+    setState(() {
+      calculation = indexdata1['calculation'];
+    });
   }
   String _validateDeskripsi(String value) {
     if (value.length == 0) return 'Nama Simpanan cannot be empty';
@@ -72,6 +99,11 @@ class _AppEditsimpananState extends State<AppEditsimpanan> {
 
   String _validateJumlahSimpanan(String value) {
     if (value == null || value.isEmpty) return 'Tanggal Jumlah Simpanan cannot be empty';
+
+    var value2 = calculation - int.parse(value);
+
+    if (value2 < 0) return 'Jumlah pengeluaran tidak boleh lebih dari saldo';
+
     return null;
   }
 
@@ -212,7 +244,7 @@ class _AppEditsimpananState extends State<AppEditsimpanan> {
               //fillColor: Colors.green
             ),
             controller: widget.jumlahsimpananController,
-            validator: _validateJenisSimpanan,
+            validator: _validateJumlahSimpanan,
             keyboardType: TextInputType.number,
             style: new TextStyle(
               fontFamily: "Poppins",
