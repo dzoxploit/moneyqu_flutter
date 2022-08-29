@@ -12,6 +12,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter_moneyqularavel/widgets/form/formpemasukan.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_moneyqularavel/network/api.dart';
+import 'dart:convert';
 
 class Tambahpemasukan extends StatefulWidget implements PreferredSizeWidget {
   final bool backButton;
@@ -63,6 +64,7 @@ class _TambahpemasukanState extends State<Tambahpemasukan> {
 
   @override
   void dispose() {
+    _loadUserData();
     super.dispose();
   }
 
@@ -80,6 +82,7 @@ class _TambahpemasukanState extends State<Tambahpemasukan> {
   // Http post request to create new data
   void _createPemasukan() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
+    print(localStorage.getString('settings'));
     var settingsdata = jsonDecode(localStorage.getString('settings'));
 
     var data = {

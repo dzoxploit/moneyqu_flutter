@@ -252,6 +252,7 @@ class _RegisterState extends State<Register> {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
       localStorage.setString('token', json.encode(body['token']));
       localStorage.setString('user', json.encode(body['user']));
+      localStorage.setString('settings', json.encode(body['settings']));
       Navigator.pushReplacementNamed(context, '/home');
     }
 

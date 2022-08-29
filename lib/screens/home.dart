@@ -17,6 +17,7 @@ import 'package:flutter_moneyqularavel/network/api.dart';
 import 'package:flutter_moneyqularavel/screens/login.dart';
 import 'package:http/http.dart' as http;
 import 'dart:developer';
+import 'dart:convert';
 
 
 class Home extends StatefulWidget implements PreferredSizeWidget {
@@ -80,7 +81,7 @@ class _HomeState extends State<Home> {
   _loadUserData() async{
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var user = jsonDecode(localStorage.getString('user'));
-
+    print(localStorage.getString('settings'));
     if(user != null) {
       setState(() {
         name = user['name'];
